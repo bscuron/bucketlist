@@ -1,6 +1,11 @@
 import React, { memo, useState, useEffect } from 'react';
 import { Navigation } from '../types';
-import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+    StyleSheet,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView
+} from 'react-native';
 import {
     Center,
     VStack,
@@ -97,94 +102,102 @@ const SignupScreen = ({ navigation }: Props) => {
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-            <Center>
-                <Box safeArea p="2" w="90%" maxW="290" py="8">
-                    <Heading size="xl">Welcome</Heading>
-                    <Heading mt="1" size="sm">
-                        Sign up to continue!
-                    </Heading>
-                    <VStack space={3} mt="5">
-                        <FormControl
-                            isRequired
-                            isInvalid={'username' in errors}
-                        >
-                            <FormControl.Label>Username</FormControl.Label>
-                            <Input
-                                size="lg"
-                                type="text"
-                                onChangeText={(value) =>
-                                    setData({ ...data, username: value })
-                                }
-                            />
-                            <FormControl.ErrorMessage>
-                                {errors.username}
-                            </FormControl.ErrorMessage>
-                        </FormControl>
+        <ScrollView contentContainerStyle={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <Center>
+                    <Box safeArea p="2" w="90%" maxW="290" py="8">
+                        <Heading size="xl">Welcome</Heading>
+                        <Heading mt="1" size="sm">
+                            Sign up to continue!
+                        </Heading>
+                        <VStack space={3} mt="5">
+                            <FormControl
+                                isRequired
+                                isInvalid={'username' in errors}
+                            >
+                                <FormControl.Label>Username</FormControl.Label>
+                                <Input
+                                    size="lg"
+                                    type="text"
+                                    onChangeText={(value) =>
+                                        setData({ ...data, username: value })
+                                    }
+                                />
+                                <FormControl.ErrorMessage>
+                                    {errors.username}
+                                </FormControl.ErrorMessage>
+                            </FormControl>
 
-                        <FormControl isRequired isInvalid={'email' in errors}>
-                            <FormControl.Label>Email</FormControl.Label>
-                            <Input
-                                size="lg"
-                                type="text"
-                                onChangeText={(value) =>
-                                    setData({ ...data, email: value })
-                                }
-                            />
-                            <FormControl.ErrorMessage>
-                                {errors.email}
-                            </FormControl.ErrorMessage>
-                        </FormControl>
+                            <FormControl
+                                isRequired
+                                isInvalid={'email' in errors}
+                            >
+                                <FormControl.Label>Email</FormControl.Label>
+                                <Input
+                                    size="lg"
+                                    type="text"
+                                    onChangeText={(value) =>
+                                        setData({ ...data, email: value })
+                                    }
+                                />
+                                <FormControl.ErrorMessage>
+                                    {errors.email}
+                                </FormControl.ErrorMessage>
+                            </FormControl>
 
-                        <FormControl
-                            isRequired
-                            isInvalid={'password' in errors}
-                        >
-                            <FormControl.Label>Password</FormControl.Label>
-                            <Input
-                                size="lg"
-                                type="password"
-                                onChangeText={(value) =>
-                                    setData({ ...data, password: value })
-                                }
-                            />
-                            <FormControl.ErrorMessage>
-                                {errors.password}
-                            </FormControl.ErrorMessage>
-                        </FormControl>
+                            <FormControl
+                                isRequired
+                                isInvalid={'password' in errors}
+                            >
+                                <FormControl.Label>Password</FormControl.Label>
+                                <Input
+                                    size="lg"
+                                    type="password"
+                                    onChangeText={(value) =>
+                                        setData({ ...data, password: value })
+                                    }
+                                />
+                                <FormControl.ErrorMessage>
+                                    {errors.password}
+                                </FormControl.ErrorMessage>
+                            </FormControl>
 
-                        <FormControl
-                            isRequired
-                            isInvalid={'confirmPassword' in errors}
-                        >
-                            <FormControl.Label>
-                                Confirm Password
-                            </FormControl.Label>
-                            <Input
-                                size="lg"
-                                type="password"
-                                onChangeText={(value) =>
-                                    setData({
-                                        ...data,
-                                        confirmPassword: value
-                                    })
-                                }
-                            />
-                            <FormControl.ErrorMessage>
-                                {errors.confirmPassword}
-                            </FormControl.ErrorMessage>
-                        </FormControl>
+                            <FormControl
+                                isRequired
+                                isInvalid={'confirmPassword' in errors}
+                            >
+                                <FormControl.Label>
+                                    Confirm Password
+                                </FormControl.Label>
+                                <Input
+                                    size="lg"
+                                    type="password"
+                                    onChangeText={(value) =>
+                                        setData({
+                                            ...data,
+                                            confirmPassword: value
+                                        })
+                                    }
+                                />
+                                <FormControl.ErrorMessage>
+                                    {errors.confirmPassword}
+                                </FormControl.ErrorMessage>
+                            </FormControl>
 
-                        <Button onPress={submit} mt="2" colorScheme="indigo">
-                            Sign up
-                        </Button>
-                    </VStack>
-                </Box>
-            </Center>
-        </KeyboardAvoidingView>
+                            <Button
+                                onPress={submit}
+                                mt="2"
+                                colorScheme="indigo"
+                            >
+                                Sign up
+                            </Button>
+                        </VStack>
+                    </Box>
+                </Center>
+            </KeyboardAvoidingView>
+        </ScrollView>
     );
 };
 
@@ -192,7 +205,7 @@ export default memo(SignupScreen);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: 'center'
     }
 });
