@@ -1,7 +1,16 @@
 import React, { memo, useState, useEffect } from 'react';
 import { Navigation } from '../types';
 import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { Text, TextInput, Button } from 'react-native-paper';
+import {
+    Center,
+    VStack,
+    Box,
+    Heading,
+    Input,
+    FormControl,
+    Button,
+    WarningOutlineIcon
+} from 'native-base';
 import axios from 'axios';
 
 type Props = {
@@ -9,16 +18,17 @@ type Props = {
 };
 
 const SignupScreen = ({ navigation }: Props) => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setData] = React.useState({});
+    const [formErrors, setErrors] = React.useState({});
 
-    const signup = () => {
+    const submit = () => {
+        if (!validate()) return;
+
         axios
             .post('https://cis-linux2.temple.edu/bucketlistBackend/signup', {
-                username: username,
-                email: email,
-                password: password
+                username: formData.username,
+                email: formData.email,
+                password: formData.password
             })
             .then((res) => {
                 navigation.navigate('DBScreen');
@@ -28,52 +38,79 @@ const SignupScreen = ({ navigation }: Props) => {
             });
     };
 
-    const handleKeyPress = (event) => {
-        if (event.nativeEvent.key != 'Enter') return;
-        signup();
+    const validate = () => {
+        // TODO: validate user input
+
+        return true;
     };
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-            <Text variant="headlineLarge">Create Your Account</Text>
-            <TextInput
-                style={styles.input}
-                value={username}
-                mode="outlined"
-                label="Username"
-                right={<TextInput.Icon icon="account" />}
-                onChangeText={(username) => setUsername(username)}
-            />
-            <TextInput
-                style={styles.input}
-                value={email}
-                mode="outlined"
-                label="Email"
-                right={<TextInput.Icon icon="email" />}
-                onChangeText={(email) => setEmail(email)}
-            />
-            <TextInput
-                style={styles.input}
-                value={password}
-                mode="outlined"
-                label="Password"
-                secureTextEntry
-                right={<TextInput.Icon icon="eye" />}
-                onKeyPress={(event) => handleKeyPress(event)}
-                onChangeText={(password) => setPassword(password)}
-            />
-            <Button
-                style={styles.button}
-                contentStyle={{ flexDirection: 'row-reverse' }}
-                icon="arrow-right"
-                mode="contained"
-                onPress={() => signup()}
-            >
-                Sign up
-            </Button>
+            <Center>
+                <Box safeArea p="2" w="90%" maxW="290" py="8">
+                    <Heading size="xl">Welcome</Heading>
+                    <Heading mt="1" size="sm">
+                        Sign up to continue!
+                    </Heading>
+                    <VStack space={3} mt="5">
+                        <FormControl isRequired>
+                            <FormControl.Label>Username</FormControl.Label>
+                            <Input
+                                size="lg"
+                                type="text"
+                                onChangeText={(value) =>
+                                    setData({ ...formData, username: value })
+                                }
+                            />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormControl.Label>Email</FormControl.Label>
+                            <Input
+                                size="lg"
+                                type="text"
+                                onChangeText={(value) =>
+                                    setData({ ...formData, email: value })
+                                }
+                            />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormControl.Label>Password</FormControl.Label>
+                            <Input
+                                size="lg"
+                                type="password"
+                                onChangeText={(value) =>
+                                    setData({ ...formData, password: value })
+                                }
+                            />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormControl.Label>
+                                Confirm Password
+                            </FormControl.Label>
+                            <Input
+                                size="lg"
+                                type="password"
+                                onChangeText={(value) =>
+                                    setData({
+                                        ...formData,
+                                        confirmPassword: value
+                                    })
+                                }
+                            />
+                        </FormControl>
+
+                        <Button onPress={submit} mt="2" colorScheme="indigo">
+                            Sign up
+                        </Button>
+                    </VStack>
+                </Box>
+            </Center>
         </KeyboardAvoidingView>
     );
 };
@@ -83,17 +120,6 @@ export default memo(SignupScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
         justifyContent: 'center'
-    },
-
-    input: {
-        margin: 5,
-        minWidth: 275
-    },
-
-    button: {
-        marginTop: 5
     }
 });

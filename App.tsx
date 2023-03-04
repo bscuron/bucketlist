@@ -1,12 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-native-paper';
 import App from './src';
+import { NativeBaseProvider } from 'native-base';
 import { theme } from './src/core/theme';
 
 const Main = () => (
-    <Provider theme={theme}>
+    <NativeBaseProvider theme={theme}>
         <App />
-    </Provider>
+    </NativeBaseProvider>
 );
 
 export default Main;
