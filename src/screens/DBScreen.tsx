@@ -1,14 +1,44 @@
 import React, { memo, useState, useEffect } from 'react';
 import { Navigation } from '../types';
 import { StyleSheet, ScrollView } from 'react-native';
-import { Heading } from 'native-base';
+import { VStack, HStack, Heading, Text } from 'native-base';
+import axios from 'axios';
 
 type Props = {
     navigation: Navigation;
 };
 
 const DBScreen = ({ navigation }: Props) => {
-    return <Heading>TODO: show database contents</Heading>;
+    const [data, setData] = React.useState([]);
+
+    // Runs on component mount
+    useEffect(() => {
+        axios
+            .get('https://cis-linux2.temple.edu/bucketlistBackend/database')
+            .then((res) => {
+                const rows = res.data.rows.map((row) => (
+                    <HStack space={3}>
+                        <Text>{row.id}</Text>
+                        <Text>{row.username}</Text>
+                        <Text>{row.email}</Text>
+                        <Text>{row.password}</Text>
+                    </HStack>
+                ));
+                setData((data) => [...data, rows]);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
+    return (
+        <VStack space={4}>
+            <HStack space={3}>
+                <Heading>ID</Heading>
+                <Heading>USERNAME</Heading>
+                <Heading>PASSWORD</Heading>
+            </HStack>
+            {data}
+        </VStack>
+    );
 };
 
 export default memo(DBScreen);
