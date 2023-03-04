@@ -9,7 +9,7 @@ import {
     Input,
     FormControl,
     Button,
-    WarningOutlineIcon
+    Progress
 } from 'native-base';
 import axios from 'axios';
 
@@ -18,17 +18,18 @@ type Props = {
 };
 
 const SignupScreen = ({ navigation }: Props) => {
-    const [formData, setData] = React.useState({});
-    const [formErrors, setErrors] = React.useState({});
+    const [data, setData] = React.useState({});
+    const [errors, setErrors] = React.useState({});
 
+    // Create account using form data in our database
     const submit = () => {
         if (!validate()) return;
 
         axios
             .post('https://cis-linux2.temple.edu/bucketlistBackend/signup', {
-                username: formData.username,
-                email: formData.email,
-                password: formData.password
+                username: data.username,
+                email: data.email,
+                password: data.password
             })
             .then((res) => {
                 navigation.navigate('DBScreen');
@@ -38,8 +39,59 @@ const SignupScreen = ({ navigation }: Props) => {
             });
     };
 
+    // Validate user input. The same validation must be done on the server side.
     const validate = () => {
-        // TODO: validate user input
+        // Username must be at least 6 characters long
+        if (data.username === undefined || data.username.length < 6) {
+            setErrors({
+                ...errors,
+                username: 'Your username must be at least 6 characters long'
+            });
+            return false;
+        } else {
+            delete errors.username;
+        }
+
+        // Match valid email
+        const emailRegex =
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!emailRegex.test(data.email)) {
+            setErrors({
+                ...errors,
+                email: 'Invalid email address'
+            });
+            return false;
+        } else {
+            delete errors.email;
+        }
+
+        /* Password should contain at least:
+         *  1. one digit
+         *  2. one lower case
+         *  3. one upper case
+         *  4. eight from the mentioned characters */
+        const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
+        if (data.password.match(passwordRegex) == null) {
+            setErrors({
+                ...errors,
+                password:
+                    'Your password must be at least 8 characters long, contain at least one number and have a mixture of uppercase and lowercase letters'
+            });
+            return false;
+        } else {
+            delete errors.password;
+        }
+
+        // Check that passwords match
+        if (data.confirmPassword != data.password) {
+            setErrors({
+                ...errors,
+                confirmPassword: 'Passwords do not match'
+            });
+            return false;
+        } else {
+            delete errors.confirmPassword;
+        }
 
         return true;
     };
@@ -56,40 +108,58 @@ const SignupScreen = ({ navigation }: Props) => {
                         Sign up to continue!
                     </Heading>
                     <VStack space={3} mt="5">
-                        <FormControl isRequired>
+                        <FormControl
+                            isRequired
+                            isInvalid={'username' in errors}
+                        >
                             <FormControl.Label>Username</FormControl.Label>
                             <Input
                                 size="lg"
                                 type="text"
                                 onChangeText={(value) =>
-                                    setData({ ...formData, username: value })
+                                    setData({ ...data, username: value })
                                 }
                             />
+                            <FormControl.ErrorMessage>
+                                {errors.username}
+                            </FormControl.ErrorMessage>
                         </FormControl>
 
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'email' in errors}>
                             <FormControl.Label>Email</FormControl.Label>
                             <Input
                                 size="lg"
                                 type="text"
                                 onChangeText={(value) =>
-                                    setData({ ...formData, email: value })
+                                    setData({ ...data, email: value })
                                 }
                             />
+                            <FormControl.ErrorMessage>
+                                {errors.email}
+                            </FormControl.ErrorMessage>
                         </FormControl>
 
-                        <FormControl isRequired>
+                        <FormControl
+                            isRequired
+                            isInvalid={'password' in errors}
+                        >
                             <FormControl.Label>Password</FormControl.Label>
                             <Input
                                 size="lg"
                                 type="password"
                                 onChangeText={(value) =>
-                                    setData({ ...formData, password: value })
+                                    setData({ ...data, password: value })
                                 }
                             />
+                            <FormControl.ErrorMessage>
+                                {errors.password}
+                            </FormControl.ErrorMessage>
                         </FormControl>
 
-                        <FormControl isRequired>
+                        <FormControl
+                            isRequired
+                            isInvalid={'confirmPassword' in errors}
+                        >
                             <FormControl.Label>
                                 Confirm Password
                             </FormControl.Label>
@@ -98,11 +168,14 @@ const SignupScreen = ({ navigation }: Props) => {
                                 type="password"
                                 onChangeText={(value) =>
                                     setData({
-                                        ...formData,
+                                        ...data,
                                         confirmPassword: value
                                     })
                                 }
                             />
+                            <FormControl.ErrorMessage>
+                                {errors.confirmPassword}
+                            </FormControl.ErrorMessage>
                         </FormControl>
 
                         <Button onPress={submit} mt="2" colorScheme="indigo">
