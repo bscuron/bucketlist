@@ -28,8 +28,11 @@ const SignupScreen = ({ navigation }: Props) => {
 
     // Create account using form data in our database
     const submit = () => {
+
+        // Validate user input
         if (!validate()) return;
 
+        // Make post request to backend
         axios
             .post('https://cis-linux2.temple.edu/bucketlistBackend/signup', {
                 username: data.username,
