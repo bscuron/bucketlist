@@ -79,7 +79,7 @@ const SignupScreen = ({ navigation }: Props) => {
          *  3. one upper case
          *  4. eight from the mentioned characters */
         const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
-        if (data.password.match(passwordRegex) == null) {
+        if (data.password === undefined || data.password.match(passwordRegex) == null) {
             setErrors({
                 ...errors,
                 password:
