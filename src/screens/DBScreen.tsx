@@ -8,15 +8,22 @@ type Props = {
     navigation: Navigation;
 };
 
+type DBRow = {
+    id: number;
+    username: string;
+    email: string;
+    password: string;
+};
+
 const DBScreen = ({ navigation }: Props) => {
-    const [data, setData] = React.useState([]);
+    const [data, setData] = useState<DBRow[]>([]);
 
     // Runs on component mount
     useEffect(() => {
         axios
             .get('https://cis-linux2.temple.edu/bucketlistBackend/database')
             .then((res) => {
-                const rows = res.data.rows.map((row) => (
+                const rows = res.data.rows.map((row: DBRow) => (
                     <HStack space={3}>
                         <Text>{row.id}</Text>
                         <Text>{row.username}</Text>

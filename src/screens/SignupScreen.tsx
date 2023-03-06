@@ -18,21 +18,38 @@ import {
 } from 'native-base';
 import axios from 'axios';
 
+/**
+ * Type for input to component
+ */
 type Props = {
     navigation: Navigation;
 };
 
+/**
+ * Type for signup form data
+ */
+type FormData = {
+    username?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+};
+
+/**
+ * Screen component for signup screen
+ *
+ * @param {Props} Props passed to component
+ */
 const SignupScreen = ({ navigation }: Props) => {
-    const [data, setData] = React.useState({});
-    const [errors, setErrors] = React.useState({});
+    const [data, setData] = useState<FormData>({});
+    const [errors, setErrors] = useState<FormData>({});
 
-    // Create account using form data in our database
+    /**
+     * Submit user inputted data to backend for account creation
+     */
     const submit = () => {
-
-        // Validate user input
         if (!validate()) return;
 
-        // Make post request to backend
         axios
             .post('https://cis-linux2.temple.edu/bucketlistBackend/signup', {
                 username: data.username,
@@ -47,9 +64,13 @@ const SignupScreen = ({ navigation }: Props) => {
             });
     };
 
-    // Validate user input. The same validation must be done on the server side.
+    /**
+     * Validates user input data submitted into signup form
+     *
+     * @returns {boolean} Determines whether or not user data is valid
+     */
     const validate = () => {
-        // Username must be at least 6 characters long
+        // Confirm that username is at least six characters long
         if (data.username === undefined || data.username.length < 6) {
             setErrors({
                 ...errors,
@@ -60,10 +81,10 @@ const SignupScreen = ({ navigation }: Props) => {
             delete errors.username;
         }
 
-        // Match valid email
-        const emailRegex =
+        // Regex to match valid email address
+        const emailRegex: RegExp =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (!emailRegex.test(data.email)) {
+        if (data.email === undefined || !emailRegex.test(data.email)) {
             setErrors({
                 ...errors,
                 email: 'Invalid email address'
@@ -78,8 +99,12 @@ const SignupScreen = ({ navigation }: Props) => {
          *  2. one lower case
          *  3. one upper case
          *  4. eight from the mentioned characters */
-        const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
-        if (data.password === undefined || data.password.match(passwordRegex) == null) {
+        const passwordRegex: RegExp =
+            /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
+        if (
+            data.password === undefined ||
+            data.password.match(passwordRegex) == null
+        ) {
             setErrors({
                 ...errors,
                 password:
@@ -90,7 +115,7 @@ const SignupScreen = ({ navigation }: Props) => {
             delete errors.password;
         }
 
-        // Check that passwords match
+        // Check that password input matches confirm password input
         if (data.confirmPassword != data.password) {
             setErrors({
                 ...errors,

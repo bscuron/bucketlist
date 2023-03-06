@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "serve": "expo export:web && serve web-build -l 19006",
     "deploy": "gh-pages -d web-build",
-    "predeploy": "expo export:web"
+    "predeploy": "expo export:web",
+    "doc": "npx typedoc"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
@@ -32,6 +33,7 @@
     "@babel/core": "^7.12.9",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
+    "typedoc": "^0.24.0-beta.2",
     "typescript": "^4.6.3"
   },
   "private": true
