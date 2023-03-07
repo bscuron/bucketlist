@@ -1,12 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Navigation } from '../types';
 import { StyleSheet, ScrollView } from 'react-native';
 import { VStack, HStack, Heading, Text } from 'native-base';
 import axios from 'axios';
-
-type Props = {
-    navigation: Navigation;
-};
 
 type DBRow = {
     id: number;
@@ -15,7 +10,7 @@ type DBRow = {
     password: string;
 };
 
-const DBScreen = ({ navigation }: Props) => {
+const DatabaseScreen = () => {
     const [data, setData] = useState<DBRow[]>([]);
 
     // Runs on component mount
@@ -48,4 +43,4 @@ const DBScreen = ({ navigation }: Props) => {
     );
 };
 
-export default memo(DBScreen);
+export default memo(DatabaseScreen);

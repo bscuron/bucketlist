@@ -1,2 +1,2 @@
 export { default as SignupScreen } from './SignupScreen';
-export { default as DBScreen } from './DBScreen';
+export { default as DatabaseScreen } from './DatabaseScreen';

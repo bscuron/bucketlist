@@ -1,5 +1,4 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Navigation } from '../types';
 import {
     StyleSheet,
     KeyboardAvoidingView,
@@ -16,14 +15,8 @@ import {
     Button,
     Progress
 } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-
-/**
- * Type for input to component
- */
-type Props = {
-    navigation: Navigation;
-};
 
 /**
  * Type for signup form data
@@ -40,9 +33,10 @@ type FormData = {
  *
  * @param {Props} Props passed to component
  */
-const SignupScreen = ({ navigation }: Props) => {
+const SignupScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [errors, setErrors] = useState<FormData>({});
+    const navigation = useNavigation();
 
     /**
      * Submit user inputted data to backend for account creation
@@ -57,7 +51,7 @@ const SignupScreen = ({ navigation }: Props) => {
                 password: data.password
             })
             .then((res) => {
-                navigation.navigate('DBScreen');
+                navigation.navigate('Database');
             })
             .catch((error) => {
                 console.log(error);
