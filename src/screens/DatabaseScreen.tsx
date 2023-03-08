@@ -9,6 +9,7 @@ type DBRow = {
     email: string;
     password: string;
     a_code: string;
+    r_datetime: string;
 };
 
 const DatabaseScreen = () => {
@@ -26,6 +27,7 @@ const DatabaseScreen = () => {
                         <Text>{row.email}</Text>
                         <Text>{row.password}</Text>
                         <Text>{row.a_code}</Text>
+                        <Text>{row.r_datetime}</Text>
                     </HStack>
                 ));
                 setData((data) => [...data, rows]);
@@ -40,6 +42,7 @@ const DatabaseScreen = () => {
                 <Heading>USERNAME</Heading>
                 <Heading>PASSWORD</Heading>
                 <Heading>ACODE</Heading>
+                <Heading>RDATETIME</Heading>
             </HStack>
             {data}
         </VStack>
