@@ -8,10 +8,6 @@ import * as Linking from 'expo-linking';
 
 const Stack = createNativeStackNavigator();
 
-/* FIXME: URL routing via the address bar only works on localhost (on
- * my machine). It does not work correctly on the linux server. I think
- * it might be a problem with the apache redirection we are currently
- * using. */
 const linking = {
     prefixes: [Linking.createURL('/'), 'https://cis-linux2.temple.edu'],
     config: {
