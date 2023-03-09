@@ -63,30 +63,68 @@ const SignupScreen = () => {
      *
      * @returns {boolean} Determines whether or not user data is valid
      */
-    const validate = () => {
+    const validate = (): boolean => {
+        return (
+            validateUsername(data.username) &&
+            validateEmail(data.email) &&
+            validatePasswords(data.password, data.confirmPassword)
+        );
+    };
+
+    /**
+     * Validates username that user inputted is valid
+     *
+     * @param {string} username - username to check
+     * @returns {boolean} Whether or not the username is valid
+     */
+    const validateUsername = (username: string): boolean => {
         // Confirm that username is at least six characters long
-        if (data.username === undefined || data.username.length < 6) {
+        if (username === undefined || username.length < 6) {
             setErrors({
                 ...errors,
                 username: 'Your username must be at least 6 characters long'
             });
             return false;
-        } else {
-            delete errors.username;
         }
 
+        delete errors.username;
+        return true;
+    };
+
+    /**
+     * Validates email that user inputted is valid
+     *
+     * @param {string} email - email to check
+     * @returns {boolean} Whether or not the email is valid
+     */
+    const validateEmail = (email: string): boolean => {
         // Regex to match valid email address
         const emailRegex: RegExp =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (data.email === undefined || !emailRegex.test(data.email)) {
+        if (email === undefined || !emailRegex.test(email)) {
             setErrors({
                 ...errors,
                 email: 'Invalid email address'
             });
             return false;
-        } else {
-            delete errors.email;
         }
+
+        delete errors.email;
+        return true;
+    };
+
+    /**
+     * Validates password that user inputted is valid
+     *
+     * @param {string} password - password to check
+     * @returns {boolean} Whether or not the password is email
+     */
+    const validatePasswords = (
+        password: string,
+        confirmPassword: string
+    ): boolean => {
+        let tmp: object = {};
+        let valid: boolean = true;
 
         /* Password should contain at least:
          *  1. one digit
@@ -95,32 +133,28 @@ const SignupScreen = () => {
          *  4. eight from the mentioned characters */
         const passwordRegex: RegExp =
             /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
-        if (
-            data.password === undefined ||
-            data.password.match(passwordRegex) == null
-        ) {
-            setErrors({
-                ...errors,
-                password:
-                    'Your password must be at least 8 characters long, contain at least one number and have a mixture of uppercase and lowercase letters'
-            });
-            return false;
+
+        if (password === undefined || password.match(passwordRegex) == null) {
+            tmp.password =
+                'Your password must be at least 8 characters long, contain at least one number and have a mixture of uppercase and lowercase letters';
+            valid = false;
         } else {
             delete errors.password;
         }
 
-        // Check that password input matches confirm password input
-        if (data.confirmPassword != data.password) {
-            setErrors({
-                ...errors,
-                confirmPassword: 'Passwords do not match'
-            });
-            return false;
+        if (password != confirmPassword) {
+            tmp.confirmPassword = 'Passwords do not match';
+            valid = false;
         } else {
             delete errors.confirmPassword;
         }
 
-        return true;
+        setErrors({
+            ...errors,
+            ...tmp
+        });
+
+        return valid;
     };
 
     return (
@@ -143,9 +177,10 @@ const SignupScreen = () => {
                                 <Input
                                     size="lg"
                                     type="text"
-                                    onChangeText={(value) =>
-                                        setData({ ...data, username: value })
-                                    }
+                                    onChangeText={(value) => {
+                                        setData({ ...data, username: value });
+                                        validateUsername(value);
+                                    }}
                                 />
                                 <FormControl.ErrorMessage>
                                     {errors.username}
@@ -160,9 +195,10 @@ const SignupScreen = () => {
                                 <Input
                                     size="lg"
                                     type="text"
-                                    onChangeText={(value) =>
-                                        setData({ ...data, email: value })
-                                    }
+                                    onChangeText={(value) => {
+                                        setData({ ...data, email: value });
+                                        validateEmail(value);
+                                    }}
                                 />
                                 <FormControl.ErrorMessage>
                                     {errors.email}
@@ -177,9 +213,13 @@ const SignupScreen = () => {
                                 <Input
                                     size="lg"
                                     type="password"
-                                    onChangeText={(value) =>
-                                        setData({ ...data, password: value })
-                                    }
+                                    onChangeText={(value) => {
+                                        setData({ ...data, password: value });
+                                        validatePasswords(
+                                            value,
+                                            data.confirmPassword
+                                        );
+                                    }}
                                 />
                                 <FormControl.ErrorMessage>
                                     {errors.password}
@@ -196,12 +236,13 @@ const SignupScreen = () => {
                                 <Input
                                     size="lg"
                                     type="password"
-                                    onChangeText={(value) =>
+                                    onChangeText={(value) => {
                                         setData({
                                             ...data,
                                             confirmPassword: value
-                                        })
-                                    }
+                                        });
+                                        validatePasswords(data.password, value);
+                                    }}
                                 />
                                 <FormControl.ErrorMessage>
                                     {errors.confirmPassword}
