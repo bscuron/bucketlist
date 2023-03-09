@@ -87,6 +87,24 @@ const SignupScreen = () => {
             return false;
         }
 
+        // Check if username exists in database already
+        axios
+            .get(
+                `https://cis-linux2.temple.edu/bucketlistBackend/database/user/${username}`
+            )
+            .then((res) => {
+                if (res.data.rows.length > 0) {
+                    setErrors({
+                        ...errors,
+                        username: 'Username is already taken'
+                    });
+                    return false;
+                }
+            })
+            .catch((error) => {
+                throw error;
+            });
+
         delete errors.username;
         return true;
     };
