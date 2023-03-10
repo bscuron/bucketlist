@@ -3,7 +3,8 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
     Platform,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 import {
     Center,
@@ -17,6 +18,7 @@ import {
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { position } from 'native-base/lib/typescript/theme/styled-system';
 
 /**
  * Type for signup form data
@@ -33,6 +35,7 @@ type FormData = {
  *
  * @param {Props} Props passed to component
  */
+
 const SignupScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [errors, setErrors] = useState<FormData>({});
@@ -292,11 +295,19 @@ const SignupScreen = () => {
                             >
                                 Sign up
                             </Button>
+                            
                         </VStack>
+                        <Image
+                    
+                                source={require('../../assets/IconTransparent.png')}
+                                style={[styles.container, styles.imageContainer]}
+                            />
                     </Box>
+                    
                 </Center>
             </KeyboardAvoidingView>
         </ScrollView>
+        
     );
 };
 
@@ -306,5 +317,12 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         justifyContent: 'center'
+    },
+    imageContainer:{
+        position:'relative',
+        width: 100, 
+        height: 100,
+        alignSelf: 'center'
     }
 });
+
