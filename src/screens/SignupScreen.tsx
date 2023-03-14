@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import {
     StyleSheet,
     KeyboardAvoidingView,
@@ -12,8 +12,7 @@ import {
     Heading,
     Input,
     FormControl,
-    Button,
-    Progress
+    Button
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -30,8 +29,6 @@ type FormData = {
 
 /**
  * Screen component for signup screen
- *
- * @param {Props} Props passed to component
  */
 const SignupScreen = () => {
     const [data, setData] = useState<FormData>({});
@@ -50,7 +47,7 @@ const SignupScreen = () => {
                 email: data.email,
                 password: data.password
             })
-            .then((res) => {
+            .then((_) => {
                 navigation.navigate('Database');
             })
             .catch((error) => {
@@ -77,7 +74,7 @@ const SignupScreen = () => {
      * @param {string} username - username to check
      * @returns {boolean} Whether or not the username is valid
      */
-    const validateUsername = (username: string): boolean => {
+    const validateUsername = (username: string | undefined): boolean => {
         // Confirm that username is at least six characters long
         if (username === undefined || username.length < 6) {
             setErrors({
@@ -115,7 +112,7 @@ const SignupScreen = () => {
      * @param {string} email - email to check
      * @returns {boolean} Whether or not the email is valid
      */
-    const validateEmail = (email: string): boolean => {
+    const validateEmail = (email: string | undefined): boolean => {
         // Regex to match valid email address
         const emailRegex: RegExp =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -156,10 +153,10 @@ const SignupScreen = () => {
      * @returns {boolean} Whether or not the password is email
      */
     const validatePasswords = (
-        password: string,
-        confirmPassword: string
+        password: string | undefined,
+        confirmPassword: string | undefined
     ): boolean => {
-        let tmp: object = {};
+        let tmp: FormData = {};
         let valid: boolean = true;
 
         /* Password should contain at least:
