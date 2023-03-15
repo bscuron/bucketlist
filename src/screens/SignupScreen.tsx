@@ -147,9 +147,15 @@ const SignupScreen = () => {
     };
 
     /**
-     * Validates password that user inputted is valid
+     * Validates password that user inputted is valid and that password equals confirmPassword
+     * Password should contain at least:
+     *  1. one digit
+     *  2. one lower case
+     *  3. one upper case
+     *  4. eight from the mentioned characters
      *
      * @param {string} password - password to check
+     * @param {string} confirmPassword - confirm password to check
      * @returns {boolean} Whether or not the password is email
      */
     const validatePasswords = (
@@ -159,11 +165,6 @@ const SignupScreen = () => {
         let tmp: FormData = {};
         let valid: boolean = true;
 
-        /* Password should contain at least:
-         *  1. one digit
-         *  2. one lower case
-         *  3. one upper case
-         *  4. eight from the mentioned characters */
         const passwordRegex: RegExp =
             /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
 
