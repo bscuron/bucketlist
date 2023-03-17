@@ -48,7 +48,7 @@ const SignupScreen = () => {
                 password: data.password
             })
             .then((_) => {
-                navigation.navigate('Database');
+                navigation.navigate('Database'); // TODO: replace with login page when implemented
             })
             .catch((error) => {
                 console.log(error);
