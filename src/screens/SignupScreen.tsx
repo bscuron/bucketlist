@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useRef } from 'react';
 import {
     StyleSheet,
     KeyboardAvoidingView,
@@ -12,7 +12,9 @@ import {
     Heading,
     Input,
     FormControl,
-    Button
+    Button,
+    AlertDialog,
+    Image
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -33,26 +35,32 @@ type FormData = {
 const SignupScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [errors, setErrors] = useState<FormData>({});
+    const [showCode, setShowCode] = useState<boolean>(false);
+    const [codeData, setCodeData] = useState<string>('');
     const navigation = useNavigation();
 
     /**
      * Submit user inputted data to backend for account creation
      */
-    const submit = () => {
+    const submit = async () => {
         if (!validate()) return;
 
-        axios
-            .post('https://cis-linux2.temple.edu/bucketlistBackend/signup', {
-                username: data.username,
-                email: data.email,
-                password: data.password
-            })
-            .then((_) => {
-                navigation.navigate('Database'); // TODO: replace with login page when implemented
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        try {
+            const result = await axios.post(
+                'https://cis-linux2.temple.edu/bucketlistBackend/signup',
+                {
+                    username: data.username,
+                    email: data.email,
+                    password: data.password
+                }
+            );
+            setCodeData(result.data.qrcode);
+        } catch (error) {
+            return;
+        }
+
+        // Successfully signed up
+        setShowCode(true);
     };
 
     /**
@@ -292,6 +300,52 @@ const SignupScreen = () => {
                             </Button>
                         </VStack>
                     </Box>
+
+                    <AlertDialog
+                        leastDestructiveRef={useRef(null)}
+                        isOpen={showCode}
+                        onClose={() => setShowCode(false)}
+                    >
+                        <AlertDialog.Content>
+                            <AlertDialog.CloseButton />
+                            <AlertDialog.Header>
+                                Account Created!
+                            </AlertDialog.Header>
+                            <AlertDialog.Body>
+                                Please scan the QR code with the Google
+                                Authenticator app to setup MFA.
+                                <Center>
+                                    <Image
+                                        source={{
+                                            uri: codeData
+                                        }}
+                                        alt="Alternate Text"
+                                        size="xl"
+                                    />
+                                </Center>
+                            </AlertDialog.Body>
+                            <AlertDialog.Footer>
+                                <Button.Group space={2}>
+                                    <Button
+                                        variant="unstyled"
+                                        colorScheme="coolGray"
+                                        onPress={() => setShowCode(false)}
+                                    >
+                                        Close
+                                    </Button>
+                                    <Button
+                                        colorScheme="success"
+                                        onPress={() => {
+                                            setShowCode(false);
+                                            navigation.navigate('Database'); // TODO: Navigate to login screen when implemented
+                                        }}
+                                    >
+                                        Login
+                                    </Button>
+                                </Button.Group>
+                            </AlertDialog.Footer>
+                        </AlertDialog.Content>
+                    </AlertDialog>
                 </Center>
             </KeyboardAvoidingView>
         </ScrollView>
