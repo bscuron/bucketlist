@@ -14,7 +14,8 @@ import {
     FormControl,
     Button,
     AlertDialog,
-    Image
+    Image,
+    Text
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -37,6 +38,7 @@ const SignupScreen = () => {
     const [errors, setErrors] = useState<FormData>({});
     const [showCode, setShowCode] = useState<boolean>(false);
     const [codeData, setCodeData] = useState<string>('');
+    const [backupCode, setBackupCode] = useState<string>('');
     const navigation = useNavigation();
 
     /**
@@ -55,6 +57,7 @@ const SignupScreen = () => {
                 }
             );
             setCodeData(result.data.qrcode);
+            setBackupCode(result.data.backupcode);
         } catch (error) {
             return;
         }
@@ -313,13 +316,15 @@ const SignupScreen = () => {
                             </AlertDialog.Header>
                             <AlertDialog.Body>
                                 Please scan the QR code with the Google
-                                Authenticator app to setup MFA.
+                                Authenticator app. Can't scan the QR Code? Use
+                                the backup code as a setup key.
+                                {'\n'}
+                                Backup code: <Text bold>{backupCode}</Text>
                                 <Center>
                                     <Image
                                         source={{
                                             uri: codeData
                                         }}
-                                        alt="Alternate Text"
                                         size="xl"
                                     />
                                 </Center>
