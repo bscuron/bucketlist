@@ -342,7 +342,7 @@ const SignupScreen = () => {
                                         colorScheme="success"
                                         onPress={() => {
                                             setShowCode(false);
-                                            navigation.navigate('Database'); // TODO: Navigate to login screen when implemented
+                                            navigation.navigate('Bucketlist');
                                         }}
                                     >
                                         Login
