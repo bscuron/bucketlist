@@ -15,7 +15,8 @@ import {
     Button,
     AlertDialog,
     Image,
-    Text
+    Text,
+    HStack
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -301,6 +302,17 @@ const SignupScreen = () => {
                             >
                                 Sign up
                             </Button>
+                            <HStack>
+                                <Text>Already have an account? </Text>
+                                <Text
+                                    onPress={() =>
+                                        navigation.navigate('Bucketlist')
+                                    }
+                                    underline
+                                >
+                                    Log in
+                                </Text>
+                            </HStack>
                         </VStack>
                     </Box>
 
