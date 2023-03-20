@@ -3,7 +3,7 @@ import { NativeBaseProvider } from 'native-base';
 import { theme } from './src/core/theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SignupScreen, DatabaseScreen } from './src/screens';
+import { SignupScreen, LoginScreen, DatabaseScreen } from './src/screens';
 import * as Linking from 'expo-linking';
 
 const Stack = createNativeStackNavigator();
@@ -25,8 +25,8 @@ const Main = () => (
             <Stack.Navigator>
                 <Stack.Screen
                     name="Bucketlist"
-                    options={{ title: 'Bucketlist | Home' }}
-                    component={SignupScreen}
+                    options={{ title: 'Bucketlist | Login' }}
+                    component={LoginScreen}
                 />
                 <Stack.Screen
                     name="Signup"
