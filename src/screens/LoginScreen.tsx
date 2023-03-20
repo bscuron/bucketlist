@@ -16,8 +16,7 @@ import {
     Button,
     Text,
     Alert,
-    IconButton,
-    CloseIcon
+    Slide
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -43,6 +42,7 @@ const LoginScreen = () => {
      * Submit user inputted data to backend for login authentication
      */
     const submit = async () => {
+        setShowAlert(false);
         let result;
 
         try {
@@ -56,6 +56,7 @@ const LoginScreen = () => {
             );
         } catch (error) {
             setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 3000);
             return;
         }
 
@@ -128,42 +129,16 @@ const LoginScreen = () => {
                                     Sign up
                                 </Text>
                             </HStack>
-                            {showAlert && (
-                                <Alert w="100%" status="error">
-                                    <VStack space={2} flexShrink={1} w="100%">
-                                        <HStack
-                                            flexShrink={1}
-                                            space={2}
-                                            justifyContent="space-between"
-                                        >
-                                            <HStack space={2} flexShrink={1}>
-                                                <Alert.Icon mt="1" />
-                                                <Text
-                                                    fontSize="md"
-                                                    color="coolGray.800"
-                                                >
-                                                    Invalid Login Credentials
-                                                </Text>
-                                            </HStack>
-                                            <IconButton
-                                                onPress={() => {
-                                                    setShowAlert(false);
-                                                }}
-                                                variant="unstyled"
-                                                _focus={{
-                                                    borderWidth: 0
-                                                }}
-                                                icon={<CloseIcon size="3" />}
-                                                _icon={{
-                                                    color: 'coolGray.600'
-                                                }}
-                                            />
-                                        </HStack>
-                                    </VStack>
-                                </Alert>
-                            )}
                         </VStack>
                     </Box>
+                    <Slide in={showAlert} placement="top">
+                        <Alert justifyContent="center" status="error">
+                            <Alert.Icon />
+                            <Text color="error.600" fontWeight="medium">
+                                Invalid credentials
+                            </Text>
+                        </Alert>
+                    </Slide>
                 </Center>
             </KeyboardAvoidingView>
         </ScrollView>
