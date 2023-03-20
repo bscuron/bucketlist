@@ -30,6 +30,8 @@ type FormData = {
     code?: string;
 };
 
+let timeouts: Array<NodeJS.Timeout> = new Array<NodeJS.Timeout>();
+
 /**
  * Screen component for login screen
  */
@@ -42,9 +44,14 @@ const LoginScreen = () => {
      * Submit user inputted data to backend for login authentication
      */
     const submit = async () => {
+        // Reset slider and remove clear callbacks
         setShowAlert(false);
-        let result;
+        timeouts.forEach((timeout) => {
+            clearTimeout(timeout);
+            timeouts.pop();
+        });
 
+        let result;
         try {
             result = await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/login',
@@ -55,8 +62,13 @@ const LoginScreen = () => {
                 }
             );
         } catch (error) {
+            // Show slider and set timeout to clear slider
             setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
+            timeouts.push(
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000)
+            );
             return;
         }
 
