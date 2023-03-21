@@ -1,4 +1,5 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useContext } from 'react';
+import { Context } from '../../App';
 import {
     StyleSheet,
     KeyboardAvoidingView,
@@ -39,6 +40,7 @@ const LoginScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const navigation = useNavigation();
+    const { setToken } = useContext(Context);
 
     /**
      * Submit user inputted data to backend for login authentication
@@ -75,10 +77,9 @@ const LoginScreen = () => {
         // Successful login
         setShowAlert(false);
 
-        // Add authorization token to global request headers
+        // Set context token. Once token is set, user will be automatically navigated to the screen that requires authentication
         const jwt: string = result.data.token;
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
-        navigation.navigate('Database'); // TODO: navigate to one of the protected routes
+        setToken(jwt);
     };
 
     return (
