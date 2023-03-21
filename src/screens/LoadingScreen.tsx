@@ -10,6 +10,7 @@ import {
     Heading
 } from 'native-base';
 
+// TODO: fix background color of Center component, it should match with main application background
 const LoadingScreen = () => (
     <NativeBaseProvider theme={theme}>
         <Center style={styles.container} backgroundColor="gray.50">
