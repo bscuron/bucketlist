@@ -1,5 +1,5 @@
-import React, { memo, useState, useEffect } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import React, { memo, useState, useEffect, useContext } from 'react';
+import { Context } from '../../App';
 import { VStack, HStack, Heading, Text } from 'native-base';
 import axios from 'axios';
 
@@ -14,11 +14,18 @@ type DBRow = {
 
 const DatabaseScreen = () => {
     const [data, setData] = useState<DBRow[]>([]);
+    const { token, setToken } = useContext(Context);
 
     // Runs on component mount
     useEffect(() => {
         axios
-            .get('https://cis-linux2.temple.edu/bucketlistBackend/database')
+            .get('https://cis-linux2.temple.edu/bucketlistBackend/database', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
             .then((res) => {
                 const rows = res.data.rows.map((row: DBRow) => (
                     <HStack space={3}>
@@ -32,7 +39,10 @@ const DatabaseScreen = () => {
                 ));
                 setData((data) => [...data, rows]);
             })
-            .catch((err) => console.log(err));
+            .catch((_) => {
+                // Remove JWT from AsyncStorage on failed request
+                setToken('');
+            });
     }, []);
 
     return (

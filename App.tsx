@@ -1,46 +1,66 @@
-import React from 'react';
-import { NativeBaseProvider } from 'native-base';
-import { theme } from './src/core/theme';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SignupScreen, LoginScreen, DatabaseScreen } from './src/screens';
-import * as Linking from 'expo-linking';
+import React, { useState, useEffect } from 'react';
+import EventEmitter from 'events';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Main from './src/Main';
 
-const Stack = createNativeStackNavigator();
+/**
+ * Context provided to children components. Since this is the top
+ * level component, all child elements will have access to this context
+ */
+export const Context = React.createContext({
+    token: '',
+    setToken: async (token: string) => {
+        await AsyncStorage.setItem('token', token);
+        emitter.emit('storage');
+    },
+    loadingContext: true,
+    setLoadingContext: (value: boolean) => {}
+});
 
-const linking = {
-    prefixes: [Linking.createURL('/'), 'https://cis-linux2.temple.edu'],
-    config: {
-        screens: {
-            Bucketlist: '/bucketlist',
-            Signup: '/bucketlist/signup',
-            Database: '/bucketlist/database'
-        }
-    }
+const emitter: EventEmitter = new EventEmitter();
+
+/**
+ * Application component
+ */
+const App = () => {
+    const [token, setToken] = useState<string>('');
+    const [loadingContext, setLoadingContext] = useState<boolean>(true);
+
+    useEffect(() => {
+        const storageListener = async () => {
+            setLoadingContext(true);
+            const token = (await AsyncStorage.getItem('token')) || '';
+            setToken(token);
+            setLoadingContext(false);
+        };
+        storageListener();
+
+        // TODO: look into deprecation of removeEventListener. See message in browser console
+        emitter.on('storage', storageListener);
+        return () => {
+            emitter.off('storage', storageListener);
+        };
+    }, []);
+
+    const handleSetToken = async (token: string): Promise<void> => {
+        setLoadingContext(true);
+        await AsyncStorage.setItem('token', token);
+        setToken(token);
+        setLoadingContext(false);
+    };
+
+    return (
+        <Context.Provider
+            value={{
+                token,
+                setToken: handleSetToken,
+                loadingContext,
+                setLoadingContext
+            }}
+        >
+            <Main />
+        </Context.Provider>
+    );
 };
 
-const Main = () => (
-    <NavigationContainer linking={linking}>
-        <NativeBaseProvider theme={theme}>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Bucketlist"
-                    options={{ title: 'Bucketlist | Login' }}
-                    component={LoginScreen}
-                />
-                <Stack.Screen
-                    name="Signup"
-                    options={{ title: 'Bucketlist | Signup' }}
-                    component={SignupScreen}
-                />
-                <Stack.Screen
-                    name="Database"
-                    options={{ title: 'Bucketlist | Database' }}
-                    component={DatabaseScreen}
-                />
-            </Stack.Navigator>
-        </NativeBaseProvider>
-    </NavigationContainer>
-);
-
-export default Main;
+export default App;
