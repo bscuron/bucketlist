@@ -21,7 +21,7 @@ const emitter: EventEmitter = new EventEmitter();
  */
 const App = () => {
     const [token, setToken] = useState<string>('');
-    const [loadingContext, setLoadingContext] = useState<boolean>(true);
+    const [loadingContext, setLoadingContext] = useState<boolean>(false);
 
     useEffect(() => {
         const storageListener = async () => {
