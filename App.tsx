@@ -9,12 +9,9 @@ import Main from './src/Main';
  */
 export const Context = React.createContext({
     token: '',
-    setToken: async (token: string) => {
-        await AsyncStorage.setItem('token', token);
-        emitter.emit('storage');
-    },
+    login: async (token: string) => {},
     loadingContext: true,
-    setLoadingContext: (value: boolean) => {}
+    logout: () => {}
 });
 
 const emitter: EventEmitter = new EventEmitter();
@@ -42,10 +39,18 @@ const App = () => {
         };
     }, []);
 
-    const handleSetToken = async (token: string): Promise<void> => {
+    const handleLogin = async (token: string) => {
         setLoadingContext(true);
         await AsyncStorage.setItem('token', token);
         setToken(token);
+        setLoadingContext(false);
+    };
+
+    const handleLogout = async () => {
+        setLoadingContext(true);
+        // TODO: send request to logout backend to add token to blacklist
+        await AsyncStorage.removeItem('token');
+        setToken('');
         setLoadingContext(false);
     };
 
@@ -53,9 +58,9 @@ const App = () => {
         <Context.Provider
             value={{
                 token,
-                setToken: handleSetToken,
-                loadingContext,
-                setLoadingContext
+                login: handleLogin,
+                logout: handleLogout,
+                loadingContext
             }}
         >
             <Main />
