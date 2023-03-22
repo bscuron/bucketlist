@@ -75,6 +75,7 @@ const DatabaseScreen = () => {
         });
     }, [navigation]);
 
+    // TODO: send request to invalidate token on backend when logging out
     return (
         <View>
             <VStack space={4}>
@@ -105,6 +106,9 @@ const DatabaseScreen = () => {
                     <Actionsheet.Item isDisabled>Database</Actionsheet.Item>
                     <Actionsheet.Item>Profile</Actionsheet.Item>
                     <Actionsheet.Item>Map</Actionsheet.Item>
+                    <Actionsheet.Item onPress={() => removeItem('token')}>
+                        Log out
+                    </Actionsheet.Item>
                     <Actionsheet.Item onPress={() => setShowNavigation(false)}>
                         Cancel
                     </Actionsheet.Item>
