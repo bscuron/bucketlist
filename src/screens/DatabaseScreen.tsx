@@ -1,16 +1,8 @@
 import React, { memo, useState, useEffect, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../App';
-import {
-    View,
-    Box,
-    VStack,
-    HStack,
-    Heading,
-    Text,
-    Actionsheet,
-    Icon
-} from 'native-base';
+import { View, VStack, HStack, Heading, Text, Icon } from 'native-base';
+import { NavigationMenu } from '../components';
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -88,32 +80,11 @@ const DatabaseScreen = () => {
                 </HStack>
                 {data}
             </VStack>
-            <Actionsheet
+            <NavigationMenu
                 isOpen={showNavigation}
                 onClose={() => setShowNavigation(false)}
-            >
-                <Actionsheet.Content>
-                    <Box
-                        w="100%"
-                        h={60}
-                        px={4}
-                        alignItems="center"
-                        justifyContent="center"
-                    >
-                        <Heading size="md">Bucketlist</Heading>
-                    </Box>
-                    <Actionsheet.Item>Home</Actionsheet.Item>
-                    <Actionsheet.Item isDisabled>Database</Actionsheet.Item>
-                    <Actionsheet.Item>Profile</Actionsheet.Item>
-                    <Actionsheet.Item>Map</Actionsheet.Item>
-                    <Actionsheet.Item onPress={() => logout()}>
-                        Log out
-                    </Actionsheet.Item>
-                    <Actionsheet.Item onPress={() => setShowNavigation(false)}>
-                        Cancel
-                    </Actionsheet.Item>
-                </Actionsheet.Content>
-            </Actionsheet>
+                disabledScreen="Database"
+            />
         </View>
     );
 };
