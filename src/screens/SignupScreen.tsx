@@ -305,9 +305,7 @@ const SignupScreen = () => {
                             <HStack>
                                 <Text>Already have an account? </Text>
                                 <Text
-                                    onPress={() =>
-                                        navigation.navigate('Bucketlist')
-                                    }
+                                    onPress={() => navigation.navigate('Login')}
                                     underline
                                 >
                                     Log in
@@ -354,7 +352,7 @@ const SignupScreen = () => {
                                         colorScheme="success"
                                         onPress={() => {
                                             setShowCode(false);
-                                            navigation.navigate('Bucketlist');
+                                            navigation.navigate('Login');
                                         }}
                                     >
                                         Login
