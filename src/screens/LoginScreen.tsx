@@ -53,9 +53,8 @@ const LoginScreen = () => {
             timeouts.pop();
         });
 
-        let result;
         try {
-            result = await axios.post(
+            const result = await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/login',
                 {
                     username: data.username,
@@ -63,6 +62,10 @@ const LoginScreen = () => {
                     code: data.code
                 }
             );
+
+            // Successful login
+            setShowAlert(false);
+            login(result.data.token);
         } catch (error) {
             // Show slider and set timeout to clear slider
             setShowAlert(true);
@@ -71,15 +74,7 @@ const LoginScreen = () => {
                     setShowAlert(false);
                 }, 3000)
             );
-            return;
         }
-
-        // Successful login
-        setShowAlert(false);
-
-        // Set context token. Once token is set, user will be automatically navigated to the screen that requires authentication
-        const jwt: string = result.data.token;
-        login(jwt);
     };
 
     return (
