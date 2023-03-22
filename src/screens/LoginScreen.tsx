@@ -40,7 +40,7 @@ const LoginScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const navigation = useNavigation();
-    const { setToken } = useContext(Context);
+    const { login } = useContext(Context);
 
     /**
      * Submit user inputted data to backend for login authentication
@@ -79,7 +79,7 @@ const LoginScreen = () => {
 
         // Set context token. Once token is set, user will be automatically navigated to the screen that requires authentication
         const jwt: string = result.data.token;
-        setToken(jwt);
+        login(jwt);
     };
 
     return (

@@ -26,7 +26,7 @@ type DBRow = {
 const DatabaseScreen = () => {
     const [data, setData] = useState<DBRow[]>([]);
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
-    const { token, removeItem } = useContext(Context);
+    const { token, logout } = useContext(Context);
     const navigation = useNavigation();
 
     // Runs on component mount
@@ -54,7 +54,7 @@ const DatabaseScreen = () => {
             })
             .catch((_) => {
                 // Remove JWT from AsyncStorage on failed request
-                removeItem('token');
+                logout();
             });
     }, []);
 
@@ -106,7 +106,7 @@ const DatabaseScreen = () => {
                     <Actionsheet.Item isDisabled>Database</Actionsheet.Item>
                     <Actionsheet.Item>Profile</Actionsheet.Item>
                     <Actionsheet.Item>Map</Actionsheet.Item>
-                    <Actionsheet.Item onPress={() => removeItem('token')}>
+                    <Actionsheet.Item onPress={() => logout()}>
                         Log out
                     </Actionsheet.Item>
                     <Actionsheet.Item onPress={() => setShowNavigation(false)}>
