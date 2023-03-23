@@ -9,14 +9,14 @@ import {
 import { Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu, Event } from '../components';
+import { NavigationMenu, Event, NewEventMenu } from '../components';
 
 /**
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const { navigating, setNavigating } = useContext(Context);
+    const { navigating, setNavigating, setCreatingEvent } = useContext(Context);
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
@@ -67,15 +67,6 @@ const HomeScreen = () => {
                                 as={<MaterialIcons name="search" />}
                             />
                         }
-                        InputRightElement={
-                            <Icon
-                                m="2"
-                                mr="3"
-                                size="6"
-                                color="gray.400"
-                                as={<MaterialIcons name="mic" />}
-                            />
-                        }
                     />
                     <Tooltip label="Create new event" openDelay={500}>
                         <IconButton
@@ -85,6 +76,7 @@ const HomeScreen = () => {
                                 as: MaterialIcons,
                                 name: 'add'
                             }}
+                            onPress={() => setCreatingEvent(true)}
                         />
                     </Tooltip>
                 </HStack>
@@ -104,6 +96,7 @@ const HomeScreen = () => {
                 <Event style={styles.event} />
                 <Event style={styles.event} />
                 <NavigationMenu />
+                <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
