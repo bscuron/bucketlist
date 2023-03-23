@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useContext, useState, useRef } from 'react';
+import React, { memo, useEffect, useContext } from 'react';
 import { Context } from '../../App';
 import {
     StyleSheet,
@@ -6,36 +6,17 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import {
-    Icon,
-    Tooltip,
-    VStack,
-    HStack,
-    Input,
-    TextArea,
-    IconButton,
-    AlertDialog,
-    Button
-} from 'native-base';
+import { Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu, Event } from '../components';
-import openMap from 'react-native-open-maps';
-
-type NewEventData = {
-    title?: string;
-    description?: string;
-    address?: string;
-};
+import { NavigationMenu, Event, NewEventMenu } from '../components';
 
 /**
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const { navigating, setNavigating } = useContext(Context);
-    const [creatingEvent, setCreatingEvent] = useState<boolean>(false);
-    const [data, setData] = useState<NewEventData>({});
+    const { navigating, setNavigating, setCreatingEvent } = useContext(Context);
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
@@ -124,58 +105,7 @@ const HomeScreen = () => {
                 <Event style={styles.event} />
                 <Event style={styles.event} />
                 <NavigationMenu />
-
-                <AlertDialog
-                    leastDestructiveRef={useRef(null)}
-                    isOpen={creatingEvent}
-                    onClose={() => setCreatingEvent(false)}
-                >
-                    <AlertDialog.Content>
-                        <AlertDialog.CloseButton />
-                        <AlertDialog.Header>New Event</AlertDialog.Header>
-                        <AlertDialog.Body>
-                            <VStack space={4}>
-                                <Input variant="outline" placeholder="Title" />
-                                <TextArea
-                                    autoCompleteType="text"
-                                    placeholder="What is this event for?"
-                                />
-                                <Input
-                                    variant="outline"
-                                    placeholder="Address"
-                                    onChangeText={(value) => {
-                                        setData({
-                                            ...data,
-                                            address: value
-                                        });
-                                    }}
-                                />
-                            </VStack>
-                        </AlertDialog.Body>
-                        <AlertDialog.Footer>
-                            <Button.Group space={2}>
-                                <Button
-                                    variant="unstyled"
-                                    colorScheme="coolGray"
-                                    onPress={() => setCreatingEvent(false)}
-                                >
-                                    Close
-                                </Button>
-                                <Button
-                                    colorScheme="success"
-                                    onPress={() => {
-                                        openMap({
-                                            query: data.address
-                                        });
-                                        setCreatingEvent(false);
-                                    }}
-                                >
-                                    Create
-                                </Button>
-                            </Button.Group>
-                        </AlertDialog.Footer>
-                    </AlertDialog.Content>
-                </AlertDialog>
+                <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
