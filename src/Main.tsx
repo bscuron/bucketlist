@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {
     SignupScreen,
     LoginScreen,
+    HomeScreen,
     DatabaseScreen,
     LoadingScreen
 } from './screens';
@@ -36,13 +37,12 @@ export const unprotectedScreens: ScreenMap = {
  * Screens that require a JWT (authentication)
  */
 export const protectedScreens: ScreenMap = {
+    Home: {
+        url: '/bucketlist/home',
+        component: HomeScreen
+    },
     Database: {
         url: '/bucketlist/database',
-        component: DatabaseScreen
-    },
-    // TODO: remove this placeholder
-    Placeholder: {
-        url: '/bucketlist/placeholder',
         component: DatabaseScreen
     }
 };

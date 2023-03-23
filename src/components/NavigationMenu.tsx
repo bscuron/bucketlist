@@ -1,24 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../App';
 import { Actionsheet, Box, Heading } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { protectedScreens as screens } from '../Main';
 
-interface Props {
-    isOpen: boolean;
-    onClose: () => void;
-    disabledScreen?: string;
-}
-
-const NavigationMenu: React.FC<Props> = ({
-    isOpen,
-    onClose,
-    disabledScreen
-}) => {
-    const { logout } = useContext(Context);
+const NavigationMenu = () => {
+    const { logout, navigating, setNavigating } = useContext(Context);
     const navigation = useNavigation();
+    const [disabledScreen, setDisabledScreen] = useState<string>(
+        useRoute().name
+    );
+
     return (
-        <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet isOpen={navigating} onClose={() => setNavigating(false)}>
             <Actionsheet.Content>
                 <Box
                     w="100%"
@@ -32,16 +26,26 @@ const NavigationMenu: React.FC<Props> = ({
                 {Object.keys(screens).map((screen) => (
                     <Actionsheet.Item
                         key={screen}
-                        onPress={() => navigation.navigate(screen)}
-                        isDisabled={disabledScreen === screen}
+                        onPress={() => {
+                            navigation.navigate(screen);
+                            setNavigating(false);
+                        }}
+                        isDisabled={screen === disabledScreen}
                     >
                         {screen}
                     </Actionsheet.Item>
                 ))}
-                <Actionsheet.Item onPress={() => logout()}>
+                <Actionsheet.Item
+                    onPress={() => {
+                        setNavigating(false);
+                        logout();
+                    }}
+                >
                     Log out
                 </Actionsheet.Item>
-                <Actionsheet.Item onPress={onClose}>Cancel</Actionsheet.Item>
+                <Actionsheet.Item onPress={() => setNavigating(false)}>
+                    Cancel
+                </Actionsheet.Item>
             </Actionsheet.Content>
         </Actionsheet>
     );

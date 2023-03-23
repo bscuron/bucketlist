@@ -17,9 +17,8 @@ type DBRow = {
 
 const DatabaseScreen = () => {
     const [data, setData] = useState<DBRow[]>([]);
-    const [showNavigation, setShowNavigation] = useState<boolean>(false);
-    const { token, logout } = useContext(Context);
     const navigation = useNavigation();
+    const { token, logout, navigating, setNavigating } = useContext(Context);
 
     // Runs on component mount
     useEffect(() => {
@@ -58,7 +57,7 @@ const DatabaseScreen = () => {
                 <Icon
                     as={Ionicons}
                     name="menu"
-                    onPress={() => setShowNavigation(!showNavigation)}
+                    onPress={() => setNavigating(!navigating)}
                     color="black"
                     size="2xl"
                     mx="3%"
@@ -80,11 +79,7 @@ const DatabaseScreen = () => {
                 </HStack>
                 {data}
             </VStack>
-            <NavigationMenu
-                isOpen={showNavigation}
-                onClose={() => setShowNavigation(false)}
-                disabledScreen="Database"
-            />
+            <NavigationMenu />
         </View>
     );
 };

@@ -11,7 +11,9 @@ export const Context = React.createContext({
     token: '',
     login: async (token: string) => {},
     loadingContext: true,
-    logout: () => {}
+    logout: () => {},
+    navigating: false,
+    setNavigating: (value: boolean) => {}
 });
 
 const emitter: EventEmitter = new EventEmitter();
@@ -22,6 +24,7 @@ const emitter: EventEmitter = new EventEmitter();
 const App = () => {
     const [token, setToken] = useState<string>('');
     const [loadingContext, setLoadingContext] = useState<boolean>(true);
+    const [navigating, setNavigating] = useState<boolean>(false);
 
     useEffect(() => {
         const storageListener = async () => {
@@ -54,13 +57,19 @@ const App = () => {
         setLoadingContext(false);
     };
 
+    const handleSetNavigating = (value: boolean) => {
+        setNavigating(value);
+    };
+
     return (
         <Context.Provider
             value={{
                 token,
                 login: handleLogin,
                 logout: handleLogout,
-                loadingContext
+                loadingContext,
+                navigating,
+                setNavigating: handleSetNavigating
             }}
         >
             <Main />
