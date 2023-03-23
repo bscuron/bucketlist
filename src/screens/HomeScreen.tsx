@@ -6,9 +6,9 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import { Text, Icon, View, Button } from 'native-base';
+import { Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationMenu, Event } from '../components';
 
 /**
@@ -44,6 +44,50 @@ const HomeScreen = () => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.container}
             >
+                <HStack
+                    space={5}
+                    width="100%"
+                    alignSelf="center"
+                    justifyContent="Center"
+                >
+                    <Input
+                        placeholder="Search for an event..."
+                        alignSelf="center"
+                        borderRadius="4"
+                        minW="50%"
+                        py="3"
+                        px="1"
+                        fontSize="14"
+                        InputLeftElement={
+                            <Icon
+                                m="2"
+                                ml="3"
+                                size="6"
+                                color="gray.400"
+                                as={<MaterialIcons name="search" />}
+                            />
+                        }
+                        InputRightElement={
+                            <Icon
+                                m="2"
+                                mr="3"
+                                size="6"
+                                color="gray.400"
+                                as={<MaterialIcons name="mic" />}
+                            />
+                        }
+                    />
+                    <Tooltip label="Create new event" openDelay={500}>
+                        <IconButton
+                            size="md"
+                            variant="solid"
+                            _icon={{
+                                as: MaterialIcons,
+                                name: 'add'
+                            }}
+                        />
+                    </Tooltip>
+                </HStack>
                 <Event style={styles.event} />
                 <Event style={styles.event} />
                 <Event style={styles.event} />
