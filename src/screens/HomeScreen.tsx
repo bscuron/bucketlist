@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useContext } from 'react';
+import React, { memo, useEffect, useContext } from 'react';
 import { Context } from '../../App';
 import {
     StyleSheet,
@@ -6,10 +6,10 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import { Text, Icon } from 'native-base';
+import { Text, Icon, View, Button } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationMenu } from '../components';
+import { NavigationMenu, Event } from '../components';
 
 /**
  * Screen component for home screen (list view)
@@ -35,12 +35,30 @@ const HomeScreen = () => {
         });
     }, [navigation]);
 
+    // BUG: when navigating to another screen and back, the images do
+    // not appear. This should be fixed when the content of the page is
+    // loaded dynamically
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.container}
             >
-                <Text>Home Screen</Text>
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
+                <Event style={styles.event} />
                 <NavigationMenu />
             </KeyboardAvoidingView>
         </ScrollView>
@@ -51,7 +69,16 @@ export default memo(HomeScreen);
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
-        justifyContent: 'center'
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        marginLeft: '2%',
+        marginRight: '2%'
+    },
+    event: {
+        margin: 20
     }
 });
