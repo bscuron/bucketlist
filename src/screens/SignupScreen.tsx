@@ -99,7 +99,7 @@ const SignupScreen = () => {
         // Check if username exists in database already
         axios
             .get(
-                `https://cis-linux2.temple.edu/bucketlistBackend/database/user/${username}`
+                `https://cis-linux2.temple.edu/bucketlistBackend/database/users/username/${username}`
             )
             .then((res) => {
                 if (res.data.rows.length > 0) {
@@ -139,7 +139,7 @@ const SignupScreen = () => {
         // Check if username exists in database already
         axios
             .get(
-                `https://cis-linux2.temple.edu/bucketlistBackend/database/email/${email}`
+                `https://cis-linux2.temple.edu/bucketlistBackend/database/users/email/${email}`
             )
             .then((res) => {
                 if (res.data.rows.length > 0) {

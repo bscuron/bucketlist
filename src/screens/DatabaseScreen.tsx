@@ -23,13 +23,16 @@ const DatabaseScreen = () => {
     // Runs on component mount
     useEffect(() => {
         axios
-            .get('https://cis-linux2.temple.edu/bucketlistBackend/database', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
+            .get(
+                'https://cis-linux2.temple.edu/bucketlistBackend/database/users',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
                 }
-            })
+            )
             .then((res) => {
                 const rows = res.data.rows.map((row: DBRow) => (
                     <HStack space={3}>
