@@ -67,15 +67,6 @@ const HomeScreen = () => {
                                 as={<MaterialIcons name="search" />}
                             />
                         }
-                        InputRightElement={
-                            <Icon
-                                m="2"
-                                mr="3"
-                                size="6"
-                                color="gray.400"
-                                as={<MaterialIcons name="mic" />}
-                            />
-                        }
                     />
                     <Tooltip label="Create new event" openDelay={500}>
                         <IconButton
