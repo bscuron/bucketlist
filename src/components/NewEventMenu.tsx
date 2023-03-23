@@ -24,6 +24,7 @@ const NewEventMenu = () => {
         if (!validate()) return;
         setCreatingEvent(false);
         setData({});
+        setErrors({});
     };
 
     const validate = (): boolean => {
