@@ -20,6 +20,13 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationMenu, Event } from '../components';
+import openMap from 'react-native-open-maps';
+
+type NewEventData = {
+    title?: string;
+    description?: string;
+    address?: string;
+};
 
 /**
  * Screen component for home screen (list view)
@@ -28,6 +35,7 @@ const HomeScreen = () => {
     const navigation = useNavigation();
     const { navigating, setNavigating } = useContext(Context);
     const [creatingEvent, setCreatingEvent] = useState<boolean>(false);
+    const [data, setData] = useState<NewEventData>({});
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
@@ -135,6 +143,12 @@ const HomeScreen = () => {
                                 <Input
                                     variant="outline"
                                     placeholder="Address"
+                                    onChangeText={(value) => {
+                                        setData({
+                                            ...data,
+                                            address: value
+                                        });
+                                    }}
                                 />
                             </VStack>
                         </AlertDialog.Body>
@@ -150,6 +164,9 @@ const HomeScreen = () => {
                                 <Button
                                     colorScheme="success"
                                     onPress={() => {
+                                        openMap({
+                                            query: data.address
+                                        });
                                         setCreatingEvent(false);
                                     }}
                                 >
