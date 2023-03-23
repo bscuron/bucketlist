@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Context } from '../App';
-import { NativeBaseProvider, View, Text } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import { theme } from './core/theme';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
@@ -8,19 +8,63 @@ import { NavigationContainer } from '@react-navigation/native';
 import {
     SignupScreen,
     LoginScreen,
+    HomeScreen,
     DatabaseScreen,
     LoadingScreen
 } from './screens';
 
 const Stack = createNativeStackNavigator();
 
+type ScreenMap = {
+    [key: string]: { url: string; component: React.FunctionComponent };
+};
+
+/**
+ * Screens that do not require a JWT
+ */
+export const unprotectedScreens: ScreenMap = {
+    Login: {
+        url: '/bucketlist/login',
+        component: LoginScreen
+    },
+    Signup: {
+        url: '/bucketlist/signup',
+        component: SignupScreen
+    }
+};
+
+/**
+ * Screens that require a JWT (authentication)
+ */
+export const protectedScreens: ScreenMap = {
+    Home: {
+        url: '/bucketlist/home',
+        component: HomeScreen
+    },
+    Database: {
+        url: '/bucketlist/database',
+        component: DatabaseScreen
+    }
+};
+
 const linking = {
     prefixes: [Linking.createURL('/'), 'https://cis-linux2.temple.edu'],
     config: {
         screens: {
-            Bucketlist: '/bucketlist',
-            Signup: '/bucketlist/signup',
-            Database: '/bucketlist/database'
+            ...Object.keys(unprotectedScreens).reduce(
+                (acc, key) => ({
+                    ...acc,
+                    [key]: unprotectedScreens[key].url
+                }),
+                {}
+            ),
+            ...Object.keys(protectedScreens).reduce(
+                (acc, key) => ({
+                    ...acc,
+                    [key]: protectedScreens[key].url
+                }),
+                {}
+            )
         }
     }
 };
@@ -38,24 +82,31 @@ const Main = () => {
                 <Stack.Navigator>
                     {!!token ? (
                         <>
-                            <Stack.Screen
-                                name="Database"
-                                options={{ title: 'Bucketlist | Database' }}
-                                component={DatabaseScreen}
-                            />
+                            {Object.keys(protectedScreens).map((screen) => (
+                                <Stack.Screen
+                                    name={screen}
+                                    options={{
+                                        title: `Bucketlist | ${screen}`
+                                    }}
+                                    component={
+                                        protectedScreens[screen].component
+                                    }
+                                />
+                            ))}
                         </>
                     ) : (
                         <>
-                            <Stack.Screen
-                                name="Bucketlist"
-                                options={{ title: 'Bucketlist | Login' }}
-                                component={LoginScreen}
-                            />
-                            <Stack.Screen
-                                name="Signup"
-                                options={{ title: 'Bucketlist | Signup' }}
-                                component={SignupScreen}
-                            />
+                            {Object.keys(unprotectedScreens).map((screen) => (
+                                <Stack.Screen
+                                    name={screen}
+                                    options={{
+                                        title: `Bucketlist | ${screen}`
+                                    }}
+                                    component={
+                                        unprotectedScreens[screen].component
+                                    }
+                                />
+                            ))}
                         </>
                     )}
                 </Stack.Navigator>
