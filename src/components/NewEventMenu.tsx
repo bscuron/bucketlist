@@ -1,17 +1,25 @@
 import React, { useRef, useState, useContext } from 'react';
 import { Context } from '../../App';
-import { AlertDialog, VStack, Input, TextArea, Button } from 'native-base';
+import {
+    AlertDialog,
+    VStack,
+    Input,
+    TextArea,
+    Button,
+    FormControl
+} from 'native-base';
 import openMap from 'react-native-open-maps';
 
 type NewEventData = {
     title?: string;
     description?: string;
-    address?: string;
+    location?: string;
 };
 
 const NewEventMenu = () => {
     const { creatingEvent, setCreatingEvent } = useContext(Context);
     const [data, setData] = useState<NewEventData>({});
+    const [errors, setErrors] = useState<NewEventData>({});
 
     return (
         <AlertDialog
@@ -24,21 +32,39 @@ const NewEventMenu = () => {
                 <AlertDialog.Header>New Event</AlertDialog.Header>
                 <AlertDialog.Body>
                     <VStack space={4}>
-                        <Input variant="outline" placeholder="Title" />
-                        <TextArea
-                            autoCompleteType="text"
-                            placeholder="What is this event for?"
-                        />
-                        <Input
-                            variant="outline"
-                            placeholder="Address"
-                            onChangeText={(value) => {
-                                setData({
-                                    ...data,
-                                    address: value
-                                });
-                            }}
-                        />
+                        <FormControl isRequired isInvalid={'title' in errors}>
+                            <FormControl.Label>Title</FormControl.Label>
+                            <Input
+                                variant="outline"
+                                placeholder="Camping with friends"
+                            />
+                        </FormControl>
+                        <FormControl
+                            isRequired
+                            isInvalid={'description' in errors}
+                        >
+                            <FormControl.Label>Description</FormControl.Label>
+                            <TextArea
+                                autoCompleteType="text"
+                                placeholder="What is this event for?"
+                            />
+                        </FormControl>
+                        <FormControl
+                            isRequired
+                            isInvalid={'location' in errors}
+                        >
+                            <FormControl.Label>Location</FormControl.Label>
+                            <Input
+                                variant="outline"
+                                placeholder="Yosemite National Park"
+                                onChangeText={(value) => {
+                                    setData({
+                                        ...data,
+                                        location: value
+                                    });
+                                }}
+                            />
+                        </FormControl>
                     </VStack>
                 </AlertDialog.Body>
                 <AlertDialog.Footer>
@@ -54,7 +80,7 @@ const NewEventMenu = () => {
                             colorScheme="success"
                             onPress={() => {
                                 openMap({
-                                    query: data.address
+                                    query: data.location
                                 });
                                 setCreatingEvent(false);
                             }}
