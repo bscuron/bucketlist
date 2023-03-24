@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useContext } from 'react';
+import React, { memo, useEffect, useState, useContext } from 'react';
 import { Context } from '../../App';
 import {
     StyleSheet,
@@ -9,14 +9,42 @@ import {
 import { Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu, Event, NewEventMenu } from '../components';
+import { NavigationMenu, EventView, NewEventMenu } from '../components';
+import axios from 'axios';
+import { Event } from '../types';
 
 /**
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const { navigating, setNavigating, setCreatingEvent } = useContext(Context);
+    const [events, setEvents] = useState<Event[]>([]);
+    const { token, logout, navigating, setNavigating, setCreatingEvent } =
+        useContext(Context);
+
+    useEffect(() => {
+        axios
+            .get(
+                'https://cis-linux2.temple.edu/bucketlistBackend/database/events',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            .then((res) => {
+                const events = res.data.rows.map((row: Event) => (
+                    <EventView event={row} style={styles.event} />
+                ));
+                setEvents(events);
+            })
+            .catch((_) => {
+                // Remove JWT from AsyncStorage on failed request
+                logout();
+            });
+    }, []);
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
@@ -80,21 +108,7 @@ const HomeScreen = () => {
                         />
                     </Tooltip>
                 </HStack>
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
+                {events}
                 <NavigationMenu />
                 <NewEventMenu />
             </KeyboardAvoidingView>
