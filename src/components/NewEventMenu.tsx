@@ -17,7 +17,8 @@ type NewEventData = {
 };
 
 const NewEventMenu = () => {
-    const { token, creatingEvent, setCreatingEvent } = useContext(Context);
+    const { token, creatingEvent, setCreatingEvent, setRerender } =
+        useContext(Context);
     const [data, setData] = useState<NewEventData>({});
     const [errors, setErrors] = useState<NewEventData>({});
 
@@ -45,6 +46,7 @@ const NewEventMenu = () => {
             setCreatingEvent(false);
             setData({});
             setErrors({});
+            setRerender(true);
         } catch (_) {}
     };
 

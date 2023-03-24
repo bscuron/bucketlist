@@ -15,7 +15,8 @@ export const Context = React.createContext({
     navigating: false,
     setNavigating: (value: boolean) => {},
     creatingEvent: false,
-    setCreatingEvent: (value: boolean) => {}
+    setCreatingEvent: (value: boolean) => {},
+    rerender: () => {}
 });
 
 const emitter: EventEmitter = new EventEmitter();
@@ -78,7 +79,8 @@ const App = () => {
                 navigating,
                 setNavigating: handleSetNavigating,
                 creatingEvent,
-                setCreatingEvent: handleSetCreatingEvent
+                setCreatingEvent: handleSetCreatingEvent,
+                rerender: () => {}
             }}
         >
             <Main />

@@ -84,6 +84,7 @@ const Main = () => {
                         <>
                             {Object.keys(protectedScreens).map((screen) => (
                                 <Stack.Screen
+                                    key={screen}
                                     name={screen}
                                     options={{
                                         title: `Bucketlist | ${screen}`
@@ -98,6 +99,7 @@ const Main = () => {
                         <>
                             {Object.keys(unprotectedScreens).map((screen) => (
                                 <Stack.Screen
+                                    key={screen}
                                     name={screen}
                                     options={{
                                         title: `Bucketlist | ${screen}`
