@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useContext } from 'react';
+import React, { memo, useEffect, useState, useContext } from 'react';
 import { Context } from '../../App';
 import {
     StyleSheet,
@@ -6,17 +6,62 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import { Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
+import { View, Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu, Event, NewEventMenu } from '../components';
+import { NavigationMenu, EventView, NewEventMenu } from '../components';
+import axios from 'axios';
+import { Event } from '../types';
+import fuzzysort from 'fuzzysort';
 
 /**
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const { navigating, setNavigating, setCreatingEvent } = useContext(Context);
+    const [allEvents, setAllEvents] = useState<Event[]>([]);
+    const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+    const [query, setQuery] = useState<string>('');
+    const {
+        token,
+        logout,
+        navigating,
+        setNavigating,
+        setCreatingEvent,
+        rerender
+    } = useContext(Context);
+
+    useEffect(() => {
+        axios
+            .get(
+                'https://cis-linux2.temple.edu/bucketlistBackend/database/events',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            .then((res) => {
+                setAllEvents(res.data.rows);
+            })
+            .catch(logout);
+    }, [rerender]);
+
+    useEffect(() => {
+        if (allEvents.length <= 0) return;
+        if (query.length <= 0) {
+            setFilteredEvents(allEvents);
+            return;
+        }
+        const filteredEvents = fuzzysort
+            .go(query, allEvents, {
+                keys: Object.keys(allEvents[0])
+            })
+            .map((result) => result.obj);
+        setFilteredEvents(filteredEvents);
+    }, [allEvents, query]);
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
@@ -42,14 +87,8 @@ const HomeScreen = () => {
         <ScrollView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.container}
             >
-                <HStack
-                    space={5}
-                    width="100%"
-                    alignSelf="center"
-                    justifyContent="Center"
-                >
+                <HStack style={styles.headerContainer} space={5}>
                     <Input
                         placeholder="Search for an event..."
                         alignSelf="center"
@@ -67,6 +106,9 @@ const HomeScreen = () => {
                                 as={<MaterialIcons name="search" />}
                             />
                         }
+                        onChangeText={(value) => {
+                            setQuery(value);
+                        }}
                     />
                     <Tooltip label="Create new event" openDelay={500}>
                         <IconButton
@@ -80,21 +122,15 @@ const HomeScreen = () => {
                         />
                     </Tooltip>
                 </HStack>
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
-                <Event style={styles.event} />
+                <View style={styles.eventsContainer}>
+                    {filteredEvents.map((row: Event) => (
+                        <EventView
+                            key={row.event_id}
+                            event={row}
+                            style={styles.event}
+                        />
+                    ))}
+                </View>
                 <NavigationMenu />
                 <NewEventMenu />
             </KeyboardAvoidingView>
@@ -105,17 +141,21 @@ const HomeScreen = () => {
 export default memo(HomeScreen);
 
 const styles = StyleSheet.create({
-    container: {
+    eventsContainer: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
-        marginLeft: '2%',
-        marginRight: '2%'
+        padding: 10
     },
     event: {
         margin: 20
+    },
+    headerContainer: {
+        width: '100%',
+        marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });

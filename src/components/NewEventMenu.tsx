@@ -8,6 +8,7 @@ import {
     Button,
     FormControl
 } from 'native-base';
+import axios from 'axios';
 
 type NewEventData = {
     title?: string;
@@ -16,15 +17,37 @@ type NewEventData = {
 };
 
 const NewEventMenu = () => {
-    const { creatingEvent, setCreatingEvent } = useContext(Context);
+    const { token, creatingEvent, setCreatingEvent, setRerender } =
+        useContext(Context);
     const [data, setData] = useState<NewEventData>({});
     const [errors, setErrors] = useState<NewEventData>({});
 
-    const submit = () => {
+    const submit = async () => {
         if (!validate()) return;
-        setCreatingEvent(false);
-        setData({});
-        setErrors({});
+
+        try {
+            const result = await axios.post(
+                'https://cis-linux2.temple.edu/bucketlistBackend/database/events/create',
+                {
+                    title: data.title,
+                    description: data.description,
+                    location: data.location
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            // TODO: alert the user that the event was created
+            setCreatingEvent(false);
+            setData({});
+            setErrors({});
+            setRerender(true);
+        } catch (_) {}
     };
 
     const validate = (): boolean => {

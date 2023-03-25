@@ -35,7 +35,7 @@ const DatabaseScreen = () => {
             )
             .then((res) => {
                 const rows = res.data.rows.map((row: DBRow) => (
-                    <HStack space={3}>
+                    <HStack key={row.id} space={3}>
                         <Text>{row.id}</Text>
                         <Text>{row.username}</Text>
                         <Text>{row.email}</Text>

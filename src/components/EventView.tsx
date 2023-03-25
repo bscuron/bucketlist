@@ -9,8 +9,15 @@ import {
     Text,
     HStack
 } from 'native-base';
+import { StyleProp, ViewStyle } from 'react-native';
+import { Event } from '../types';
 
-const Event = ({ style }) => {
+interface EventProps {
+    event: Event;
+    style: StyleProp<ViewStyle>;
+}
+
+const EventView: React.FC<EventProps> = ({ event, style }) => {
     return (
         <Box alignItems="center" style={style}>
             <Box
@@ -50,7 +57,7 @@ const Event = ({ style }) => {
                 <Stack p="4" space={3}>
                     <Stack space={2}>
                         <Heading size="md" ml="-1">
-                            The Garden City
+                            {event.title}
                         </Heading>
                         <Text
                             fontSize="xs"
@@ -64,14 +71,10 @@ const Event = ({ style }) => {
                             ml="-0.5"
                             mt="-1"
                         >
-                            The Silicon Valley of India.
+                            {event.location}
                         </Text>
                     </Stack>
-                    <Text fontWeight="400">
-                        Bengaluru (also called Bangalore) is the center of
-                        India's high-tech industry. The city is also known for
-                        its parks and nightlife.
-                    </Text>
+                    <Text fontWeight="400">{event.description}</Text>
                     <HStack
                         alignItems="center"
                         space={4}
@@ -95,4 +98,4 @@ const Event = ({ style }) => {
     );
 };
 
-export default Event;
+export default EventView;
