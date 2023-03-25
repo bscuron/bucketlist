@@ -12,13 +12,16 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
+import fuzzysort from 'fuzzysort';
 
 /**
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const [events, setEvents] = useState<(typeof EventView)[]>([]);
+    const [allEvents, setAllEvents] = useState<Event[]>([]);
+    const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+    const [query, setQuery] = useState<string>('');
     const {
         token,
         logout,
@@ -41,20 +44,24 @@ const HomeScreen = () => {
                 }
             )
             .then((res) => {
-                const events = res.data.rows.map((row: Event) => (
-                    <EventView
-                        key={row.event_id}
-                        event={row}
-                        style={styles.event}
-                    />
-                ));
-                setEvents(events);
+                setAllEvents(res.data.rows);
             })
-            .catch((_) => {
-                // Remove JWT from AsyncStorage on failed request
-                logout();
-            });
+            .catch(logout);
     }, [rerender]);
+
+    useEffect(() => {
+        if (allEvents.length <= 0) return;
+        if (query.length <= 0) {
+            setFilteredEvents(allEvents);
+            return;
+        }
+        const filteredEvents = fuzzysort
+            .go(query, allEvents, {
+                keys: Object.keys(allEvents[0])
+            })
+            .map((result) => result.obj);
+        setFilteredEvents(filteredEvents);
+    }, [allEvents, query]);
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
@@ -81,47 +88,51 @@ const HomeScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <View style={styles.container}>
-                    <HStack
-                        space={5}
-                        width="100%"
+                <HStack style={styles.headerContainer} space={5}>
+                    <Input
+                        placeholder="Search for an event..."
                         alignSelf="center"
-                        justifyContent="Center"
-                    >
-                        <Input
-                            placeholder="Search for an event..."
-                            alignSelf="center"
-                            borderRadius="4"
-                            minW="50%"
-                            py="3"
-                            px="1"
-                            fontSize="14"
-                            InputLeftElement={
-                                <Icon
-                                    m="2"
-                                    ml="3"
-                                    size="6"
-                                    color="gray.400"
-                                    as={<MaterialIcons name="search" />}
-                                />
-                            }
-                        />
-                        <Tooltip label="Create new event" openDelay={500}>
-                            <IconButton
-                                size="md"
-                                variant="solid"
-                                _icon={{
-                                    as: MaterialIcons,
-                                    name: 'add'
-                                }}
-                                onPress={() => setCreatingEvent(true)}
+                        borderRadius="4"
+                        minW="50%"
+                        py="3"
+                        px="1"
+                        fontSize="14"
+                        InputLeftElement={
+                            <Icon
+                                m="2"
+                                ml="3"
+                                size="6"
+                                color="gray.400"
+                                as={<MaterialIcons name="search" />}
                             />
-                        </Tooltip>
-                    </HStack>
-                    {events}
-                    <NavigationMenu />
-                    <NewEventMenu />
+                        }
+                        onChangeText={(value) => {
+                            setQuery(value);
+                        }}
+                    />
+                    <Tooltip label="Create new event" openDelay={500}>
+                        <IconButton
+                            size="md"
+                            variant="solid"
+                            _icon={{
+                                as: MaterialIcons,
+                                name: 'add'
+                            }}
+                            onPress={() => setCreatingEvent(true)}
+                        />
+                    </Tooltip>
+                </HStack>
+                <View style={styles.eventsContainer}>
+                    {filteredEvents.map((row: Event) => (
+                        <EventView
+                            key={row.event_id}
+                            event={row}
+                            style={styles.event}
+                        />
+                    ))}
                 </View>
+                <NavigationMenu />
+                <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
@@ -130,17 +141,21 @@ const HomeScreen = () => {
 export default memo(HomeScreen);
 
 const styles = StyleSheet.create({
-    container: {
+    eventsContainer: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
-        marginLeft: '2%',
-        marginRight: '2%'
+        padding: 10
     },
     event: {
         margin: 20
+    },
+    headerContainer: {
+        width: '100%',
+        marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
