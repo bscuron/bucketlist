@@ -6,13 +6,22 @@ import {
     Platform,
     ScrollView
 } from 'react-native';
-import { View, Icon, Tooltip, HStack, Input, IconButton } from 'native-base';
+import {
+    View,
+    Icon,
+    Tooltip,
+    HStack,
+    Input,
+    IconButton,
+    Text
+} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
 import fuzzysort from 'fuzzysort';
+import structuredClone from '@ungap/structured-clone';
 
 /**
  * Screen component for home screen (list view)
@@ -55,11 +64,33 @@ const HomeScreen = () => {
             setFilteredEvents(allEvents);
             return;
         }
-        const filteredEvents = fuzzysort
-            .go(query, allEvents, {
-                keys: Object.keys(allEvents[0])
-            })
-            .map((result) => result.obj);
+        const results = fuzzysort.go(query, allEvents, {
+            keys: Object.keys(allEvents[0])
+        });
+
+        const highlightedResults = structuredClone(results).map(
+            (result: any) => {
+                result.forEach((match: any) => {
+                    if (!match) return;
+                    const highlight = fuzzysort.highlight(
+                        match,
+                        (match, index) => (
+                            <Text key={index} highlight>
+                                {match}
+                            </Text>
+                        )
+                    );
+                    Object.entries(result.obj).forEach(([key, value]) => {
+                        if (match.target === value) result.obj[key] = highlight;
+                    });
+                });
+                return result;
+            }
+        );
+
+        const filteredEvents = highlightedResults.map(
+            (result: any) => result.obj
+        );
         setFilteredEvents(filteredEvents);
     }, [allEvents, query]);
 
