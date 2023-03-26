@@ -12,6 +12,6 @@ web-build/
 yarn-error.log
 *~
 docs/
-
+.idea
 # macOS
 .DS_Store
