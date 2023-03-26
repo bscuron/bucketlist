@@ -9,7 +9,6 @@ import {
     SignupScreen,
     LoginScreen,
     HomeScreen,
-    DatabaseScreen,
     LoadingScreen,
     ProfileScreen
 } from './screens';
@@ -42,12 +41,7 @@ export const protectedScreens: ScreenMap = {
         url: '/bucketlist/home',
         component: HomeScreen
     },
-    Database: {
-        url: '/bucketlist/database',
-        component: DatabaseScreen
-    },
-
-    Profile:{
+    Profile: {
         url: '/bucketlist/profile',
         component: ProfileScreen
     }
