@@ -10,7 +10,8 @@ import {
     LoginScreen,
     HomeScreen,
     DatabaseScreen,
-    LoadingScreen
+    LoadingScreen,
+    ProfileScreen
 } from './screens';
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +45,11 @@ export const protectedScreens: ScreenMap = {
     Database: {
         url: '/bucketlist/database',
         component: DatabaseScreen
+    },
+
+    Profile:{
+        url: '/bucketlist/profile',
+        component: ProfileScreen
     }
 };
 
