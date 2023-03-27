@@ -13,5 +13,7 @@ yarn-error.log
 *~
 docs/
 .idea
+package.json
+yarn.lock
 # macOS
 .DS_Store
