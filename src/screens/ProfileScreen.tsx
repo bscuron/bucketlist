@@ -45,8 +45,9 @@ const ProfileScreen = () => {
                     <Stack direction="row" space={40} margin={5}>
                         <Center>
                             <Avatar
-                                source={require('../../assets/bucketlist_logo_white_background.png')}
-                                size="2xl"
+                                source={require('../../assets/profile_image_placeholder.png')}
+                                size="xl"
+                                style={{ borderRadius: 50 }}
                             />
                         </Center>
                         <Center position={'absolute'} right={0} bottom={0}>
