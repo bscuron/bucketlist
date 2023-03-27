@@ -76,7 +76,7 @@ const ProfileScreen = () => {
                                 in here. hello world ! check out my profile
                             </Text>
                         </Box>
-                        <Text position={'relative'} ml={2} mt={10}>
+                        <Text position={'relative'} ml={2} mt={10} color='grey'>
                             Up Coming Events
                         </Text>
                     </Stack>
