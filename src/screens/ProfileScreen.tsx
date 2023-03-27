@@ -9,10 +9,12 @@ import {
     Box,
     Heading,
     Stack,
-    Text
+    Text,
+    Container,
+    IconButton
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationMenu } from '../components';
 
 const ProfileScreen = () => {
@@ -41,7 +43,7 @@ const ProfileScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <VStack space={2} alignItems="center" margin={10}>
+                <VStack space={2} maxW='80' alignSelf="center" margin={10}>
                     <Stack direction="row" space={40} margin={5}>
                         <Center>
                             <Avatar
@@ -53,11 +55,16 @@ const ProfileScreen = () => {
                             <Heading size={'md'}>Username</Heading>
                         </Center>
                     </Stack>
-
+                    <Container alignItems='flex-end' maxW='80'>
+                        <IconButton size='md' variant='semi'  _icon={{
+                            as: MaterialIcons,
+                            name: 'edit'
+                        }}
+                        //onPress={}
+                        />
+                    </Container>
                     <Stack direction={'column'} maxW={80}>
-                        <Box flex={'right'} mr={1}>
-                            Edit
-                        </Box>
+
                         <Box bg={'white'} borderRadius={20}>
                             <Text ml={2} mt={2} fontSize={20}>
                                 First Name
