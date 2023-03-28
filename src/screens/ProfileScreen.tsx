@@ -1,24 +1,11 @@
 import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import {
-    Icon,
-    VStack,
-    Center,
-    Avatar,
-    Box,
-    Heading,
-    Stack,
-    Text
-} from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import { NavigationMenu } from '../components';
+import { VStack, Center, Avatar, Box, Heading, Stack, Text } from 'native-base';
 import { Profile } from '../types';
 import axios from 'axios';
 
 const ProfileScreen = () => {
-    const navigation = useNavigation();
     const [Profile, setProfile] = useState<Profile>();
     //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
     const defaultProfile: Profile = {
@@ -30,7 +17,7 @@ const ProfileScreen = () => {
         introduction: 'Introduce yourself here...',
         picture: 'Generic Picture'
     };
-    const { navigating, setNavigating, logout, token } = useContext(Context);
+    const { logout, token } = useContext(Context);
 
     //Get call to retrieve user's profile data.
     useEffect(() => {
@@ -57,23 +44,6 @@ const ProfileScreen = () => {
         }
         console.log(Profile);
     }, [Profile]);
-
-    useEffect(() => {
-        // Use `setOptions` to update the button that we previously specified
-        // Now the button includes an `onPress` handler to update the count
-        navigation.setOptions({
-            headerRight: () => (
-                <Icon
-                    as={Ionicons}
-                    name="menu"
-                    onPress={() => setNavigating(!navigating)}
-                    color="black"
-                    size="2xl"
-                    mx="3%"
-                />
-            )
-        });
-    }, [navigation]);
 
     return (
         <ScrollView>
@@ -112,7 +82,6 @@ const ProfileScreen = () => {
                         </Text>
                     </Stack>
                 </VStack>
-                <NavigationMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
