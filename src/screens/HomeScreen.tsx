@@ -7,13 +7,15 @@ import {
     ScrollView
 } from 'react-native';
 import {
-    View,
+    Flex,
     Icon,
     Tooltip,
     HStack,
     Input,
     IconButton,
-    Text
+    Text,
+    Spacer,
+    VStack
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -119,7 +121,13 @@ const HomeScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <HStack style={styles.headerContainer} space={5}>
+                <HStack
+                    width="100%"
+                    my={5}
+                    alignItems="center"
+                    justifyContent="center"
+                    space={5}
+                >
                     <Input
                         placeholder="Search for an event..."
                         alignSelf="center"
@@ -153,15 +161,11 @@ const HomeScreen = () => {
                         />
                     </Tooltip>
                 </HStack>
-                <View style={styles.eventsContainer}>
+                <VStack space={2} alignItems="center">
                     {filteredEvents.map((row: Event) => (
-                        <EventView
-                            key={row.event_id}
-                            event={row}
-                            style={styles.event}
-                        />
+                        <EventView key={row.event_id} event={row} />
                     ))}
-                </View>
+                </VStack>
                 <NavigationMenu />
                 <NewEventMenu />
             </KeyboardAvoidingView>
@@ -172,17 +176,6 @@ const HomeScreen = () => {
 export default memo(HomeScreen);
 
 const styles = StyleSheet.create({
-    eventsContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10
-    },
-    event: {
-        margin: 20
-    },
     headerContainer: {
         width: '100%',
         marginTop: 10,
