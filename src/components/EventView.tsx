@@ -1,18 +1,5 @@
 import React from 'react';
-import {
-    Avatar,
-    AspectRatio,
-    Center,
-    Image,
-    Box,
-    Heading,
-    Stack,
-    Text,
-    HStack,
-    VStack,
-    Spacer
-} from 'native-base';
-import { StyleProp, ViewStyle } from 'react-native';
+import { Avatar, Heading, Text, HStack, VStack } from 'native-base';
 import { Event } from '../types';
 
 interface EventProps {
@@ -37,7 +24,7 @@ const EventView: React.FC<EventProps> = ({ event }) => {
             />
             <VStack flex={1} space={5} my={2}>
                 <HStack>
-                    <VStack flex="1">
+                    <VStack flex={1}>
                         <Heading size="sm" paddingLeft={0}>
                             {event.title}
                         </Heading>
