@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useContext } from 'react';
+import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
@@ -14,10 +14,57 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationMenu } from '../components';
+import Profile from '../types/Profile';
+import axios from 'axios';
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
-    const { navigating, setNavigating } = useContext(Context);
+    const [Profile, setProfile] = useState<Profile>();
+    //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
+    const defaultProfile:Profile = {
+        username: "Username",
+        first_name: "First Name",
+        last_name: "Last Name",
+        gender: "Gender",
+        dob: "Date of Birth: 00/00/0000",
+        introduction: "Introduce yourself here...",
+        picture: "Generic Picture"
+    }
+    const {
+        navigating,
+        setNavigating,
+        logout,
+        token
+    } = useContext(Context);
+
+    //Get call to retrieve user's profile data.
+    useEffect(() => {
+        axios
+            .get(
+                'https://cis-linux2.temple.edu/bucketlistBackend/profile',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            .then((res) => {
+                setProfile(res.data);
+                console.log(res.data);
+            })
+            .catch(logout);
+    }, []);
+
+    //Data doesn't load instantly, will need to implement a loading screen until data is filled. Right now it autofills with default data 
+    //then updates after the res from the get, above, goes through.
+    useEffect(() => {
+        if (!Profile) {
+            setProfile(defaultProfile);
+        }
+        console.log(Profile);
+    }, [Profile]);
 
     useEffect(() => {
         // Use `setOptions` to update the button that we previously specified
