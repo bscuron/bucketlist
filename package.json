@@ -16,6 +16,7 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.12",
+    "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@ungap/structured-clone": "^1.0.2",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@expo/webpack-config": "^18.0.1",
+    "@types/expo__vector-icons": "^10.0.0",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
     "typedoc": "^0.24.0-beta.2",

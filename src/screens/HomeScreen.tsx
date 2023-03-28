@@ -1,25 +1,17 @@
 import React, { memo, useEffect, useState, useContext } from 'react';
 import { Context } from '../../App';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
-    StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView
-} from 'react-native';
-import {
-    Flex,
     Icon,
     Tooltip,
     HStack,
     Input,
     IconButton,
     Text,
-    Spacer,
     VStack
 } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu, EventView, NewEventMenu } from '../components';
+import { MaterialIcons } from '@expo/vector-icons';
+import { EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
 import fuzzysort from 'fuzzysort';
@@ -29,18 +21,10 @@ import structuredClone from '@ungap/structured-clone';
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
-    const navigation = useNavigation();
     const [allEvents, setAllEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
     const [query, setQuery] = useState<string>('');
-    const {
-        token,
-        logout,
-        navigating,
-        setNavigating,
-        setCreatingEvent,
-        rerender
-    } = useContext(Context);
+    const { token, logout, setCreatingEvent, rerender } = useContext(Context);
 
     useEffect(() => {
         axios
@@ -96,23 +80,6 @@ const HomeScreen = () => {
         setFilteredEvents(filteredEvents);
     }, [allEvents, query]);
 
-    useEffect(() => {
-        // Use `setOptions` to update the button that we previously specified
-        // Now the button includes an `onPress` handler to update the count
-        navigation.setOptions({
-            headerRight: () => (
-                <Icon
-                    as={Ionicons}
-                    name="menu"
-                    onPress={() => setNavigating(!navigating)}
-                    color="black"
-                    size="2xl"
-                    mx="3%"
-                />
-            )
-        });
-    }, [navigation]);
-
     // BUG: when navigating to another screen and back, the images do
     // not appear. This should be fixed when the content of the page is
     // loaded dynamically
@@ -166,7 +133,6 @@ const HomeScreen = () => {
                         <EventView key={row.event_id} event={row} />
                     ))}
                 </VStack>
-                <NavigationMenu />
                 <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
@@ -174,12 +140,3 @@ const HomeScreen = () => {
 };
 
 export default memo(HomeScreen);
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        width: '100%',
-        marginTop: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
