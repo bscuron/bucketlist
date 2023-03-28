@@ -86,7 +86,6 @@ const ProfileScreen = () => {
                             <Avatar
                                 source={require('../../assets/profile_image_placeholder.png')}
                                 size="xl"
-                                style={{ borderRadius: 50 }}
                             />
                         </Center>
                         <Center position={'absolute'} right={0} bottom={0}>
