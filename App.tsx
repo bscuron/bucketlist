@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import EventEmitter from 'events';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Main from './src/Main';
@@ -19,7 +19,6 @@ export const Context = React.createContext({
     editProfile: false,
     setEditProfile: (value: boolean) => {},
     rerender: () => {}
-
 });
 
 const emitter: EventEmitter = new EventEmitter();
@@ -73,9 +72,9 @@ const App = () => {
         setCreatingEvent(value);
     };
 
-    const handleSetEditProfile =(value: boolean) => {
+    const handleSetEditProfile = (value: boolean) => {
         setEditProfile(value);
-    }
+    };
 
     return (
         <Context.Provider
