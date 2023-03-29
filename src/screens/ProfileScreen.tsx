@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { VStack, Center, Avatar, Box, Heading, Stack, Text } from 'native-base';
+import { VStack, Center, Avatar, Box, Heading, Stack, Text, Button } from 'native-base';
 import { Profile } from '../types';
 import axios from 'axios';
 
@@ -46,7 +46,7 @@ const ProfileScreen = () => {
     }, [Profile]);
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: '#F3D9D9'}}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
@@ -67,19 +67,27 @@ const ProfileScreen = () => {
                         <Box flex={'right'} mr={1}>
                             Edit
                         </Box>
-                        <Box bg={'white'} borderRadius={20}>
-                            <Text ml={2} mt={2} fontSize={20}>
+                        <Box bg={'#E27E65'} borderRadius={20}>
+                            <Text ml={2} mt={2} fontSize={20} color='white'>
                                 First Name
                             </Text>
-                            <Text margin={2}>
+                            <Text margin={2} color='white'>
                                 Welcome to the profile! See the introduction
                                 here go and have a look Let see what we can find
                                 in here. hello world ! check out my profile
                             </Text>
                         </Box>
-                        <Text position={'relative'} ml={2} mt={10}>
+                        <Text position={'relative'} ml={2} mt={10} bold>
                             Up Coming Events
                         </Text>
+                        <Box bg={'white'} borderRadius={20}>
+                            <Text margin={2} color='black'>
+                                This is a Box for Upcoming Events
+                            </Text>
+                            <Button variant="link" size="sm" onPress={() => console.log("hello world")}
+                                style={{ alignSelf: "flex-end" }}>View on map
+                            </Button>
+                        </Box>
                     </Stack>
                 </VStack>
             </KeyboardAvoidingView>
