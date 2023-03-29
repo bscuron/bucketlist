@@ -1,6 +1,12 @@
 import React from 'react';
 import { Avatar, Heading, Text, HStack, VStack } from 'native-base';
 import { Event } from '../types';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+import moment from 'moment';
+
+TimeAgo.addLocale(en);
+const timeFormatter = new TimeAgo('en-US');
 
 interface EventProps {
     event: Event;
@@ -33,7 +39,15 @@ const EventView: React.FC<EventProps> = ({ event }) => {
                         </Text>
                     </VStack>
                     <Text color="gray.500" paddingRight={0}>
-                        30m ago
+                        {timeFormatter.format(
+                            moment
+                                .utc(
+                                    event.created_datetime,
+                                    'YYYY-MM-DDTHH:mm:ss'
+                                )
+                                .toDate(),
+                            'twitter'
+                        )}
                     </Text>
                 </HStack>
                 <Text>{event.description}</Text>
