@@ -1,23 +1,17 @@
 import React, { memo, useEffect, useState, useContext } from 'react';
 import { Context } from '../../App';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
-    StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView
-} from 'react-native';
-import {
-    View,
     Icon,
     Tooltip,
     HStack,
     Input,
     IconButton,
-    Text
+    Text,
+    VStack
 } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu, EventView, NewEventMenu } from '../components';
+import { MaterialIcons } from '@expo/vector-icons';
+import { EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
 import fuzzysort from 'fuzzysort';
@@ -27,18 +21,10 @@ import structuredClone from '@ungap/structured-clone';
  * Screen component for home screen (list view)
  */
 const HomeScreen = () => {
-    const navigation = useNavigation();
     const [allEvents, setAllEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
     const [query, setQuery] = useState<string>('');
-    const {
-        token,
-        logout,
-        navigating,
-        setNavigating,
-        setCreatingEvent,
-        rerender
-    } = useContext(Context);
+    const { token, logout, setCreatingEvent, rerender } = useContext(Context);
 
     useEffect(() => {
         axios
@@ -94,23 +80,6 @@ const HomeScreen = () => {
         setFilteredEvents(filteredEvents);
     }, [allEvents, query]);
 
-    useEffect(() => {
-        // Use `setOptions` to update the button that we previously specified
-        // Now the button includes an `onPress` handler to update the count
-        navigation.setOptions({
-            headerRight: () => (
-                <Icon
-                    as={Ionicons}
-                    name="menu"
-                    onPress={() => setNavigating(!navigating)}
-                    color="black"
-                    size="2xl"
-                    mx="3%"
-                />
-            )
-        });
-    }, [navigation]);
-
     // BUG: when navigating to another screen and back, the images do
     // not appear. This should be fixed when the content of the page is
     // loaded dynamically
@@ -119,7 +88,13 @@ const HomeScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <HStack style={styles.headerContainer} space={5}>
+                <HStack
+                    width="100%"
+                    my={5}
+                    alignItems="center"
+                    justifyContent="center"
+                    space={5}
+                >
                     <Input
                         placeholder="Search for an event..."
                         alignSelf="center"
@@ -153,16 +128,11 @@ const HomeScreen = () => {
                         />
                     </Tooltip>
                 </HStack>
-                <View style={styles.eventsContainer}>
+                <VStack space={2} alignItems="center">
                     {filteredEvents.map((row: Event) => (
-                        <EventView
-                            key={row.event_id}
-                            event={row}
-                            style={styles.event}
-                        />
+                        <EventView key={row.event_id} event={row} />
                     ))}
-                </View>
-                <NavigationMenu />
+                </VStack>
                 <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
@@ -170,23 +140,3 @@ const HomeScreen = () => {
 };
 
 export default memo(HomeScreen);
-
-const styles = StyleSheet.create({
-    eventsContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10
-    },
-    event: {
-        margin: 20
-    },
-    headerContainer: {
-        width: '100%',
-        marginTop: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
