@@ -14,12 +14,14 @@ import {
     IconButton
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import { NavigationMenu } from '../components';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { EditProfile } from '../components';
+import { Profile } from '../types';
+import axios from 'axios';
 
 const ProfileScreen = () => {
     const [Profile, setProfile] = useState<Profile>();
-    const { token, logout, setEditProfile, rerender } = useContext(Context);
+    const {token, logout, setEditProfile, rerender } = useContext(Context);
     //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
     const defaultProfile: Profile = {
         username: 'Username',
@@ -61,19 +63,26 @@ const ProfileScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <VStack space={2} alignItems="center" margin={10}>
+                <VStack space={2} maxW='80' alignSelf="center" margin={10}>
                     <Stack direction="row" space={40} margin={5}>
                         <Center>
                             <Avatar
-                                source={require('../../assets/bucketlist_logo_white_background.png')}
-                                size="2xl"
+                                source={require('../../assets/profile_image_placeholder.png')}
+                                size="xl"
                             />
                         </Center>
                         <Center position={'absolute'} right={0} bottom={0}>
                             <Heading size={'md'}>Username</Heading>
                         </Center>
                     </Stack>
-
+                    <Container alignItems='flex-end' maxW='80'>
+                        <IconButton size='md' variant='semi'  _icon={{
+                            as: MaterialIcons,
+                            name: 'edit'
+                        }}
+                        onPress={() => setEditProfile(true)}
+                        />
+                    </Container>
                     <Stack direction={'column'} maxW={80}>
 
                         <Box bg={'white'} borderRadius={20}>
