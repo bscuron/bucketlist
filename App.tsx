@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import EventEmitter from 'events';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Main from './src/Main';
@@ -16,7 +16,10 @@ export const Context = React.createContext({
     setNavigating: (value: boolean) => {},
     creatingEvent: false,
     setCreatingEvent: (value: boolean) => {},
+    editProfile: false,
+    setEditProfile: (value: boolean) => {},
     rerender: () => {}
+
 });
 
 const emitter: EventEmitter = new EventEmitter();
@@ -29,6 +32,7 @@ const App = () => {
     const [loadingContext, setLoadingContext] = useState<boolean>(true);
     const [navigating, setNavigating] = useState<boolean>(false);
     const [creatingEvent, setCreatingEvent] = useState<boolean>(false);
+    const [editProfile, setEditProfile] = useState<boolean>(false);
 
     useEffect(() => {
         const storageListener = async () => {
@@ -69,6 +73,10 @@ const App = () => {
         setCreatingEvent(value);
     };
 
+    const handleSetEditProfile =(value: boolean) => {
+        setEditProfile(value);
+    }
+
     return (
         <Context.Provider
             value={{
@@ -80,6 +88,8 @@ const App = () => {
                 setNavigating: handleSetNavigating,
                 creatingEvent,
                 setCreatingEvent: handleSetCreatingEvent,
+                editProfile,
+                setEditProfile: handleSetEditProfile,
                 rerender: () => {}
             }}
         >

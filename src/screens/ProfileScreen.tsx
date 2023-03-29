@@ -15,10 +15,13 @@ import {
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { NavigationMenu } from '../components';
+import { EditProfile } from '../components';
+import { Profile } from '../types';
+import axios from 'axios';
 
 const ProfileScreen = () => {
     const [Profile, setProfile] = useState<Profile>();
+    const { token, logout, setEditProfile, rerender } = useContext(Context);
     //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
     const defaultProfile: Profile = {
         username: 'Username',
@@ -29,8 +32,6 @@ const ProfileScreen = () => {
         introduction: 'Introduce yourself here...',
         picture: 'Generic Picture'
     };
-    const { logout, token } = useContext(Context);
-
     //Get call to retrieve user's profile data.
     useEffect(() => {
         axios
@@ -62,12 +63,12 @@ const ProfileScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <VStack space={2} maxW='80' alignSelf="center" margin={10}>
-                    <Stack direction="row" space={40} margin={5}>
+                <VStack space={2} maxW='80' alignSelf='center' margin={10}>
+                    <Stack direction='row' space={40} margin={5}>
                         <Center>
                             <Avatar
                                 source={require('../../assets/profile_image_placeholder.png')}
-                                size="xl"
+                                size='xl'
                             />
                         </Center>
                         <Center position={'absolute'} right={0} bottom={0}>
@@ -75,11 +76,14 @@ const ProfileScreen = () => {
                         </Center>
                     </Stack>
                     <Container alignItems='flex-end' maxW='80'>
-                        <IconButton size='md' variant='semi'  _icon={{
-                            as: MaterialIcons,
-                            name: 'edit'
-                        }}
-                        //onPress={}
+                        <IconButton
+                            size='md'
+                            variant='semi'
+                            _icon={{
+                                as: MaterialIcons,
+                                name: 'edit'
+                            }}
+                            onPress={() => setEditProfile(true)}
                         />
                     </Container>
                     <Stack direction={'column'} maxW={80}>
