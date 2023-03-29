@@ -2,7 +2,6 @@ import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
-    Icon,
     VStack,
     Center,
     Avatar,
@@ -13,15 +12,14 @@ import {
     Container,
     IconButton
 } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { EditProfile } from '../components';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Profile } from '../types';
+import { EditProfileMenu } from '../components';
 import axios from 'axios';
 
 const ProfileScreen = () => {
     const [Profile, setProfile] = useState<Profile>();
-    const {token, logout, setEditProfile, rerender } = useContext(Context);
+    const { token, logout, setEditProfile } = useContext(Context);
     //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
     const defaultProfile: Profile = {
         username: 'Username',
@@ -63,7 +61,7 @@ const ProfileScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <VStack space={2} maxW='80' alignSelf="center" margin={10}>
+                <VStack space={2} maxW="80" alignSelf="center" margin={10}>
                     <Stack direction="row" space={40} margin={5}>
                         <Center>
                             <Avatar
@@ -75,16 +73,18 @@ const ProfileScreen = () => {
                             <Heading size={'md'}>Username</Heading>
                         </Center>
                     </Stack>
-                    <Container alignItems='flex-end' maxW='80'>
-                        <IconButton size='md' variant='semi'  _icon={{
-                            as: MaterialIcons,
-                            name: 'edit'
-                        }}
-                        onPress={() => setEditProfile(true)}
+                    <Container alignItems="flex-end" maxW="80">
+                        <IconButton
+                            size="md"
+                            variant="semi"
+                            _icon={{
+                                as: MaterialIcons,
+                                name: 'edit'
+                            }}
+                            onPress={() => setEditProfile(true)}
                         />
                     </Container>
                     <Stack direction={'column'} maxW={80}>
-
                         <Box bg={'white'} borderRadius={20}>
                             <Text ml={2} mt={2} fontSize={20}>
                                 First Name
@@ -95,11 +95,12 @@ const ProfileScreen = () => {
                                 in here. hello world ! check out my profile
                             </Text>
                         </Box>
-                        <Text position={'relative'} ml={2} mt={10} color='grey'>
+                        <Text position={'relative'} ml={2} mt={10} color="grey">
                             Up Coming Events
                         </Text>
                     </Stack>
                 </VStack>
+                <EditProfileMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
