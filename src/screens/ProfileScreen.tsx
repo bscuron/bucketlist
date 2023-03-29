@@ -1,9 +1,10 @@
 import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { VStack, Center, Avatar, Box, Heading, Stack, Text, Button } from 'native-base';
+import { VStack, Center, Avatar, Box, Heading, Stack, Text, Button, Tooltip, IconButton } from 'native-base';
 import { Profile } from '../types';
 import axios from 'axios';
+import {MaterialIcons} from '@expo/vector-icons';
 
 const ProfileScreen = () => {
     const [Profile, setProfile] = useState<Profile>();
@@ -64,9 +65,17 @@ const ProfileScreen = () => {
                     </Stack>
 
                     <Stack direction={'column'} maxW={80}>
-                        <Box flex={'right'} mr={1}>
-                            Edit
-                        </Box>
+                        <Tooltip label="Edit Profile" openDelay={500}>
+                            <IconButton
+                                size='md'
+                                variant='semi'
+                                _icon={{
+                                    as: MaterialIcons,
+                                    name: 'edit'
+                            }}
+                            //onPress={}
+                            />
+                        </Tooltip>
                         <Box bg={'#E27E65'} borderRadius={20}>
                             <Text ml={2} mt={2} fontSize={20} color='white'>
                                 First Name
