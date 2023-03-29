@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { Context } from '../App';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, Icon } from 'native-base';
 import { theme } from './core/theme';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,13 +11,21 @@ import {
     LoginScreen,
     HomeScreen,
     LoadingScreen,
-    ProfileScreen
+    ProfileScreen,
+    LogoutScreen
 } from './screens';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 type ScreenMap = {
-    [key: string]: { url: string; component: React.FunctionComponent };
+    [key: string]: {
+        url: string;
+        component: React.FunctionComponent;
+        provider?: any;
+        icon?: string;
+    };
 };
 
 /**
@@ -39,11 +48,21 @@ export const unprotectedScreens: ScreenMap = {
 export const protectedScreens: ScreenMap = {
     Home: {
         url: '/bucketlist/home',
-        component: HomeScreen
+        component: HomeScreen,
+        provider: AntDesign,
+        icon: 'home'
     },
     Profile: {
         url: '/bucketlist/profile',
-        component: ProfileScreen
+        component: ProfileScreen,
+        provider: AntDesign,
+        icon: 'user'
+    },
+    Logout: {
+        url: '/bucketlist/logout',
+        component: LogoutScreen,
+        provider: MaterialIcons,
+        icon: 'logout'
     }
 };
 
@@ -76,26 +95,11 @@ const Main = () => {
         return <LoadingScreen />;
     }
 
-    return (
-        <NavigationContainer linking={linking}>
-            <NativeBaseProvider theme={theme}>
-                <Stack.Navigator>
-                    {!!token ? (
-                        <>
-                            {Object.keys(protectedScreens).map((screen) => (
-                                <Stack.Screen
-                                    key={screen}
-                                    name={screen}
-                                    options={{
-                                        title: `Bucketlist | ${screen}`
-                                    }}
-                                    component={
-                                        protectedScreens[screen].component
-                                    }
-                                />
-                            ))}
-                        </>
-                    ) : (
+    if (!token) {
+        return (
+            <NavigationContainer linking={linking}>
+                <NativeBaseProvider theme={theme}>
+                    <Stack.Navigator>
                         <>
                             {Object.keys(unprotectedScreens).map((screen) => (
                                 <Stack.Screen
@@ -110,8 +114,43 @@ const Main = () => {
                                 />
                             ))}
                         </>
-                    )}
-                </Stack.Navigator>
+                    </Stack.Navigator>
+                </NativeBaseProvider>
+            </NavigationContainer>
+        );
+    }
+
+    return (
+        <NavigationContainer linking={linking}>
+            <NativeBaseProvider theme={theme}>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarLabel: '',
+                        tabBarIcon: ({ color }) => {
+                            return (
+                                <Icon
+                                    size="lg"
+                                    as={protectedScreens[route.name].provider}
+                                    name={protectedScreens[route.name].icon}
+                                    color={color}
+                                />
+                            );
+                        }
+                    })}
+                >
+                    <>
+                        {Object.keys(protectedScreens).map((screen) => (
+                            <Tab.Screen
+                                key={screen}
+                                name={screen}
+                                options={{
+                                    title: `Bucketlist | ${screen}`
+                                }}
+                                component={protectedScreens[screen].component}
+                            />
+                        ))}
+                    </>
+                </Tab.Navigator>
             </NativeBaseProvider>
         </NavigationContainer>
     );
