@@ -1,9 +1,11 @@
 import React from 'react';
-import { Avatar, Heading, Text, HStack, VStack } from 'native-base';
+import { Avatar, Heading, Text, HStack, VStack, Icon, Link } from 'native-base';
 import { Event } from '../types';
+import { Entypo } from '@expo/vector-icons';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import moment from 'moment';
+import { createMapLink } from 'react-native-open-maps';
 
 TimeAgo.addLocale(en);
 const timeFormatter = new TimeAgo('en-US');
@@ -28,15 +30,30 @@ const EventView: React.FC<EventProps> = ({ event }) => {
                 source={require('../../assets/profile_image_placeholder.png')}
                 size="xl"
             />
-            <VStack flex={1} space={5} my={2}>
+            <VStack flex={1} space={5} m={2}>
                 <HStack>
                     <VStack flex={1}>
                         <Heading size="sm" paddingLeft={0}>
                             {event.title}
                         </Heading>
-                        <Text color="gray.500" italic>
-                            Location: {event.location}
-                        </Text>
+                        <HStack>
+                            <Icon
+                                as={Entypo}
+                                name="location-pin"
+                                size="md"
+                                color="primary.600"
+                            />
+                            <Link
+                                href={createMapLink({ query: event.location })}
+                                isUnderlined={false}
+                                isExternal
+                                _text={{
+                                    color: 'primary.600'
+                                }}
+                            >
+                                {event.location}
+                            </Link>
+                        </HStack>
                     </VStack>
                     <Text color="gray.500" paddingRight={0}>
                         {timeFormatter.format(
