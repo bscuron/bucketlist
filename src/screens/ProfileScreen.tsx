@@ -19,20 +19,11 @@ import { EditProfileMenu, NewEventMenu } from '../components';
 import axios from 'axios';
 
 const ProfileScreen = () => {
-    const [Profile, setProfile] = useState<Profile>();
+    const [profile, setProfile] = useState<Profile>();
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
-    //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
-    const defaultProfile: Profile = {
-        username: 'Username',
-        first_name: 'First Name',
-        last_name: 'Last Name',
-        gender: 'Gender',
-        dob: 'Date of Birth: 00/00/0000',
-        introduction: 'Introduce yourself here...',
-        picture: 'Generic Picture'
-    };
-    //Get call to retrieve user's profile data.
+
+    // GET request to retrieve user's profile data
     useEffect(() => {
         axios
             .get('https://cis-linux2.temple.edu/bucketlistBackend/profile', {
@@ -49,14 +40,10 @@ const ProfileScreen = () => {
             .catch(logout);
     }, []);
 
-    //Data doesn't load instantly, will need to implement a loading screen until data is filled. Right now it autofills with default data
-    //then updates after the res from the get, above, goes through.
-    useEffect(() => {
-        if (!Profile) {
-            setProfile(defaultProfile);
-        }
-        console.log(Profile);
-    }, [Profile]);
+    // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
+    if (!profile) {
+        return <Text>Loading profile data...</Text>;
+    }
 
     return (
         <ScrollView>
@@ -86,7 +73,7 @@ const ProfileScreen = () => {
                             </Avatar>
                         </Center>
                         <Center position={'absolute'} right={0} bottom={0}>
-                            <Heading size={'md'}>Username</Heading>
+                            <Heading size={'md'}>{profile.username}</Heading>
                         </Center>
                     </Stack>
                     <Container alignItems="flex-end" maxW="80">
@@ -104,13 +91,9 @@ const ProfileScreen = () => {
                     <Stack direction={'column'} maxW={80}>
                         <Box bg={'white'} borderRadius={20}>
                             <Text ml={2} mt={2} fontSize={20}>
-                                First Name
+                                {profile.first_name}
                             </Text>
-                            <Text margin={2}>
-                                Welcome to the profile! See the introduction
-                                here go and have a look Let see what we can find
-                                in here. hello world ! check out my profile
-                            </Text>
+                            <Text margin={2}>{profile.introduction}</Text>
                         </Box>
                         <HStack>
                             <Box
