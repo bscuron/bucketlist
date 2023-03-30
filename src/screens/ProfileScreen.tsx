@@ -1,7 +1,14 @@
 import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import {
+    StyleSheet,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    View
+} from 'react-native';
+import {
+    Flex,
     VStack,
     Center,
     Avatar,
@@ -14,9 +21,18 @@ import {
     HStack
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Profile } from '../types';
-import { EditProfileMenu, NewEventMenu } from '../components';
+import { Profile, Event } from '../types';
+import { EditProfileMenu, NewEventMenu, EventView } from '../components';
 import axios from 'axios';
+
+const placeholder_event: Event = {
+    event_id: '123',
+    creator_id: '123',
+    location: 'Temple University',
+    title: 'Placeholder',
+    description: 'Description goes here',
+    created_datetime: new Date().toISOString()
+};
 
 const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
@@ -46,18 +62,39 @@ const ProfileScreen = () => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <VStack space={2} maxW="80" alignSelf="center" margin={10}>
-                    <Stack direction="row" space={40} margin={5}>
-                        <Center>
+                <Flex
+                    direction="row"
+                    justify="center"
+                    wrap="wrap"
+                    bg="primary.200"
+                    my={5}
+                    gap={5}
+                >
+                    <VStack
+                        w={['90%', '90%', '45%']}
+                        bg="secondary.200"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <VStack
+                            minW="60%"
+                            alignItems="center"
+                            space={2}
+                            bg="white"
+                            py={5}
+                            borderRadius={5}
+                            shadow={2}
+                        >
+                            <Heading>{profile.username}</Heading>
                             <Avatar
                                 source={require('../../assets/profile_image_placeholder.png')}
-                                size="xl"
-                                borderWidth="2"
-                                borderColor="blue.200"
+                                size="2xl"
+                                borderColor="gray.200"
+                                borderWidth={1}
                             >
                                 <Avatar.Badge bg="blue.500">
                                     <IconButton
@@ -67,66 +104,54 @@ const ProfileScreen = () => {
                                             name: 'edit',
                                             color: 'white'
                                         }}
-                                        //onPress={};
+                                        onPress={() => setEditProfile(true)}
                                     />
                                 </Avatar.Badge>
                             </Avatar>
-                        </Center>
-                        <Center position={'absolute'} right={0} bottom={0}>
-                            <Heading size={'md'}>{profile.username}</Heading>
-                        </Center>
-                    </Stack>
-                    <Container alignItems="flex-end" maxW="80">
-                        <IconButton
-                            size="md"
-                            variant="semi"
-                            _icon={{
-                                as: MaterialIcons,
-                                name: 'edit',
-                                color: 'blue.500'
-                            }}
-                            onPress={() => setEditProfile(true)}
-                        ></IconButton>
-                    </Container>
-                    <Stack direction={'column'} maxW={80}>
-                        <Box bg={'white'} borderRadius={20}>
-                            <Text ml={2} mt={2} fontSize={20}>
-                                {profile.first_name}
-                            </Text>
-                            <Text margin={2}>{profile.introduction}</Text>
-                        </Box>
-                        <HStack>
-                            <Box
-                                position="relative"
-                                ml="2"
-                                mt="10"
-                                _text={{
-                                    color: 'grey',
-                                    fontSize: 16
-                                }}
-                            >
-                                Up Coming Events
-                            </Box>
-                            <IconButton
-                                h="2"
-                                w="2"
-                                ml="2"
-                                alignSelf="flex-end"
-                                size="md"
-                                _icon={{
-                                    as: MaterialIcons,
-                                    name: 'event',
-                                    color: 'blue.500'
-                                }}
-                                onPress={() => setCreatingEvent(true)}
-                            />
-                        </HStack>
-                    </Stack>
-                </VStack>
+                            <VStack alignItems="start">
+                                <HStack space={1}>
+                                    <Text bold>First name:</Text>
+                                    <Text>{profile.first_name}</Text>
+                                </HStack>
+                                <HStack space={1}>
+                                    <Text bold>Last name:</Text>
+                                    <Text>{profile.last_name}</Text>
+                                </HStack>
+                                <HStack space={1}>
+                                    <Text bold>Gender:</Text>
+                                    <Text>{profile.gender}</Text>
+                                </HStack>
+                                <HStack space={1}>
+                                    <Text bold>Birthday:</Text>
+                                    <Text>{profile.dob}</Text>
+                                </HStack>
+                                <HStack space={1}>
+                                    <Text bold>Member since:</Text>
+                                    <Text>{profile.r_datetime}</Text>
+                                </HStack>
+                            </VStack>
+                        </VStack>
+                    </VStack>
+                    <VStack w={['100%', '45%']} bg="tertiary.200">
+                        <Heading>Upcoming Events</Heading>
+                        <VStack overflow="scroll" bg="tertiary.600">
+                            <EventView w={['auto']} event={placeholder_event} />
+                            <EventView w={['auto']} event={placeholder_event} />
+                            <EventView w={['auto']} event={placeholder_event} />
+                            <EventView w={['auto']} event={placeholder_event} />
+                        </VStack>
+                    </VStack>
+                </Flex>
                 <EditProfileMenu />
-                <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
 };
 export default memo(ProfileScreen);
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        justifyContent: 'center'
+    }
+});

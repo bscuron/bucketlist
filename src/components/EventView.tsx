@@ -11,13 +11,14 @@ TimeAgo.addLocale(en);
 const timeFormatter = new TimeAgo('en-US');
 
 interface EventProps {
+    w: any | any[];
     event: Event;
 }
 
-const EventView: React.FC<EventProps> = ({ event }) => {
+const EventView: React.FC<EventProps> = ({ w, event }) => {
     return (
         <HStack
-            w={['90%', '80%', '60%', '50%']}
+            w={w}
             bg="white"
             p={2}
             m={2}

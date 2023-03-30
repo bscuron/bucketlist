@@ -130,7 +130,11 @@ const HomeScreen = () => {
                 </HStack>
                 <VStack space={2} alignItems="center">
                     {filteredEvents.map((row: Event) => (
-                        <EventView key={row.event_id} event={row} />
+                        <EventView
+                            w={['90%', '80%', '60%', '50%']}
+                            key={row.event_id}
+                            event={row}
+                        />
                     ))}
                 </VStack>
                 <NewEventMenu />
