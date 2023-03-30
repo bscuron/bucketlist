@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useContext, useState } from 'react';
 import { Context } from '../../App';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import {
     VStack,
     Center,
@@ -10,16 +10,18 @@ import {
     Stack,
     Text,
     Container,
-    IconButton
+    IconButton,
+    HStack
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Profile } from '../types';
-import { EditProfileMenu } from '../components';
+import { EditProfileMenu, NewEventMenu } from '../components';
 import axios from 'axios';
 
 const ProfileScreen = () => {
     const [Profile, setProfile] = useState<Profile>();
-    const { token, logout, setEditProfile } = useContext(Context);
+    const { token, logout, setEditProfile, setCreatingEvent } =
+        useContext(Context);
     //Default profile data to be filled when first loaded in. Will most likely be changed for a more seamless user experience.
     const defaultProfile: Profile = {
         username: 'Username',
@@ -67,7 +69,21 @@ const ProfileScreen = () => {
                             <Avatar
                                 source={require('../../assets/profile_image_placeholder.png')}
                                 size="xl"
-                            />
+                                borderWidth="2"
+                                borderColor="blue.200"
+                            >
+                                <Avatar.Badge bg="blue.500">
+                                    <IconButton
+                                        size="xs"
+                                        _icon={{
+                                            as: MaterialIcons,
+                                            name: 'edit',
+                                            color: 'white'
+                                        }}
+                                        //onPress={};
+                                    />
+                                </Avatar.Badge>
+                            </Avatar>
                         </Center>
                         <Center position={'absolute'} right={0} bottom={0}>
                             <Heading size={'md'}>Username</Heading>
@@ -79,10 +95,11 @@ const ProfileScreen = () => {
                             variant="semi"
                             _icon={{
                                 as: MaterialIcons,
-                                name: 'edit'
+                                name: 'edit',
+                                color: 'blue.500'
                             }}
                             onPress={() => setEditProfile(true)}
-                        />
+                        ></IconButton>
                     </Container>
                     <Stack direction={'column'} maxW={80}>
                         <Box bg={'white'} borderRadius={20}>
@@ -95,15 +112,38 @@ const ProfileScreen = () => {
                                 in here. hello world ! check out my profile
                             </Text>
                         </Box>
-                        <Text position={'relative'} ml={2} mt={10} color="grey">
-                            Up Coming Events
-                        </Text>
+                        <HStack>
+                            <Box
+                                position="relative"
+                                ml="2"
+                                mt="10"
+                                _text={{
+                                    color: 'grey',
+                                    fontSize: 16
+                                }}
+                            >
+                                Up Coming Events
+                            </Box>
+                            <IconButton
+                                h="2"
+                                w="2"
+                                ml="2"
+                                alignSelf="flex-end"
+                                size="md"
+                                _icon={{
+                                    as: MaterialIcons,
+                                    name: 'event',
+                                    color: 'blue.500'
+                                }}
+                                onPress={() => setCreatingEvent(true)}
+                            />
+                        </HStack>
                     </Stack>
                 </VStack>
                 <EditProfileMenu />
+                <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
 };
-
 export default memo(ProfileScreen);
