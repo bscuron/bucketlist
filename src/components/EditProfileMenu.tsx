@@ -10,6 +10,7 @@ import {
     Select,
     CheckIcon
 } from 'native-base';
+import axios from 'axios';
 
 type ProfileData = {
     first_name?: string;
@@ -21,9 +22,41 @@ type ProfileData = {
 };
 
 const EditProfileMenu = () => {
-    const { editProfile, setEditProfile } = useContext(Context);
+    const { token, editProfile, setEditProfile } = useContext(Context);
     const [data, setData] = useState<ProfileData>({});
     const [position, setPosition] = useState('auto');
+
+    const submit = async () => {
+        console.log(
+            data.first_name,
+            data.last_name,
+            data.gender,
+            data.dob,
+            data.introduction
+        );
+        try {
+            const result = await axios.post(
+                'https://cis-linux2.temple.edu/bucketlistBackend/profile/edit',
+                {
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    gender: data.gender,
+                    dob: data.dob,
+                    introduction: data.introduction
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            setEditProfile(false);
+            setData({});
+        } catch (_) {}
+    };
 
     return (
         <AlertDialog
@@ -66,9 +99,9 @@ const EditProfileMenu = () => {
                                     base: 0,
                                     md: 'auto'
                                 }}
-                                onValueChange={(nextValue) => {
-                                    setPosition(nextValue);
-                                    setData({ ...data, gender: nextValue });
+                                onValueChange={(value) => {
+                                    setPosition(value);
+                                    setData({ ...data, gender: value });
                                 }}
                                 _selectedItem={{
                                     bg: 'cyan.600',
@@ -114,7 +147,14 @@ const EditProfileMenu = () => {
                         >
                             Close
                         </Button>
-                        <Button colorScheme="success">Update</Button>
+                        <Button
+                            colorScheme="success"
+                            onPress={() => {
+                                submit();
+                            }}
+                        >
+                            Update
+                        </Button>
                     </Button.Group>
                 </AlertDialog.Footer>
             </AlertDialog.Content>
