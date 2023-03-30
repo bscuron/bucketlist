@@ -21,9 +21,8 @@ const EventView: React.FC<EventProps> = ({ event }) => {
             bg="white"
             p={2}
             m={2}
-            borderWidth={1}
             borderRadius={5}
-            borderColor="gray.400"
+            shadow={2}
             space={2}
         >
             <Avatar
