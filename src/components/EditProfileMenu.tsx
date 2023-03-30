@@ -26,11 +26,17 @@ const EditProfileMenu = () => {
     const [data, setData] = useState<ProfileData>({});
     const [position, setPosition] = useState('auto');
 
-    const  submit = async () => {
-
+    const submit = async () => {
+        console.log(
+            data.first_name,
+            data.last_name,
+            data.gender,
+            data.dob,
+            data.introduction
+        );
         try {
             const result = await axios.post(
-                'https://cis-linux2.temple.edu/bucketlistBackend/database/profile/edit',
+                'https://cis-linux2.temple.edu/bucketlistBackend/profile/edit',
                 {
                     first_name: data.first_name,
                     last_name: data.last_name,
@@ -49,7 +55,7 @@ const EditProfileMenu = () => {
 
             setEditProfile(false);
             setData({});
-        }catch (_){}
+        } catch (_) {}
     };
 
     return (
@@ -93,9 +99,9 @@ const EditProfileMenu = () => {
                                     base: 0,
                                     md: 'auto'
                                 }}
-                                onValueChange={(nextValue) => {
-                                    setPosition(nextValue);
-                                    setData({ ...data, gender: nextValue });
+                                onValueChange={(value) => {
+                                    setPosition(value);
+                                    setData({ ...data, gender: value });
                                 }}
                                 _selectedItem={{
                                     bg: 'cyan.600',
@@ -146,7 +152,8 @@ const EditProfileMenu = () => {
                             onPress={() => {
                                 submit();
                             }}
-                        >Update
+                        >
+                            Update
                         </Button>
                     </Button.Group>
                 </AlertDialog.Footer>
