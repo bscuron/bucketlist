@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Context } from '../../App';
 import {
     AlertDialog,
@@ -30,7 +30,6 @@ const EditProfileMenu: React.FC<ProfileProps> = ({profile}) => {
     const { token, editProfile, setEditProfile } = useContext(Context);
     const [data, setData] = useState<ProfileData>({});
     const [position, setPosition] = useState('auto');
-
     const submit = async () => {
         console.log(
             data.first_name,
