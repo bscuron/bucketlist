@@ -1,7 +1,21 @@
 import React, { memo, useContext, useEffect, useState } from 'react';
 import { Context } from '../../App';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
-import { AddIcon, Avatar, Heading, HStack, Icon, IconButton, Text, VStack } from 'native-base';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet
+} from 'react-native';
+import {
+    AddIcon,
+    Avatar,
+    Heading,
+    HStack,
+    Icon,
+    IconButton,
+    Text,
+    VStack
+} from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
@@ -57,14 +71,14 @@ const ProfileScreen = () => {
             >
                 <VStack
                     w={['90%', '90%', '45%']}
-                    alignItems='center'
-                    justifyContent='center'
+                    alignItems="center"
+                    justifyContent="center"
                 >
                     <VStack
-                        minW='60%'
-                        alignItems='center'
+                        minW="60%"
+                        alignItems="center"
                         space={2}
-                        bg='white'
+                        bg="white"
                         my={5}
                         py={5}
                         borderRadius={5}
@@ -73,13 +87,13 @@ const ProfileScreen = () => {
                         <Heading>{profile.username}</Heading>
                         <Avatar
                             source={require('../../assets/profile_image_placeholder.png')}
-                            size='2xl'
-                            borderColor='gray.200'
+                            size="2xl"
+                            borderColor="gray.200"
                             borderWidth={1}
                         >
-                            <Avatar.Badge bg='blue.500'>
+                            <Avatar.Badge bg="blue.500">
                                 <IconButton
-                                    size='xs'
+                                    size="xs"
                                     _icon={{
                                         as: MaterialIcons,
                                         name: 'edit',
@@ -89,7 +103,7 @@ const ProfileScreen = () => {
                                 />
                             </Avatar.Badge>
                         </Avatar>
-                        <VStack alignItems='start'>
+                        <VStack alignItems="start">
                             <HStack space={1}>
                                 <Text bold>First name:</Text>
                                 <Text>{profile.first_name}</Text>
@@ -115,38 +129,42 @@ const ProfileScreen = () => {
                 </VStack>
                 <VStack
                     w={['90%', '80%', '60%', '50%']}
-                    justifyContent='center'
+                    justifyContent="center"
                 >
-                    <HStack >
-                        <Heading size='lg' ml='2'>Upcoming Events</Heading>
+                    <HStack>
+                        <Heading size="lg" ml="2">
+                            Upcoming Events
+                        </Heading>
                         <Icon
                             as={MaterialIcons}
-                            name='event-note'
-                            size='8'
-                            color='blue.500'
-                            mt='1'
+                            name="event-note"
+                            size="8"
+                            color="blue.500"
+                            mt="1"
                             onPress={() => setCreatingEvent(true)}
                         />
                     </HStack>
 
-                    <VStack overflow='scroll' minH='50vh' maxH='60vh' w='100%'>
-                        <EventView w='auto' event={placeholder_event} />
-                        <EventView w='auto' event={placeholder_event} />
-                        <EventView w='auto' event={placeholder_event} />
-                        <EventView w='auto' event={placeholder_event} />
-                        <EventView w='auto' event={placeholder_event} />
-                        <EventView w='auto' event={placeholder_event} />
+                    <VStack overflow="scroll" minH="50vh" maxH="60vh" w="100%">
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
                     </VStack>
                 </VStack>
-                <EditProfileMenu profile={{
-                    username: profile.username,
-                    first_name: profile.first_name,
-                    last_name: profile.last_name,
-                    gender: profile.gender,
-                    dob: profile.dob,
-                    introduction: profile.introduction,
-                    picture: undefined
-                }} />
+                <EditProfileMenu
+                    profile={{
+                        username: profile.username,
+                        first_name: profile.first_name,
+                        last_name: profile.last_name,
+                        gender: profile.gender,
+                        dob: profile.dob,
+                        introduction: profile.introduction,
+                        picture: undefined
+                    }}
+                />
                 <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
