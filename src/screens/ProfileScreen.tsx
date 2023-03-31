@@ -1,28 +1,24 @@
-import React, { memo, useEffect, useContext, useState } from 'react';
+import React, { memo, useContext, useEffect, useState } from 'react';
 import { Context } from '../../App';
 import {
-    StyleSheet,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    View
+    StyleSheet
 } from 'react-native';
 import {
-    Flex,
-    VStack,
-    Center,
+    AddIcon,
     Avatar,
-    Box,
     Heading,
-    Stack,
-    Text,
-    Container,
+    HStack,
+    Icon,
     IconButton,
-    HStack
+    Text,
+    VStack
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Profile, Event } from '../types';
-import { EditProfileMenu, NewEventMenu, EventView } from '../components';
+import { Event, Profile } from '../types';
+import { EditProfileMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 
 const placeholder_event: Event = {
@@ -135,7 +131,20 @@ const ProfileScreen = () => {
                     w={['90%', '80%', '60%', '50%']}
                     justifyContent="center"
                 >
-                    <Heading size="lg">Upcoming Events</Heading>
+                    <HStack>
+                        <Heading size="lg" ml="2">
+                            Upcoming Events
+                        </Heading>
+                        <Icon
+                            as={MaterialIcons}
+                            name="event-note"
+                            size="8"
+                            color="blue.500"
+                            mt="1"
+                            onPress={() => setCreatingEvent(true)}
+                        />
+                    </HStack>
+
                     <VStack overflow="scroll" minH="50vh" maxH="60vh" w="100%">
                         <EventView w="auto" event={placeholder_event} />
                         <EventView w="auto" event={placeholder_event} />
@@ -145,7 +154,18 @@ const ProfileScreen = () => {
                         <EventView w="auto" event={placeholder_event} />
                     </VStack>
                 </VStack>
-                <EditProfileMenu />
+                <EditProfileMenu
+                    profile={{
+                        username: profile.username,
+                        first_name: profile.first_name,
+                        last_name: profile.last_name,
+                        gender: profile.gender,
+                        dob: profile.dob,
+                        introduction: profile.introduction,
+                        picture: undefined
+                    }}
+                />
+                <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
