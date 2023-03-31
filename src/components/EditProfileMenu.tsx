@@ -13,8 +13,8 @@ import {
 import { Profile } from '../types';
 import axios from 'axios';
 
-interface ProfileProps{
-    profile: Profile
+interface ProfileProps {
+    profile: Profile;
 }
 
 type ProfileData = {
@@ -26,7 +26,7 @@ type ProfileData = {
     photo?: string;
 };
 
-const EditProfileMenu: React.FC<ProfileProps> = ({profile}) => {
+const EditProfileMenu: React.FC<ProfileProps> = ({ profile }) => {
     const { token, editProfile, setEditProfile } = useContext(Context);
     const [data, setData] = useState<ProfileData>({});
     const [position, setPosition] = useState('auto');
