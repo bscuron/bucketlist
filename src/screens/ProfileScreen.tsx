@@ -65,84 +65,88 @@ const ProfileScreen = () => {
         <ScrollView contentContainerStyle={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{
+                    flexWrap: 'wrap',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'hidden'
+                }}
             >
-                <Flex
-                    direction="row"
-                    justify="center"
-                    wrap="wrap"
-                    bg="primary.200"
-                    my={5}
-                    gap={5}
+                <VStack
+                    w={['90%', '90%', '45%']}
+                    alignItems="center"
+                    justifyContent="center"
                 >
                     <VStack
-                        w={['90%', '90%', '45%']}
-                        bg="secondary.200"
+                        minW="60%"
                         alignItems="center"
-                        justifyContent="center"
+                        space={2}
+                        bg="white"
+                        my={5}
+                        py={5}
+                        borderRadius={5}
+                        shadow={2}
                     >
-                        <VStack
-                            minW="60%"
-                            alignItems="center"
-                            space={2}
-                            bg="white"
-                            py={5}
-                            borderRadius={5}
-                            shadow={2}
+                        <Heading>{profile.username}</Heading>
+                        <Avatar
+                            source={require('../../assets/profile_image_placeholder.png')}
+                            size="2xl"
+                            borderColor="gray.200"
+                            borderWidth={1}
                         >
-                            <Heading>{profile.username}</Heading>
-                            <Avatar
-                                source={require('../../assets/profile_image_placeholder.png')}
-                                size="2xl"
-                                borderColor="gray.200"
-                                borderWidth={1}
-                            >
-                                <Avatar.Badge bg="blue.500">
-                                    <IconButton
-                                        size="xs"
-                                        _icon={{
-                                            as: MaterialIcons,
-                                            name: 'edit',
-                                            color: 'white'
-                                        }}
-                                        onPress={() => setEditProfile(true)}
-                                    />
-                                </Avatar.Badge>
-                            </Avatar>
-                            <VStack alignItems="start">
-                                <HStack space={1}>
-                                    <Text bold>First name:</Text>
-                                    <Text>{profile.first_name}</Text>
-                                </HStack>
-                                <HStack space={1}>
-                                    <Text bold>Last name:</Text>
-                                    <Text>{profile.last_name}</Text>
-                                </HStack>
-                                <HStack space={1}>
-                                    <Text bold>Gender:</Text>
-                                    <Text>{profile.gender}</Text>
-                                </HStack>
-                                <HStack space={1}>
-                                    <Text bold>Birthday:</Text>
-                                    <Text>{profile.dob}</Text>
-                                </HStack>
-                                <HStack space={1}>
-                                    <Text bold>Member since:</Text>
-                                    <Text>{profile.r_datetime}</Text>
-                                </HStack>
-                            </VStack>
+                            <Avatar.Badge bg="blue.500">
+                                <IconButton
+                                    size="xs"
+                                    _icon={{
+                                        as: MaterialIcons,
+                                        name: 'edit',
+                                        color: 'white'
+                                    }}
+                                    onPress={() => setEditProfile(true)}
+                                />
+                            </Avatar.Badge>
+                        </Avatar>
+                        <VStack alignItems="start">
+                            <HStack space={1}>
+                                <Text bold>First name:</Text>
+                                <Text>{profile.first_name}</Text>
+                            </HStack>
+                            <HStack space={1}>
+                                <Text bold>Last name:</Text>
+                                <Text>{profile.last_name}</Text>
+                            </HStack>
+                            <HStack space={1}>
+                                <Text bold>Gender:</Text>
+                                <Text>{profile.gender}</Text>
+                            </HStack>
+                            <HStack space={1}>
+                                <Text bold>Birthday:</Text>
+                                <Text>{profile.dob}</Text>
+                            </HStack>
+                            <HStack space={1}>
+                                <Text bold>Member since:</Text>
+                                <Text>{profile.r_datetime}</Text>
+                            </HStack>
                         </VStack>
                     </VStack>
-                    <VStack w={['100%', '45%']} bg="tertiary.200">
-                        <Heading>Upcoming Events</Heading>
-                        <VStack overflow="scroll" bg="tertiary.600">
-                            <EventView w={['auto']} event={placeholder_event} />
-                            <EventView w={['auto']} event={placeholder_event} />
-                            <EventView w={['auto']} event={placeholder_event} />
-                            <EventView w={['auto']} event={placeholder_event} />
-                        </VStack>
+                </VStack>
+                <VStack
+                    w={['90%', '80%', '60%', '50%']}
+                    justifyContent="center"
+                >
+                    <Heading size="lg">Upcoming Events</Heading>
+                    <VStack overflow="scroll" minH="50vh" maxH="60vh" w="100%">
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
+                        <EventView w="auto" event={placeholder_event} />
                     </VStack>
-                </Flex>
-                <EditProfileMenu />
+                </VStack>
             </KeyboardAvoidingView>
         </ScrollView>
     );
