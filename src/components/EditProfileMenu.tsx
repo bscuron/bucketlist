@@ -10,7 +10,12 @@ import {
     Select,
     CheckIcon
 } from 'native-base';
+import { Profile } from '../types';
 import axios from 'axios';
+
+interface ProfileProps{
+    profile: Profile
+}
 
 type ProfileData = {
     first_name?: string;
@@ -21,7 +26,7 @@ type ProfileData = {
     photo?: string;
 };
 
-const EditProfileMenu = () => {
+const EditProfileMenu: React.FC<ProfileProps> = ({profile}) => {
     const { token, editProfile, setEditProfile } = useContext(Context);
     const [data, setData] = useState<ProfileData>({});
     const [position, setPosition] = useState('auto');
@@ -74,6 +79,7 @@ const EditProfileMenu = () => {
                             <Input
                                 variant="outline"
                                 placeholder="Alex"
+                                defaultValue={profile.first_name}
                                 onChangeText={(value) => {
                                     setData({ ...data, first_name: value });
                                 }}
@@ -85,6 +91,7 @@ const EditProfileMenu = () => {
                             <Input
                                 variant="outline"
                                 placeholder="Yellostone"
+                                defaultValue={profile.last_name}
                                 onChangeText={(value) => {
                                     setData({ ...data, last_name: value });
                                 }}
@@ -107,7 +114,7 @@ const EditProfileMenu = () => {
                                     bg: 'cyan.600',
                                     endIcon: <CheckIcon size={4} />
                                 }}
-                                accessibilityLabel="Select"
+                                placeholder="Select from"
                             >
                                 <Select.Item label="Male" value="Male" />
                                 <Select.Item label="Female" value="Female" />
@@ -120,6 +127,7 @@ const EditProfileMenu = () => {
                             <Input
                                 variant="outline"
                                 placeholder="yyyy-mm-dd"
+                                defaultValue={profile.dob}
                                 onChangeText={(value) => {
                                     setData({ ...data, dob: value });
                                 }}
@@ -131,6 +139,7 @@ const EditProfileMenu = () => {
                             <TextArea
                                 autoCompleteType="text"
                                 placeholder="Tell poeple about yourself"
+                                defaultValue={profile.introduction}
                                 onChangeText={(value) => {
                                     setData({ ...data, introduction: value });
                                 }}
