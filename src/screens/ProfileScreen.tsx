@@ -147,6 +147,7 @@ const ProfileScreen = () => {
                         <EventView w="auto" event={placeholder_event} />
                     </VStack>
                 </VStack>
+                <EditProfileMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
