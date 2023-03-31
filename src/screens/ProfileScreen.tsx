@@ -57,9 +57,7 @@ const ProfileScreen = () => {
     }, []);
 
     // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
-    if (!profile) {
-        return <Text>Loading profile data...</Text>;
-    }
+    if (!profile) return;
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
