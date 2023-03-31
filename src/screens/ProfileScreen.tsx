@@ -6,16 +6,7 @@ import {
     ScrollView,
     StyleSheet
 } from 'react-native';
-import {
-    AddIcon,
-    Avatar,
-    Heading,
-    HStack,
-    Icon,
-    IconButton,
-    Text,
-    VStack
-} from 'native-base';
+import { Avatar, Heading, HStack, IconButton, Text, VStack } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
@@ -135,12 +126,15 @@ const ProfileScreen = () => {
                         <Heading size="lg" ml="2">
                             Upcoming Events
                         </Heading>
-                        <Icon
-                            as={MaterialIcons}
-                            name="event-note"
-                            size="8"
-                            color="blue.500"
-                            mt="1"
+                        <IconButton
+                            ml="2"
+                            size="md"
+                            variant="solid"
+                            _icon={{
+                                as: MaterialIcons,
+                                name: 'add',
+                                color: 'white'
+                            }}
                             onPress={() => setCreatingEvent(true)}
                         />
                     </HStack>
