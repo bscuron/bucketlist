@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState, useContext } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
+    View,
     Icon,
     Tooltip,
     HStack,
@@ -88,46 +89,52 @@ const HomeScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                <HStack
-                    width="100%"
-                    my={5}
-                    alignItems="center"
-                    justifyContent="center"
-                    space={5}
-                >
-                    <Input
-                        placeholder="Search for an event..."
-                        alignSelf="center"
-                        borderRadius="4"
-                        minW="50%"
-                        py="3"
-                        px="1"
-                        fontSize="14"
-                        InputLeftElement={
-                            <Icon
-                                m="2"
-                                ml="3"
-                                size="6"
-                                color="gray.400"
-                                as={<MaterialIcons name="search" />}
-                            />
-                        }
-                        onChangeText={(value) => {
-                            setQuery(value);
-                        }}
-                    />
-                    <Tooltip label="Create new event" openDelay={500}>
-                        <IconButton
-                            size="md"
-                            variant="solid"
-                            _icon={{
-                                as: MaterialIcons,
-                                name: 'add'
+                <View position="sticky" top={0} zIndex={999}>
+                    <HStack
+                        width="100%"
+                        my={5}
+                        alignItems="center"
+                        justifyContent="center"
+                        space={5}
+                    >
+                        <Input
+                            placeholder="Search for an event..."
+                            alignSelf="center"
+                            borderRadius="4"
+                            minW="50%"
+                            py="3"
+                            px="1"
+                            fontSize="14"
+                            bg="white"
+                            _focus={{
+                                backgroundColor: 'white'
                             }}
-                            onPress={() => setCreatingEvent(true)}
+                            InputLeftElement={
+                                <Icon
+                                    m="2"
+                                    ml="3"
+                                    size="6"
+                                    color="gray.400"
+                                    as={<MaterialIcons name="search" />}
+                                />
+                            }
+                            onChangeText={(value) => {
+                                setQuery(value);
+                            }}
                         />
-                    </Tooltip>
-                </HStack>
+                        <Tooltip label="Create new event" openDelay={500}>
+                            <IconButton
+                                size="md"
+                                variant="solid"
+                                _icon={{
+                                    as: MaterialIcons,
+                                    name: 'add'
+                                }}
+                                onPress={() => setCreatingEvent(true)}
+                            />
+                        </Tooltip>
+                    </HStack>
+                </View>
                 <VStack space={2} alignItems="center">
                     {filteredEvents.map((row: Event) => (
                         <EventView
