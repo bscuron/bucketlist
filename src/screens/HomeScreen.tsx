@@ -8,7 +8,8 @@ import {
     HStack,
     Input,
     IconButton,
-    VStack
+    VStack,
+    Text
 } from 'native-base';
 import { MaterialIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 import { EventView, NewEventMenu } from '../components';
@@ -117,6 +118,10 @@ const HomeScreen = () => {
                             }
                             InputRightElement={
                                 <>
+                                    <Text color="gray.400">
+                                        {filteredEvents.length}/
+                                        {allEvents.length}
+                                    </Text>
                                     <Icon
                                         size="6"
                                         color="gray.400"
