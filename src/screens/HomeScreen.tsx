@@ -8,7 +8,6 @@ import {
     HStack,
     Input,
     IconButton,
-    Text,
     VStack
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,7 +15,12 @@ import { EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
 import fuzzysort from 'fuzzysort';
-import structuredClone from '@ungap/structured-clone';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+import moment from 'moment';
+
+TimeAgo.addLocale(en);
+const timeFormatter = new TimeAgo('en-US');
 
 /**
  * Screen component for home screen (list view)
@@ -40,6 +44,15 @@ const HomeScreen = () => {
                 }
             )
             .then((res) => {
+                // Compute timestamps and set as datetime
+                res.data.rows.forEach((event: Event) => {
+                    event.created_datetime = timeFormatter.format(
+                        moment
+                            .utc(event.created_datetime, 'YYYY-MM-DDTHH:mm:ss')
+                            .toDate(),
+                        'twitter'
+                    );
+                });
                 setAllEvents(res.data.rows);
             })
             .catch(logout);
@@ -51,34 +64,13 @@ const HomeScreen = () => {
             setFilteredEvents(allEvents);
             return;
         }
-        const results = fuzzysort.go(query, allEvents, {
-            keys: Object.keys(allEvents[0])
-        });
+        const results = fuzzysort
+            .go(query, allEvents, {
+                keys: Object.keys(allEvents[0])
+            })
+            .map((result) => result.obj);
 
-        const highlightedResults = structuredClone(results).map(
-            (result: any) => {
-                result.forEach((match: any) => {
-                    if (!match) return;
-                    const highlight = fuzzysort.highlight(
-                        match,
-                        (match, index) => (
-                            <Text key={index} highlight>
-                                {match}
-                            </Text>
-                        )
-                    );
-                    Object.entries(result.obj).forEach(([key, value]) => {
-                        if (match.target === value) result.obj[key] = highlight;
-                    });
-                });
-                return result;
-            }
-        );
-
-        const filteredEvents = highlightedResults.map(
-            (result: any) => result.obj
-        );
-        setFilteredEvents(filteredEvents);
+        setFilteredEvents(results);
     }, [allEvents, query]);
 
     // BUG: when navigating to another screen and back, the images do
@@ -138,6 +130,7 @@ const HomeScreen = () => {
                 <VStack space={2} alignItems="center">
                     {filteredEvents.map((row: Event) => (
                         <EventView
+                            query={query}
                             w={['90%', '80%', '60%', '50%']}
                             key={row.event_id}
                             event={row}

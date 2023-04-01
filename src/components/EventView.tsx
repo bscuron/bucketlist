@@ -2,20 +2,37 @@ import React from 'react';
 import { Avatar, Heading, Text, HStack, VStack, Icon, Link } from 'native-base';
 import { Event } from '../types';
 import { Entypo } from '@expo/vector-icons';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
-import moment from 'moment';
 import { createMapLink } from 'react-native-open-maps';
-
-TimeAgo.addLocale(en);
-const timeFormatter = new TimeAgo('en-US');
+import fuzzysort from 'fuzzysort';
+import structuredClone from '@ungap/structured-clone';
 
 interface EventProps {
     w: any | any[];
     event: Event;
+    query?: string;
 }
 
-const EventView: React.FC<EventProps> = ({ w, event }) => {
+const EventView: React.FC<EventProps> = ({ w, event, query }) => {
+    let highlightedEvent: Event = event;
+
+    // Only make structured copy if highlights are needed
+    if (query) {
+        highlightedEvent = structuredClone(event);
+        for (let [key, value] of Object.entries(event)) {
+            const result = fuzzysort.single(query, value);
+            if (!result) {
+                highlightedEvent[key] = value;
+                continue;
+            }
+            highlightedEvent[key] =
+                fuzzysort.highlight(result, (match: string, index: number) => (
+                    <Text key={index} highlight>
+                        {match}
+                    </Text>
+                )) || value;
+        }
+    }
+
     return (
         <HStack
             w={w}
@@ -34,7 +51,7 @@ const EventView: React.FC<EventProps> = ({ w, event }) => {
                 <HStack>
                     <VStack flex={1}>
                         <Heading size="sm" paddingLeft={0}>
-                            {event.title}
+                            {highlightedEvent.title}
                         </Heading>
                         <HStack>
                             <Icon
@@ -51,23 +68,15 @@ const EventView: React.FC<EventProps> = ({ w, event }) => {
                                     color: 'primary.600'
                                 }}
                             >
-                                {event.location}
+                                {highlightedEvent.location}
                             </Link>
                         </HStack>
                     </VStack>
                     <Text color="gray.500" paddingRight={0}>
-                        {timeFormatter.format(
-                            moment
-                                .utc(
-                                    event.created_datetime,
-                                    'YYYY-MM-DDTHH:mm:ss'
-                                )
-                                .toDate(),
-                            'twitter'
-                        )}
+                        {highlightedEvent.created_datetime}
                     </Text>
                 </HStack>
-                <Text>{event.description}</Text>
+                <Text>{highlightedEvent.description}</Text>
             </VStack>
         </HStack>
     );
