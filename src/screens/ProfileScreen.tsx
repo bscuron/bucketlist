@@ -6,7 +6,15 @@ import {
     ScrollView,
     StyleSheet
 } from 'react-native';
-import { Avatar, Heading, HStack, IconButton, Text, VStack } from 'native-base';
+import {
+    Spacer,
+    Avatar,
+    Heading,
+    HStack,
+    IconButton,
+    Text,
+    VStack
+} from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
@@ -126,8 +134,9 @@ const ProfileScreen = () => {
                         <Heading size="lg" ml="2">
                             Upcoming Events
                         </Heading>
+                        <Spacer />
                         <IconButton
-                            ml="2"
+                            mr={2}
                             size="md"
                             variant="solid"
                             _icon={{
