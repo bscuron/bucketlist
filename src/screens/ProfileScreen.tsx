@@ -33,6 +33,9 @@ const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
+    const updateProfile = (updatedProfile: Profile) => {
+        setProfile(updatedProfile);
+    };
 
     // GET request to retrieve user's profile data
     useEffect(() => {
@@ -167,6 +170,7 @@ const ProfileScreen = () => {
                         introduction: profile.introduction,
                         picture: undefined
                     }}
+                    onUpdateProfile={updateProfile}
                 />
                 <NewEventMenu />
             </KeyboardAvoidingView>
