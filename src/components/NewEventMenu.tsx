@@ -62,7 +62,11 @@ const NewEventMenu = () => {
     };
 
     const validate = (): boolean => {
-        return validateTitle(data.title) && validateLocation(data.location);
+        return (
+            !('datetime' in errors) &&
+            validateTitle(data.title) &&
+            validateLocation(data.location)
+        );
     };
 
     const validateTitle = (title: string | undefined): boolean => {
