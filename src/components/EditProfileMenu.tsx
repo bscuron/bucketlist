@@ -42,11 +42,13 @@ const EditProfileMenu: React.FC<ProfileProps> = ({ profile }) => {
             const result = await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/profile/edit',
                 {
-                    first_name: data.first_name,
-                    last_name: data.last_name,
-                    gender: data.gender,
-                    dob: data.dob,
-                    introduction: data.introduction
+                    ...profile,
+                    ...data
+                    // first_name: data.first_name,
+                    // last_name: data.last_name,
+                    // gender: data.gender,
+                    // dob: data.dob,
+                    // introduction: data.introduction
                 },
                 {
                     headers: {
@@ -56,8 +58,8 @@ const EditProfileMenu: React.FC<ProfileProps> = ({ profile }) => {
                     }
                 }
             );
-
             setEditProfile(false);
+            // setEditProfile(false);
             setData({});
         } catch (_) {}
     };
@@ -82,6 +84,7 @@ const EditProfileMenu: React.FC<ProfileProps> = ({ profile }) => {
                                 onChangeText={(value) => {
                                     setData({ ...data, first_name: value });
                                 }}
+                                value={data.first_name}
                             />
                         </FormControl>
 
@@ -100,7 +103,7 @@ const EditProfileMenu: React.FC<ProfileProps> = ({ profile }) => {
                         <FormControl>
                             <FormControl.Label>Gender</FormControl.Label>
                             <Select
-                                selectedValue={position}
+                                selectedValue={profile.gender}
                                 mx={{
                                     base: 0,
                                     md: 'auto'
