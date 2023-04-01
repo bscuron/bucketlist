@@ -15,6 +15,9 @@ import {
     LogoutScreen
 } from './screens';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { Image } from 'react-native';
+const logo = require('../assets/bucketlist_logo_white_background.png');
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -144,7 +147,15 @@ const Main = () => {
                                 key={screen}
                                 name={screen}
                                 options={{
-                                    title: `Bucketlist | ${screen}`
+                                    headerTitle: () => (
+                                        <>
+                                            <Image
+                                                source={logo}
+                                                style={{ width: 40, height: 40, marginRight: 10 }}
+                                            />
+                                                Bucketlist | {screen}
+                                        </>
+                                    )
                                 }}
                                 component={protectedScreens[screen].component}
                             />
