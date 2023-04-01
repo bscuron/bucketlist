@@ -13,7 +13,8 @@ import {
     HStack,
     IconButton,
     Text,
-    VStack
+    VStack,
+    Image
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
@@ -31,6 +32,7 @@ const placeholder_event: Event = {
 
 const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
+    const [events, setEvents] = useState<Event[]>([]);
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
 
@@ -45,11 +47,11 @@ const ProfileScreen = () => {
                 }
             })
             .then((res) => {
-                setProfile(res.data);
-                console.log(res.data);
+                setProfile(res.data.profile);
+                setEvents(res.data.events);
             })
             .catch(logout);
-    }, []);
+    }, [events]);
 
     // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
     if (!profile) return;
@@ -153,12 +155,9 @@ const ProfileScreen = () => {
                     </HStack>
 
                     <VStack overflow="scroll" minH="50vh" maxH="60vh" w="100%">
-                        <EventView w="auto" event={placeholder_event} />
-                        <EventView w="auto" event={placeholder_event} />
-                        <EventView w="auto" event={placeholder_event} />
-                        <EventView w="auto" event={placeholder_event} />
-                        <EventView w="auto" event={placeholder_event} />
-                        <EventView w="auto" event={placeholder_event} />
+                        {events.map((event) => (
+                            <EventView w="auto" event={event} />
+                        ))}
                     </VStack>
                 </VStack>
                 <EditProfileMenu
