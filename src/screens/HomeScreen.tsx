@@ -45,15 +45,6 @@ const HomeScreen = () => {
                 }
             )
             .then((res) => {
-                // Compute timestamps and set as datetime
-                res.data.rows.forEach((event: Event) => {
-                    event.created_datetime = timeFormatter.format(
-                        moment
-                            .utc(event.created_datetime, 'YYYY-MM-DDTHH:mm:ss')
-                            .toDate(),
-                        'twitter'
-                    );
-                });
                 setAllEvents(res.data.rows);
             })
             .catch(logout);
