@@ -41,7 +41,7 @@ const ProfileScreen = () => {
                 setEvents(res.data.events);
             })
             .catch(logout);
-    }, [events]);
+    }, []);
 
     // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
     if (!profile) return;
@@ -146,7 +146,11 @@ const ProfileScreen = () => {
 
                     <VStack overflow="scroll" minH="50vh" maxH="60vh" w="100%">
                         {events.map((event) => (
-                            <EventView w="auto" event={event} />
+                            <EventView
+                                key={event.event_id}
+                                w="auto"
+                                event={event}
+                            />
                         ))}
                     </VStack>
                 </VStack>

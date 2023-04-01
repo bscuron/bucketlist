@@ -1,10 +1,13 @@
 import React from 'react';
 import { Avatar, Heading, Text, HStack, VStack, Icon, Link } from 'native-base';
 import { Event } from '../types';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import { createMapLink } from 'react-native-open-maps';
 import fuzzysort from 'fuzzysort';
 import structuredClone from '@ungap/structured-clone';
+import moment from 'moment-timezone';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 interface EventProps {
     w: any | any[];
@@ -12,19 +15,34 @@ interface EventProps {
     query?: string;
 }
 
+TimeAgo.addLocale(en);
+const timeFormatter = new TimeAgo('en-US');
+
 const EventView: React.FC<EventProps> = ({ w, event, query }) => {
-    let highlightedEvent: Event = event;
+    let localEvent: Event = event;
+
+    // Format the host datetime to match format "April 1, 2023 @ 1:00pm""
+    localEvent.host_datetime_formatted = moment
+        .utc(event.host_datetime, 'YYYY-MM-DDTHH:mm:ss')
+        .tz(moment.tz.guess())
+        .format('MMMM D, YYYY @ hA');
+
+    // Compute timestamps
+    localEvent.timestamp = timeFormatter.format(
+        moment.utc(event.created_datetime, 'YYYY-MM-DDTHH:mm:ss').toDate(),
+        'twitter'
+    );
 
     // Only make structured copy if highlights are needed
     if (query) {
-        highlightedEvent = structuredClone(event);
+        localEvent = structuredClone(event);
         for (let [key, value] of Object.entries(event)) {
             const result = fuzzysort.single(query, value);
             if (!result) {
-                highlightedEvent[key] = value;
+                localEvent[key] = value;
                 continue;
             }
-            highlightedEvent[key] =
+            localEvent[key] =
                 fuzzysort.highlight(result, (match: string, index: number) => (
                     <Text key={index} highlight>
                         {match}
@@ -51,8 +69,19 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                 <HStack>
                     <VStack flex={1}>
                         <Heading size="sm" paddingLeft={0}>
-                            {highlightedEvent.title}
+                            {localEvent.title}
                         </Heading>
+                        <HStack space={1}>
+                            <Icon
+                                as={AntDesign}
+                                name="calendar"
+                                size="md"
+                                color="primary.600"
+                            />
+                            <Text color="primary.600">
+                                {localEvent.host_datetime_formatted}
+                            </Text>
+                        </HStack>
                         <HStack>
                             <Icon
                                 as={Entypo}
@@ -68,15 +97,15 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                                     color: 'primary.600'
                                 }}
                             >
-                                {highlightedEvent.location}
+                                {localEvent.location}
                             </Link>
                         </HStack>
                     </VStack>
                     <Text color="gray.500" paddingRight={0}>
-                        {highlightedEvent.created_datetime}
+                        {localEvent.timestamp}
                     </Text>
                 </HStack>
-                <Text>{highlightedEvent.description}</Text>
+                <Text>{localEvent.description}</Text>
             </VStack>
         </HStack>
     );
