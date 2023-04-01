@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useContext } from 'react';
+import React, { memo, useEffect, useRef, useState, useContext } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
@@ -10,7 +10,7 @@ import {
     IconButton,
     VStack
 } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 import { EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
@@ -29,9 +29,9 @@ const HomeScreen = () => {
     const [allEvents, setAllEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
     const [query, setQuery] = useState<string>('');
-    const { token, logout, setCreatingEvent, rerender } = useContext(Context);
+    const { token, logout, setCreatingEvent } = useContext(Context);
 
-    useEffect(() => {
+    const fetchData = () => {
         axios
             .get(
                 'https://cis-linux2.temple.edu/bucketlistBackend/database/events',
@@ -56,7 +56,11 @@ const HomeScreen = () => {
                 setAllEvents(res.data.rows);
             })
             .catch(logout);
-    }, [rerender]);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     useEffect(() => {
         if (allEvents.length <= 0) return;
@@ -90,6 +94,7 @@ const HomeScreen = () => {
                         space={5}
                     >
                         <Input
+                            value={query}
                             placeholder="Search for an event..."
                             alignSelf="center"
                             borderRadius="4"
@@ -109,6 +114,29 @@ const HomeScreen = () => {
                                     color="gray.400"
                                     as={<MaterialIcons name="search" />}
                                 />
+                            }
+                            InputRightElement={
+                                <>
+                                    <Icon
+                                        size="6"
+                                        color="gray.400"
+                                        onPress={() => {
+                                            setQuery('');
+                                            setAllEvents(filteredEvents);
+                                        }}
+                                        as={<AntDesign name="filter" />}
+                                    />
+                                    <Icon
+                                        mr={2}
+                                        size="6"
+                                        color="gray.400"
+                                        onPress={() => {
+                                            setQuery('');
+                                            fetchData();
+                                        }}
+                                        as={<Ionicons name="refresh" />}
+                                    />
+                                </>
                             }
                             onChangeText={(value) => {
                                 setQuery(value);
