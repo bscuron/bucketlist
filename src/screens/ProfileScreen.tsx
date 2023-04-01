@@ -33,6 +33,9 @@ const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
+    const updateProfile = (updatedProfile: Profile) => {
+        setProfile(updatedProfile);
+    };
 
     // GET request to retrieve user's profile data
     useEffect(() => {
@@ -90,17 +93,17 @@ const ProfileScreen = () => {
                             borderColor="gray.200"
                             borderWidth={1}
                         >
-                            <Avatar.Badge bg="blue.500">
-                                <IconButton
-                                    size="xs"
-                                    _icon={{
-                                        as: MaterialIcons,
-                                        name: 'edit',
-                                        color: 'white'
-                                    }}
-                                    onPress={() => setEditProfile(true)}
-                                />
-                            </Avatar.Badge>
+                                <Avatar.Badge bg="blue.500">
+                                    {/*<IconButton*/}
+                                    {/*    size="xs"*/}
+                                    {/*    _icon={{*/}
+                                    {/*        as: MaterialIcons,*/}
+                                    {/*        name: 'edit',*/}
+                                    {/*        color: 'white'*/}
+                                    {/*    }}*/}
+                                    {/*    onPress={() => uploadImage()}*/}
+                                    {/*/>*/}
+                                </Avatar.Badge>
                         </Avatar>
                         <VStack alignItems="start">
                             <HStack space={1}>
@@ -122,6 +125,19 @@ const ProfileScreen = () => {
                             <HStack space={1}>
                                 <Text bold>Member since:</Text>
                                 <Text>{profile.r_datetime}</Text>
+                            </HStack>
+                            <HStack space={1}>
+                                <Text>Edit profile
+                                    <IconButton
+                                        size="md"
+                                        _icon={{
+                                            as: MaterialIcons,
+                                            name: 'edit',
+                                            color: 'green.500'
+                                        }}
+                                        onPress={() => setEditProfile(true)}
+                                    />
+                                </Text>
                             </HStack>
                         </VStack>
                     </VStack>
@@ -167,6 +183,7 @@ const ProfileScreen = () => {
                         introduction: profile.introduction,
                         picture: undefined
                     }}
+                    onUpdateProfile={updateProfile}
                 />
                 <NewEventMenu />
             </KeyboardAvoidingView>
