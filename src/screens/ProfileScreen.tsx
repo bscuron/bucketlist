@@ -13,22 +13,12 @@ import {
     HStack,
     IconButton,
     Text,
-    VStack,
-    Image
+    VStack
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
-
-const placeholder_event: Event = {
-    event_id: '123',
-    creator_id: '123',
-    location: 'Temple University',
-    title: 'Placeholder',
-    description: 'Description goes here',
-    created_datetime: new Date().toISOString()
-};
 
 const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
