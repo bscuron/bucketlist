@@ -9,17 +9,24 @@ import {
     FormControl
 } from 'native-base';
 import axios from 'axios';
+import { parseDate } from 'chrono-node';
 
 type NewEventData = {
     title?: string;
     description?: string;
     location?: string;
+    datetime?: Date;
 };
 
 const NewEventMenu = () => {
     const { token, creatingEvent, setCreatingEvent } = useContext(Context);
     const [data, setData] = useState<NewEventData>({});
-    const [errors, setErrors] = useState<NewEventData>({});
+    const [errors, setErrors] = useState<{
+        title?: string;
+        description?: string;
+        location?: string;
+        datetime?: string;
+    }>({});
 
     const submit = async () => {
         if (!validate()) return;
@@ -30,7 +37,13 @@ const NewEventMenu = () => {
                 {
                     title: data.title,
                     description: data.description,
-                    location: data.location
+                    location: data.location,
+                    host_datetime: data.datetime
+                        ? data.datetime
+                              .toISOString()
+                              .slice(0, 19)
+                              .replace('T', ' ')
+                        : null
                 },
                 {
                     headers: {
@@ -130,6 +143,43 @@ const NewEventMenu = () => {
                             <FormControl.ErrorMessage>
                                 {errors.location}
                             </FormControl.ErrorMessage>
+                        </FormControl>
+                        <FormControl
+                            isRequired
+                            isInvalid={'datetime' in errors}
+                        >
+                            <FormControl.Label>Date & Time</FormControl.Label>
+                            <Input
+                                variant="outline"
+                                placeholder="Tomorrow at 5pm"
+                                onChangeText={(value) => {
+                                    const date = parseDate(value);
+                                    if (
+                                        !date ||
+                                        new Date().setMilliseconds(0) >
+                                            date.setMilliseconds(0)
+                                    ) {
+                                        setErrors({
+                                            ...errors,
+                                            datetime: 'Invalid date'
+                                        });
+                                        return;
+                                    }
+                                    delete errors.datetime;
+                                    setData({
+                                        ...data,
+                                        datetime: date
+                                    });
+                                }}
+                            />
+                            <FormControl.ErrorMessage>
+                                {errors.datetime}
+                            </FormControl.ErrorMessage>
+                            <FormControl.HelperText>
+                                {data.datetime
+                                    ? data.datetime.toLocaleString()
+                                    : ''}
+                            </FormControl.HelperText>
                         </FormControl>
                     </VStack>
                 </AlertDialog.Body>
