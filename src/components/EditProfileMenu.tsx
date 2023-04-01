@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Context } from '../../App';
 import {
     AlertDialog,
@@ -15,13 +15,8 @@ import axios from 'axios';
 
 interface ProfileProps {
     profile: Profile;
-}
-
-interface ProfileProps {
-    profile: Profile;
     onUpdateProfile: (updatedProfile: Profile) => void;
 }
-
 
 type ProfileData = {
     first_name?: string;
@@ -32,10 +27,13 @@ type ProfileData = {
     photo?: string;
 };
 
-const EditProfileMenu: React.FC<ProfileProps> = ({ profile, onUpdateProfile  }) => {
+const EditProfileMenu: React.FC<ProfileProps> = ({
+    profile,
+    onUpdateProfile
+}) => {
     const { token, editProfile, setEditProfile } = useContext(Context);
     const [data, setData] = useState<ProfileData>({});
-    const [position, setPosition] = useState('auto');
+
     const submit = async () => {
         console.log(
             data.first_name,
@@ -45,16 +43,11 @@ const EditProfileMenu: React.FC<ProfileProps> = ({ profile, onUpdateProfile  }) 
             data.introduction
         );
         try {
-            const result = await axios.post(
+            await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/profile/edit',
                 {
                     ...profile,
                     ...data
-                    // first_name: data.first_name,
-                    // last_name: data.last_name,
-                    // gender: data.gender,
-                    // dob: data.dob,
-                    // introduction: data.introduction
                 },
                 {
                     headers: {
@@ -115,7 +108,6 @@ const EditProfileMenu: React.FC<ProfileProps> = ({ profile, onUpdateProfile  }) 
                                     md: 'auto'
                                 }}
                                 onValueChange={(value) => {
-                                    setPosition(value);
                                     setData({ ...data, gender: value });
                                 }}
                                 _selectedItem={{

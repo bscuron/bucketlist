@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../App';
 import {
     KeyboardAvoidingView,
@@ -33,9 +33,6 @@ const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
-    const updateProfile = (updatedProfile: Profile) => {
-        setProfile(updatedProfile);
-    };
 
     // GET request to retrieve user's profile data
     useEffect(() => {
@@ -126,6 +123,10 @@ const ProfileScreen = () => {
                                 <Text bold>Member since:</Text>
                                 <Text>{profile.r_datetime}</Text>
                             </HStack>
+                            <HStack space={1}>
+                                <Text bold>Introduction:</Text>
+                                <Text>{profile.introduction}</Text>
+                            </HStack>
                         </VStack>
                     </VStack>
                 </VStack>
@@ -170,14 +171,14 @@ const ProfileScreen = () => {
                         introduction: profile.introduction,
                         picture: undefined
                     }}
-                    onUpdateProfile={updateProfile}
+                    onUpdateProfile={setProfile}
                 />
                 <NewEventMenu />
             </KeyboardAvoidingView>
         </ScrollView>
     );
 };
-export default memo(ProfileScreen);
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
     container: {
