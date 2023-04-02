@@ -13,7 +13,8 @@ import {
     HStack,
     IconButton,
     Text,
-    VStack
+    VStack,
+    Box
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
@@ -140,6 +141,12 @@ const ProfileScreen = () => {
                                         .tz(moment.tz.guess())
                                         .format('MMMM D, YYYY')}
                                 </Text>
+                            </HStack>
+                            <HStack space='1'>
+                                <Text bold>Introduction:</Text>
+                                <Box maxW='40'>
+                                    <Text>{profile.introduction}</Text>
+                                </Box>
                             </HStack>
                         </VStack>
                     </VStack>
