@@ -4,7 +4,8 @@ import {
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    StyleSheet
+    StyleSheet,
+    View
 } from 'react-native';
 import {
     Spacer,
@@ -13,7 +14,9 @@ import {
     HStack,
     IconButton,
     Text,
-    VStack
+    VStack,
+    Container,
+    Box
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
@@ -45,6 +48,35 @@ const ProfileScreen = () => {
 
     // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
     if (!profile) return;
+
+    // Profile field name list
+    const ProfileField = () => {
+        return (
+            <VStack>
+                <Text style={styles.profileField}>First Name:</Text>
+                <Text style={styles.profileField}>Last Name:</Text>
+                <Text style={styles.profileField}>Gender:</Text>
+                <Text style={styles.profileField}>Birthday:</Text>
+                <Text style={styles.profileField}>Member Since:</Text>
+                <Text style={styles.profileField}>Introduction:</Text>
+            </VStack>
+        );
+    };
+    // User profile info
+    const UserInfo = () => {
+        return (
+            <VStack>
+                <Text style={styles.userInfo}>{profile.first_name}</Text>
+                <Text style={styles.userInfo}>{profile.last_name}</Text>
+                <Text style={styles.userInfo}>{profile.gender}</Text>
+                <Text style={styles.userInfo}>{profile.dob}</Text>
+                <Text style={styles.userInfo}>N/A </Text>
+                <Box maxW="40">
+                    <Text style={styles.userInfo}>{profile.introduction}</Text>
+                </Box>
+            </VStack>
+        );
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -94,32 +126,10 @@ const ProfileScreen = () => {
                                 />
                             </Avatar.Badge>
                         </Avatar>
-                        <VStack alignItems="start">
-                            <HStack space={1}>
-                                <Text bold>First name:</Text>
-                                <Text>{profile.first_name}</Text>
-                            </HStack>
-                            <HStack space={1}>
-                                <Text bold>Last name:</Text>
-                                <Text>{profile.last_name}</Text>
-                            </HStack>
-                            <HStack space={1}>
-                                <Text bold>Gender:</Text>
-                                <Text>{profile.gender}</Text>
-                            </HStack>
-                            <HStack space={1}>
-                                <Text bold>Birthday:</Text>
-                                <Text>{profile.dob}</Text>
-                            </HStack>
-                            <HStack space={1}>
-                                <Text bold>Member since:</Text>
-                                <Text>{profile.r_datetime}</Text>
-                            </HStack>
-                            <HStack space={1}>
-                                <Text bold>Introduction:</Text>
-                                <Text>{profile.introduction}</Text>
-                            </HStack>
-                        </VStack>
+                        <HStack space="2" margin="5" fontFamily="san Francisco">
+                            <ProfileField />
+                            <UserInfo />
+                        </HStack>
                     </VStack>
                 </VStack>
                 <VStack
@@ -173,5 +183,14 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         justifyContent: 'center'
+    },
+
+    profileField: {
+        fontWeight: 'bold',
+        fontSize: 14
+    },
+
+    userInfo: {
+        fontSize: 14
     }
 });
