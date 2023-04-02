@@ -19,6 +19,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
+import moment from 'moment-timezone';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+
+TimeAgo.addLocale(en);
+const timeFormatter = new TimeAgo('en-US');
 
 const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
@@ -109,15 +115,23 @@ const ProfileScreen = () => {
                             </HStack>
                             <HStack space={1}>
                                 <Text bold>Birthday:</Text>
-                                <Text>{profile.dob}</Text>
+                                <Text>
+                                    {moment
+                                        .utc(profile.dob, 'YYYY-MM-DD')
+                                        .format('MMMM D, YYYY')}{' '}
+                                    ({moment().diff(profile.dob, 'years')})
+                                </Text>
                             </HStack>
                             <HStack space={1}>
                                 <Text bold>Member since:</Text>
-                                <Text>{profile.r_datetime}</Text>
-                            </HStack>
-                            <HStack space={1}>
-                                <Text bold>Introduction:</Text>
-                                <Text>{profile.introduction}</Text>
+                                <Text>
+                                    {moment
+                                        .utc(
+                                            profile.r_datetime,
+                                            'YYYY-MM-DDTHH:mm:ss'
+                                        )
+                                        .format('MMMM D, YYYY')}
+                                </Text>
                             </HStack>
                         </VStack>
                     </VStack>
