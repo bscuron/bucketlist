@@ -13,7 +13,8 @@ import {
     HStack,
     IconButton,
     Text,
-    VStack
+    VStack,
+    Box
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
@@ -123,7 +124,9 @@ const ProfileScreen = () => {
                             </HStack>
                             <HStack space={1}>
                                 <Text bold>Introduction:</Text>
-                                <Text>{profile.introduction}</Text>
+                                <Box maxW="40">
+                                    <Text>{profile.introduction}</Text>
+                                </Box>
                             </HStack>
                         </VStack>
                     </VStack>
