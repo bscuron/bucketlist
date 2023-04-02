@@ -119,7 +119,14 @@ const ProfileScreen = () => {
                                     {moment
                                         .utc(profile.dob, 'YYYY-MM-DD')
                                         .format('MMMM D, YYYY')}{' '}
-                                    ({moment().diff(profile.dob, 'years')})
+                                    (
+                                    {moment().diff(
+                                        moment
+                                            .utc(profile.dob)
+                                            .tz(moment.tz.guess()),
+                                        'years'
+                                    )}
+                                    )
                                 </Text>
                             </HStack>
                             <HStack space={1}>
@@ -130,6 +137,7 @@ const ProfileScreen = () => {
                                             profile.r_datetime,
                                             'YYYY-MM-DDTHH:mm:ss'
                                         )
+                                        .tz(moment.tz.guess())
                                         .format('MMMM D, YYYY')}
                                 </Text>
                             </HStack>
