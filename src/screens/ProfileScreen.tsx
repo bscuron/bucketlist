@@ -115,31 +115,15 @@ const ProfileScreen = () => {
                             </HStack>
                             <HStack space={1}>
                                 <Text bold>Birthday:</Text>
-                                <Text>
-                                    {moment
-                                        .utc(profile.dob, 'YYYY-MM-DD')
-                                        .format('MMMM D, YYYY')}{' '}
-                                    (
-                                    {moment().diff(
-                                        moment
-                                            .utc(profile.dob)
-                                            .tz(moment.tz.guess()),
-                                        'years'
-                                    )}
-                                    )
-                                </Text>
+                                <Text>{profile.dob}</Text>
                             </HStack>
                             <HStack space={1}>
                                 <Text bold>Member since:</Text>
-                                <Text>
-                                    {moment
-                                        .utc(
-                                            profile.r_datetime,
-                                            'YYYY-MM-DDTHH:mm:ss'
-                                        )
-                                        .tz(moment.tz.guess())
-                                        .format('MMMM D, YYYY')}
-                                </Text>
+                                <Text>{profile.r_datetime}</Text>
+                            </HStack>
+                            <HStack space={1}>
+                                <Text bold>Introduction:</Text>
+                                <Text>{profile.introduction}</Text>
                             </HStack>
                         </VStack>
                     </VStack>
