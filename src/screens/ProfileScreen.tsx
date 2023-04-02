@@ -124,9 +124,7 @@ const ProfileScreen = () => {
                             </HStack>
                             <HStack space={1}>
                                 <Text bold>Introduction:</Text>
-                                <Box maxW="40">
-                                    <Text>{profile.introduction}</Text>
-                                </Box>
+                                <Text>{profile.introduction}</Text>
                             </HStack>
                         </VStack>
                     </VStack>
