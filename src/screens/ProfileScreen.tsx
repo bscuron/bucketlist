@@ -14,7 +14,8 @@ import {
     HStack,
     IconButton,
     Text,
-    VStack
+    VStack,
+    Box
 } from 'native-base';
 import SelectDropdown from 'react-native-select-dropdown';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -215,6 +216,12 @@ const ProfileScreen = ({ route }: any) => {
                                         .tz(moment.tz.guess())
                                         .format('MMMM D, YYYY')}
                                 </Text>
+                            </HStack>
+                            <HStack space='1'>
+                                <Text bold>Introduction:</Text>
+                                <Box maxW='40'>
+                                    <Text>{profile.introduction}</Text>
+                                </Box>
                             </HStack>
                         </VStack>
                     </VStack>
