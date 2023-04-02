@@ -184,7 +184,8 @@ const ProfileScreen = () => {
                         gender: profile.gender,
                         dob: profile.dob,
                         introduction: profile.introduction,
-                        picture: undefined
+                        picture: undefined,
+                        r_datetime: profile.r_datetime
                     }}
                     onUpdateProfile={setProfile}
                 />
