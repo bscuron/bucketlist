@@ -77,6 +77,7 @@ const EditProfileMenu: React.FC<ProfileProps> = ({
                     }
                 }
             );
+            setShowDeleteAccountModal(false);
             logout();
         } catch (_) {}
     };
