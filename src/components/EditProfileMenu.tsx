@@ -31,8 +31,10 @@ const EditProfileMenu: React.FC<ProfileProps> = ({
     profile,
     onUpdateProfile
 }) => {
-    const { token, editProfile, setEditProfile } = useContext(Context);
+    const { token, editProfile, setEditProfile, logout } = useContext(Context);
     const [data, setData] = useState<ProfileData>({});
+    const [showDeleteAccountModal, setShowDeleteAccountModal] =
+        useState<boolean>(false);
 
     const submit = async () => {
         console.log(
@@ -60,6 +62,22 @@ const EditProfileMenu: React.FC<ProfileProps> = ({
             setEditProfile(false);
             onUpdateProfile({ ...profile, ...data });
             setData({});
+        } catch (_) {}
+    };
+
+    const deleteAccount = async () => {
+        try {
+            await axios.delete(
+                'https://cis-linux2.temple.edu/bucketlistBackend/delete',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            logout();
         } catch (_) {}
     };
 
@@ -156,6 +174,57 @@ const EditProfileMenu: React.FC<ProfileProps> = ({
                         >
                             Close
                         </Button>
+                        <Button
+                            colorScheme="danger"
+                            onPress={() =>
+                                setShowDeleteAccountModal(
+                                    !showDeleteAccountModal
+                                )
+                            }
+                        >
+                            Delete Account
+                        </Button>
+                        <AlertDialog
+                            leastDestructiveRef={useRef(null)}
+                            isOpen={showDeleteAccountModal}
+                            onClose={() =>
+                                setShowDeleteAccountModal(
+                                    !showDeleteAccountModal
+                                )
+                            }
+                        >
+                            <AlertDialog.Content>
+                                <AlertDialog.CloseButton />
+                                <AlertDialog.Header>
+                                    Delete Account
+                                </AlertDialog.Header>
+                                <AlertDialog.Body>
+                                    Are you sure you want to delete your
+                                    account? This action cannot be undone.
+                                </AlertDialog.Body>
+                                <AlertDialog.Footer>
+                                    <Button.Group space={2}>
+                                        <Button
+                                            variant="unstyled"
+                                            colorScheme="coolGray"
+                                            onPress={() =>
+                                                setShowDeleteAccountModal(
+                                                    !showDeleteAccountModal
+                                                )
+                                            }
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            colorScheme="danger"
+                                            onPress={() => deleteAccount()}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Button.Group>
+                                </AlertDialog.Footer>
+                            </AlertDialog.Content>
+                        </AlertDialog>
                         <Button
                             colorScheme="success"
                             onPress={() => {
