@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../App';
 import {
     Avatar,
@@ -30,6 +31,7 @@ TimeAgo.addLocale(en);
 const timeFormatter = new TimeAgo('en-US');
 
 const EventView: React.FC<EventProps> = ({ w, event, query }) => {
+    const navigation = useNavigation();
     const { token } = useContext(Context);
     const decodedToken: any = jwtDecode(token);
     let localEvent: Event = event;
@@ -74,10 +76,26 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
             shadow={2}
             space={2}
         >
-            <Avatar
-                source={require('../../assets/profile_image_placeholder.png')}
-                size="xl"
-            />
+            <VStack alignItems="center">
+                <Avatar
+                    source={require('../../assets/profile_image_placeholder.png')}
+                    size="xl"
+                />
+                <Link
+                    onPress={() =>
+                        navigation.navigate('Profile', {
+                            username: event.organizer
+                        })
+                    }
+                    isUnderlined={false}
+                    isExternal
+                    _text={{
+                        color: 'primary.600'
+                    }}
+                >
+                    @{event.organizer}
+                </Link>
+            </VStack>
             <VStack flex={1} space={5} m={2}>
                 <HStack>
                     <VStack flex={1}>
