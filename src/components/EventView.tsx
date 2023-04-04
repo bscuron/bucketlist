@@ -20,6 +20,7 @@ import moment from 'moment-timezone';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 interface EventProps {
     w: any | any[];
@@ -32,9 +33,10 @@ const timeFormatter = new TimeAgo('en-US');
 
 const EventView: React.FC<EventProps> = ({ w, event, query }) => {
     const navigation = useNavigation();
-    const { token } = useContext(Context);
+    const { token, logout } = useContext(Context);
     const decodedToken: any = jwtDecode(token);
     let localEvent: Event = event;
+    console.log(event.event_id);
 
     // Format the host datetime to match format "April 1, 2023 @ 1:00pm""
     localEvent.host_datetime_formatted = moment
@@ -65,6 +67,23 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                 )) || value;
         }
     }
+
+    const deleteEvent = async () => {
+        try {
+            await axios.delete(
+                `https://cis-linux2.temple.edu/bucketlistBackend/delete/event/${event.event_id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        } catch (err) {
+            logout();
+        }
+    };
 
     return (
         <HStack
@@ -147,6 +166,7 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                         name: 'delete',
                         color: 'gray.400'
                     }}
+                    onPress={() => deleteEvent()}
                 />
             )}
         </HStack>
