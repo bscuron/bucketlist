@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../App';
 import {
     KeyboardAvoidingView,
@@ -22,36 +23,38 @@ import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import moment from 'moment-timezone';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
 
-TimeAgo.addLocale(en);
-const timeFormatter = new TimeAgo('en-US');
-
-const ProfileScreen = () => {
+const ProfileScreen = ({ route }: any) => {
     const [profile, setProfile] = useState<Profile>();
     const [events, setEvents] = useState<Event[]>([]);
     const [allProfiles, setallProfiles] = useState<Profile[]>([]);
     const [usernames, setUsernames] = useState<String[]>([]);
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
+    const navigation = useNavigation();
+    const { username } = route.params || {};
 
     // GET request to retrieve user's profile data
     useEffect(() => {
         axios
-            .get('https://cis-linux2.temple.edu/bucketlistBackend/profile', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
+            .get(
+                `https://cis-linux2.temple.edu/bucketlistBackend/profile/${
+                    username || ''
+                }`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
                 }
-            })
+            )
             .then((res) => {
                 setProfile(res.data.profile);
                 setEvents(res.data.events);
             })
             .catch(logout);
-    }, []);
+    }, [username]);
 
     //GET request to retrieve all user profile data
     useEffect(() => {
@@ -65,15 +68,13 @@ const ProfileScreen = () => {
             })
             .then((res) => {
                 setallProfiles(res.data.rows);
-                console.log(res.data.rows);
             })
             .catch(logout);
     }, []);
 
     useEffect(() => {
         if (allProfiles) {
-            setUsernames(allProfiles.map((d) => d.username));
-            console.log(usernames);
+            setUsernames(allProfiles.map((profile) => profile.username));
         }
     }, [allProfiles]);
 
@@ -96,18 +97,18 @@ const ProfileScreen = () => {
             >
                 <SelectDropdown
                     data={usernames}
-                    onSelect={(selectedItem, index) => {
-                        console.log(selectedItem, index);
-                        console.log(allProfiles[index]);
-                        setProfile(allProfiles[index]);
+                    onSelect={(username, _) => {
+                        navigation.navigate('Profile', {
+                            username: username
+                        });
                     }}
                     defaultButtonText={'Search for other users...'}
-                    buttonTextAfterSelection={(selectedItem, index) => {
+                    buttonTextAfterSelection={(selectedItem, _) => {
                         // text represented after item is selected
                         // if data array is an array of objects then return selectedItem.property to render after item is selected
                         return selectedItem;
                     }}
-                    rowTextForSelection={(item, index) => {
+                    rowTextForSelection={(item, _) => {
                         // text represented for each item in dropdown
                         // if data array is an array of objects then return item.property to represent item in dropdown
                         return item;
