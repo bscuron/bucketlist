@@ -16,7 +16,8 @@ import {
     VStack,
     Box
 } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+import SelectDropdown from 'react-native-select-dropdown';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
@@ -30,6 +31,8 @@ const timeFormatter = new TimeAgo('en-US');
 const ProfileScreen = () => {
     const [profile, setProfile] = useState<Profile>();
     const [events, setEvents] = useState<Event[]>([]);
+    const [allProfiles, setallProfiles] = useState<Profile[]>([]);
+    const [usernames, setUsernames] = useState<String[]>([]);
     const { token, logout, setEditProfile, setCreatingEvent } =
         useContext(Context);
 
@@ -50,8 +53,35 @@ const ProfileScreen = () => {
             .catch(logout);
     }, []);
 
+    //GET request to retrieve all user profile data
+    useEffect(() => {
+        axios
+            .get(
+                'https://cis-linux2.temple.edu/bucketlistBackend/profiles',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            .then((res) => {
+                setallProfiles(res.data.rows);
+                console.log(res.data.rows)
+            })
+            .catch(logout);
+    }, []);
+
+    useEffect(() => {
+        if (allProfiles) {
+            setUsernames(allProfiles.map(d => (d.username)));
+            console.log(usernames)
+        }
+    }, [allProfiles])
+
     // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
-    if (!profile) return;
+    if (!profile || !allProfiles) return;
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -67,6 +97,41 @@ const ProfileScreen = () => {
                     overflow: 'hidden'
                 }}
             >
+                <SelectDropdown
+                    data={usernames}
+                    onSelect={(selectedItem, index) => {
+                        console.log(selectedItem, index);
+                        console.log(allProfiles[index]);
+                        setProfile(allProfiles[index]);
+                    }}
+                    defaultButtonText={'Search for other users...'}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        return selectedItem;
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        // text represented for each item in dropdown
+                        // if data array is an array of objects then return item.property to represent item in dropdown
+                        return item;
+                    }}
+                    buttonStyle={styles.dropdown1BtnStyle}
+                    buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                    renderDropdownIcon={isOpened => {
+                        return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                      }}
+                      dropdownIconPosition={'right'}
+                    dropdownStyle={styles.dropdown1DropdownStyle}
+                    rowStyle={styles.dropdown1RowStyle}
+                    rowTextStyle={styles.dropdown1RowTxtStyle}
+                    selectedRowStyle={styles.dropdown1SelectedRowStyle}
+                    search
+                    searchInputStyle={styles.dropdown1searchInputStyleStyle}
+                    searchPlaceHolder={'Search here'}
+                    renderSearchInputLeftIcon={() => {
+                        return <FontAwesome name={'search'} color={'#444'} size={18} />;
+                    }}
+                />
                 <VStack
                     w={['90%', '90%', '45%']}
                     alignItems="center"
@@ -207,5 +272,24 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         justifyContent: 'center'
-    }
+    },
+    dropdown1BtnStyle: {
+        width: '80%',
+        height: 50,
+        backgroundColor: '#FFF',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#444',
+      },
+      dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
+      dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
+      dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+      dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
+      dropdown1SelectedRowStyle: {backgroundColor: 'rgba(0,0,0,0.1)'},
+      dropdown1searchInputStyleStyle: {
+        backgroundColor: '#EFEFEF',
+        borderRadius: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: '#444',
+      }
 });
