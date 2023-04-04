@@ -55,29 +55,26 @@ const ProfileScreen = () => {
     //GET request to retrieve all user profile data
     useEffect(() => {
         axios
-            .get(
-                'https://cis-linux2.temple.edu/bucketlistBackend/profiles',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    }
+            .get('https://cis-linux2.temple.edu/bucketlistBackend/profiles', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
                 }
-            )
+            })
             .then((res) => {
                 setallProfiles(res.data.rows);
-                console.log(res.data.rows)
+                console.log(res.data.rows);
             })
             .catch(logout);
     }, []);
 
     useEffect(() => {
         if (allProfiles) {
-            setUsernames(allProfiles.map(d => (d.username)));
-            console.log(usernames)
+            setUsernames(allProfiles.map((d) => d.username));
+            console.log(usernames);
         }
-    }, [allProfiles])
+    }, [allProfiles]);
 
     // TODO: replace with skeleton (https://docs.nativebase.io/skeleton) that actual layout
     if (!profile || !allProfiles) return;
@@ -116,10 +113,16 @@ const ProfileScreen = () => {
                     }}
                     buttonStyle={styles.dropdown1BtnStyle}
                     buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                    renderDropdownIcon={isOpened => {
-                        return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
-                      }}
-                      dropdownIconPosition={'right'}
+                    renderDropdownIcon={(isOpened) => {
+                        return (
+                            <FontAwesome
+                                name={isOpened ? 'chevron-up' : 'chevron-down'}
+                                color={'#444'}
+                                size={18}
+                            />
+                        );
+                    }}
+                    dropdownIconPosition={'right'}
                     dropdownStyle={styles.dropdown1DropdownStyle}
                     rowStyle={styles.dropdown1RowStyle}
                     rowTextStyle={styles.dropdown1RowTxtStyle}
@@ -128,7 +131,13 @@ const ProfileScreen = () => {
                     searchInputStyle={styles.dropdown1searchInputStyleStyle}
                     searchPlaceHolder={'Search here'}
                     renderSearchInputLeftIcon={() => {
-                        return <FontAwesome name={'search'} color={'#444'} size={18} />;
+                        return (
+                            <FontAwesome
+                                name={'search'}
+                                color={'#444'}
+                                size={18}
+                            />
+                        );
                     }}
                 />
                 <VStack
@@ -272,17 +281,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: '#444',
-      },
-      dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
-      dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
-      dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
-      dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
-      dropdown1SelectedRowStyle: {backgroundColor: 'rgba(0,0,0,0.1)'},
-      dropdown1searchInputStyleStyle: {
+        borderColor: '#444'
+    },
+    dropdown1BtnTxtStyle: { color: '#444', textAlign: 'left' },
+    dropdown1DropdownStyle: { backgroundColor: '#EFEFEF' },
+    dropdown1RowStyle: {
+        backgroundColor: '#EFEFEF',
+        borderBottomColor: '#C5C5C5'
+    },
+    dropdown1RowTxtStyle: { color: '#444', textAlign: 'left' },
+    dropdown1SelectedRowStyle: { backgroundColor: 'rgba(0,0,0,0.1)' },
+    dropdown1searchInputStyleStyle: {
         backgroundColor: '#EFEFEF',
         borderRadius: 8,
         borderBottomWidth: 1,
-        borderBottomColor: '#444',
-      }
+        borderBottomColor: '#444'
+    }
 });
