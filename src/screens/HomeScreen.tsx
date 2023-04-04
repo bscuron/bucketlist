@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState, useContext } from 'react';
+import React, { memo, useEffect, useState, useContext } from 'react';
 import { Context } from '../../App';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
@@ -16,12 +16,6 @@ import { EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import { Event } from '../types';
 import fuzzysort from 'fuzzysort';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
-import moment from 'moment';
-
-TimeAgo.addLocale(en);
-const timeFormatter = new TimeAgo('en-US');
 
 /**
  * Screen component for home screen (list view)
