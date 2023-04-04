@@ -1,5 +1,15 @@
-import React from 'react';
-import { Avatar, Heading, Text, HStack, VStack, Icon, Link } from 'native-base';
+import React, { useContext } from 'react';
+import { Context } from '../../App';
+import {
+    Avatar,
+    Heading,
+    Text,
+    HStack,
+    VStack,
+    Icon,
+    Link,
+    IconButton
+} from 'native-base';
 import { Event } from '../types';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { createMapLink } from 'react-native-open-maps';
@@ -8,6 +18,7 @@ import structuredClone from '@ungap/structured-clone';
 import moment from 'moment-timezone';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import jwtDecode from 'jwt-decode';
 
 interface EventProps {
     w: any | any[];
@@ -19,6 +30,8 @@ TimeAgo.addLocale(en);
 const timeFormatter = new TimeAgo('en-US');
 
 const EventView: React.FC<EventProps> = ({ w, event, query }) => {
+    const { token } = useContext(Context);
+    const decodedToken: any = jwtDecode(token);
     let localEvent: Event = event;
 
     // Format the host datetime to match format "April 1, 2023 @ 1:00pm""
@@ -107,6 +120,17 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                 </HStack>
                 <Text>{localEvent.description}</Text>
             </VStack>
+            {event.user_id == decodedToken.user_id && (
+                <IconButton
+                    size="md"
+                    colorScheme="danger"
+                    _icon={{
+                        as: AntDesign,
+                        name: 'delete',
+                        color: 'gray.400'
+                    }}
+                />
+            )}
         </HStack>
     );
 };
