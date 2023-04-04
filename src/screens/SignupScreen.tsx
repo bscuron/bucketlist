@@ -37,17 +37,25 @@ type FormData = {
 const SignupScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [errors, setErrors] = useState<FormData>({});
+    const [showTOS, setShowTOS] = useState<boolean>(false);
     const [showCode, setShowCode] = useState<boolean>(false);
     const [codeData, setCodeData] = useState<string>('');
     const [backupCode, setBackupCode] = useState<string>('');
     const navigation = useNavigation();
 
     /**
-     * Submit user inputted data to backend for account creation
+     * Handle user signup form submission
      */
     const submit = async () => {
         if (!validate()) return;
+        setShowTOS(true);
+    };
 
+    /**
+     * Create an account
+     */
+    const createAccount = async () => {
+        setShowTOS(false);
         try {
             const result = await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/signup',
@@ -62,8 +70,6 @@ const SignupScreen = () => {
         } catch (error) {
             return;
         }
-
-        // Successfully signed up
         setShowCode(true);
     };
 
@@ -313,6 +319,37 @@ const SignupScreen = () => {
                             </HStack>
                         </VStack>
                     </Box>
+
+                    <AlertDialog
+                        leastDestructiveRef={useRef(null)}
+                        isOpen={showTOS}
+                        onClose={() => setShowTOS(false)}
+                    >
+                        <AlertDialog.Content>
+                            <AlertDialog.CloseButton />
+                            <AlertDialog.Header>
+                                Terms of Service Agreement
+                            </AlertDialog.Header>
+                            <AlertDialog.Body>TOS HERE</AlertDialog.Body>
+                            <AlertDialog.Footer>
+                                <Button.Group space={2}>
+                                    <Button
+                                        variant="unstyled"
+                                        colorScheme="coolGray"
+                                        onPress={() => setShowTOS(false)}
+                                    >
+                                        Close
+                                    </Button>
+                                    <Button
+                                        colorScheme="success"
+                                        onPress={() => createAccount()}
+                                    >
+                                        Agree
+                                    </Button>
+                                </Button.Group>
+                            </AlertDialog.Footer>
+                        </AlertDialog.Content>
+                    </AlertDialog>
 
                     <AlertDialog
                         leastDestructiveRef={useRef(null)}
