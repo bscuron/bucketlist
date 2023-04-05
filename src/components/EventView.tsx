@@ -9,7 +9,8 @@ import {
     VStack,
     Icon,
     Link,
-    IconButton
+    IconButton,
+    Pressable
 } from 'native-base';
 import { Event } from '../types';
 import { Entypo, AntDesign } from '@expo/vector-icons';
@@ -86,90 +87,120 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
     };
 
     return (
-        <HStack
-            w={w}
-            bg="white"
-            p={2}
-            m={2}
-            borderRadius={5}
-            shadow={2}
-            space={2}
-        >
-            <VStack alignItems="center">
-                <Avatar
-                    source={require('../../assets/profile_image_placeholder.png')}
-                    size="xl"
-                />
-                <Link
-                    onPress={() =>
-                        navigation.navigate('Profile', {
-                            username: event.organizer
-                        })
-                    }
-                    isUnderlined={false}
-                    isExternal
-                    _text={{
-                        color: 'primary.600'
-                    }}
-                >
-                    @{event.organizer}
-                </Link>
-            </VStack>
-            <VStack flex={1} space={5} m={2}>
-                <HStack>
-                    <VStack flex={1}>
-                        <Heading size="sm" paddingLeft={0}>
-                            {localEvent.title}
-                        </Heading>
-                        <HStack space={1}>
-                            <Icon
-                                as={AntDesign}
-                                name="calendar"
-                                size="md"
-                                color="primary.600"
-                            />
-                            <Text color="primary.600">
-                                {localEvent.host_datetime_formatted}
-                            </Text>
-                        </HStack>
-                        <HStack>
-                            <Icon
-                                as={Entypo}
-                                name="location-pin"
-                                size="md"
-                                color="primary.600"
+        <Pressable w={w}>
+            {({ isHovered, isFocused, isPressed }) => {
+                return (
+                    <HStack
+                        bg="white"
+                        style={{
+                            transform: [
+                                {
+                                    scale: isPressed ? 0.96 : 1
+                                }
+                            ]
+                        }}
+                        p={2}
+                        m={2}
+                        borderRadius={5}
+                        shadow={2}
+                        space={2}
+                    >
+                        <VStack alignItems="center">
+                            <Avatar
+                                source={require('../../assets/profile_image_placeholder.png')}
+                                size="xl"
                             />
                             <Link
-                                href={createMapLink({ query: event.location })}
+                                onPress={() =>
+                                    navigation.navigate('Profile', {
+                                        username: event.organizer
+                                    })
+                                }
                                 isUnderlined={false}
                                 isExternal
+                                my={1}
+                                px={1}
                                 _text={{
-                                    color: 'primary.600'
+                                    color: 'gray.500'
+                                }}
+                                _hover={{
+                                    bg: 'gray.100',
+                                    borderRadius: 5
                                 }}
                             >
-                                {localEvent.location}
+                                @{event.organizer}
                             </Link>
-                        </HStack>
-                    </VStack>
-                    <Text color="gray.500" paddingRight={0}>
-                        {localEvent.timestamp}
-                    </Text>
-                </HStack>
-                <Text>{localEvent.description}</Text>
-            </VStack>
-            {event.user_id == decodedToken.user_id && (
-                <IconButton
-                    size="md"
-                    colorScheme="danger"
-                    _icon={{
-                        as: AntDesign,
-                        name: 'delete',
-                        color: 'gray.400'
-                    }}
-                    onPress={() => deleteEvent()}
-                />
-            )}
-        </HStack>
+                        </VStack>
+                        <VStack flex={1} space={5} m={2}>
+                            <HStack>
+                                <VStack flex={1}>
+                                    <Heading size="sm" paddingLeft={0}>
+                                        {localEvent.title}
+                                    </Heading>
+                                    <HStack space={1}>
+                                        <Icon
+                                            as={AntDesign}
+                                            name="calendar"
+                                            size="md"
+                                            color="blue.400"
+                                        />
+                                        <Text color="blue.400">
+                                            {localEvent.host_datetime_formatted}
+                                        </Text>
+                                    </HStack>
+                                    <HStack>
+                                        <Icon
+                                            as={Entypo}
+                                            name="location-pin"
+                                            size="md"
+                                            color="blue.400"
+                                        />
+                                        <Link
+                                            px={1}
+                                            href={createMapLink({
+                                                query: event.location
+                                            })}
+                                            isUnderlined={false}
+                                            isExternal
+                                            _text={{
+                                                color: 'blue.400'
+                                            }}
+                                            _hover={{
+                                                bg: 'blue.50',
+                                                borderRadius: 5
+                                            }}
+                                        >
+                                            {localEvent.location}
+                                        </Link>
+                                    </HStack>
+                                </VStack>
+                                <Text color="gray.500" paddingRight={0}>
+                                    {localEvent.timestamp}
+                                </Text>
+                            </HStack>
+                            <Text>{localEvent.description}</Text>
+                        </VStack>
+                        {event.user_id == decodedToken.user_id && (
+                            <IconButton
+                                size="md"
+                                colorScheme="danger"
+                                _icon={{
+                                    as: AntDesign,
+                                    name: 'delete',
+                                    color: 'gray.400'
+                                }}
+                                _hover={{
+                                    _icon: {
+                                        color: 'red.300'
+                                    }
+                                }}
+                                onPress={() => deleteEvent()}
+                            />
+                        )}
+                    </HStack>
+                );
+            }}
+        </Pressable>
     );
 };
 
