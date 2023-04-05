@@ -37,7 +37,6 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
     const { token, logout } = useContext(Context);
     const decodedToken: any = jwtDecode(token);
     let localEvent: Event = event;
-    console.log(event.event_id);
 
     // Format the host datetime to match format "April 1, 2023 @ 1:00pm""
     localEvent.host_datetime_formatted = moment
@@ -128,7 +127,7 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                                     borderRadius: 5
                                 }}
                             >
-                                @{event.organizer}
+                                @{localEvent.organizer}
                             </Link>
                         </VStack>
                         <VStack flex={1} space={5} m={2}>
