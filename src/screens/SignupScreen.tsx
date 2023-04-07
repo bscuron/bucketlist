@@ -20,6 +20,7 @@ import {
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { TOS } from '../util';
 
 /**
  * Type for signup form data
@@ -330,7 +331,7 @@ const SignupScreen = () => {
                             <AlertDialog.Header>
                                 Terms of Service Agreement
                             </AlertDialog.Header>
-                            <AlertDialog.Body>TOS HERE</AlertDialog.Body>
+                            <AlertDialog.Body>{TOS}</AlertDialog.Body>
                             <AlertDialog.Footer>
                                 <Button.Group space={2}>
                                     <Button
