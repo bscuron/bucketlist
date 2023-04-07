@@ -15,7 +15,8 @@ import {
     SignupScreen,
     SponsorScreen,
     TermsScreen,
-    PrivacyPolicyScreen
+    PrivacyPolicyScreen,
+    AboutScreen
 } from './screens';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
@@ -35,6 +36,10 @@ type ScreenMap = {
  * Screens that do not require a JWT
  */
 export const unprotectedScreens: ScreenMap = {
+    About: {
+        url: '/bucketlist/about',
+        component: AboutScreen
+    },
     Login: {
         url: '/bucketlist/login',
         component: LoginScreen
@@ -51,7 +56,7 @@ export const unprotectedScreens: ScreenMap = {
         url: 'bucketlist/terms',
         component: TermsScreen
     },
-    Privacy:{
+    Privacy: {
         url: 'bucketlist/privacy',
         component: PrivacyPolicyScreen
     }
