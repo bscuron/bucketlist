@@ -4,3 +4,4 @@ export { default as LoadingScreen } from './LoadingScreen';
 export { default as HomeScreen } from './HomeScreen';
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as LogoutScreen } from './LogoutScreen';
+export { default as AboutScreen } from './AboutScreen';
