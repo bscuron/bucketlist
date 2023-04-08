@@ -4,7 +4,8 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
     Platform,
-    ScrollView
+    ScrollView,
+    View
 } from 'react-native';
 import {
     Center,
@@ -17,10 +18,13 @@ import {
     Button,
     Text,
     Alert,
-    Slide
+    Slide,
+    Container,
+    Spacer
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import {FooterView} from '../components'
 
 /**
  * Type for login form data
@@ -148,6 +152,10 @@ const LoginScreen = () => {
                         </Alert>
                     </Slide>
                 </Center>
+                <Box>
+                    <FooterView />
+                </Box>
+
             </KeyboardAvoidingView>
         </ScrollView>
     );
