@@ -1,6 +1,6 @@
+import { Box, Divider, Heading, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
-import { Box, Divider, Heading, ScrollView, Spacer, VStack } from 'native-base';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const TermsScreen = () => {
     return (
@@ -8,7 +8,7 @@ const TermsScreen = () => {
             <Box>
                 <VStack alignSelf="center" maxW="80%">
                     <Heading mt="5">Terms of Service</Heading>
-                    <Divider mt='2' mb='2' />
+                    <Divider mt="2" mb="2" />
                     <VStack space="2" mb="100" alignContent="center">
                         <Text style={styles.subHeading}>
                             1. Acceptance of Terms
@@ -28,57 +28,63 @@ const TermsScreen = () => {
                             of Service. You agree not to use our web
                             application:
                         </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To impersonate any person or entity or falsely state
-                            or otherwise misrepresent your affiliation with a
-                            person or entity.
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To upload, post, or otherwise transmit any content
-                            that is unlawful, harmful, threatening, abusive,
-                            harassing, tortious, defamatory, vulgar, obscene,
-                            libelous, invasive of another's privacy, hateful, or
-                            racially, ethnically, or otherwise objectionable.
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To upload, post, or otherwise transmit any content
-                            that you do not have a right to transmit under any
-                            law or under contractual or fiduciary relationships.
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To upload, post, or otherwise transmit any content
-                            that infringes any patent, trademark, trade secret,
-                            copyright, or other proprietary rights of any party.
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To upload, post, or otherwise transmit any
-                            unsolicited or unauthorized advertising, promotional
-                            materials, "junk mail," "spam," "chain letters,"
-                            "pyramid schemes," or any other form of
-                            solicitation.
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To upload, post, or otherwise transmit any material
-                            that contains software viruses or any other computer
-                            code, files, or programs designed to interrupt,
-                            destroy, or limit the functionality of any computer
-                            software or hardware or telecommunications
-                            equipment.
-                        </Text>
-                        <Text style={styles.paragraph}>
-                            {`\u2022 `}
-                            To interfere with or disrupt our web application or
-                            servers or networks connected to our web
-                            application, or disobey any requirements,
-                            procedures, policies, or regulations of networks
-                            connected to our web application.
-                        </Text>
+                        <VStack ml="5" space={2} maxW="90%">
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To impersonate any person or entity or falsely
+                                state or otherwise misrepresent your affiliation
+                                with a person or entity.
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To upload, post, or otherwise transmit any
+                                content that is unlawful, harmful, threatening,
+                                abusive, harassing, tortious, defamatory,
+                                vulgar, obscene, libelous, invasive of another's
+                                privacy, hateful, or racially, ethnically, or
+                                otherwise objectionable.
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To upload, post, or otherwise transmit any
+                                content that you do not have a right to transmit
+                                under any law or under contractual or fiduciary
+                                relationships.
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To upload, post, or otherwise transmit any
+                                content that infringes any patent, trademark,
+                                trade secret, copyright, or other proprietary
+                                rights of any party.
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To upload, post, or otherwise transmit any
+                                unsolicited or unauthorized advertising,
+                                promotional materials, "junk mail," "spam,"
+                                "chain letters," "pyramid schemes," or any other
+                                form of solicitation.
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To upload, post, or otherwise transmit any
+                                material that contains software viruses or any
+                                other computer code, files, or programs designed
+                                to interrupt, destroy, or limit the
+                                functionality of any computer software or
+                                hardware or telecommunications equipment.
+                            </Text>
+                            <Text style={styles.paragraph}>
+                                <Text bold>{`\u2022 `}</Text>
+                                To interfere with or disrupt our web application
+                                or servers or networks connected to our web
+                                application, or disobey any requirements,
+                                procedures, policies, or regulations of networks
+                                connected to our web application.
+                            </Text>
+                        </VStack>
+
                         <Text style={styles.subHeading}>3. User Content</Text>
                         <Text style={styles.paragraph}>
                             Our web application allows you to post scheduled
@@ -250,7 +256,6 @@ const TermsScreen = () => {
                             or any future Terms of Service, do not use or access
                             (or continue to use or access) our web application.
                         </Text>
-                        <Spacer />
                     </VStack>
                 </VStack>
             </Box>
@@ -262,15 +267,15 @@ export default TermsScreen;
 
 const styles = StyleSheet.create({
     container: {
-        maxWidth:'100%'
+        maxWidth: '100%'
     },
     subHeading: {
-        marginVertical: 2,
+        marginVertical: 4,
         fontSize: 18,
         fontWeight: '600'
     },
     paragraph: {
         fontSize: 16,
-        lineHeight:22
+        lineHeight: 22
     }
 });
