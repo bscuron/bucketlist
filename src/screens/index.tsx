@@ -8,3 +8,4 @@ export { default as SponsorScreen } from './SponsorScreen';
 export { default as TermsScreen } from './TermsScreen';
 export { default as PrivacyPolicyScreen } from './PrivacyPolicyScreen';
 export { default as AboutScreen } from './AboutScreen';
+export { default as ContactScreen } from './ContactScreen';
