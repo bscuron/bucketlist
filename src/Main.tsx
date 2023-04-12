@@ -1,24 +1,25 @@
-import React, { useContext } from 'react';
-import { Context } from '../App';
-import { Icon, NativeBaseProvider } from 'native-base';
-import { theme } from './core/theme';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
-import { NavigationContainer } from '@react-navigation/native';
+import { Icon, NativeBaseProvider } from 'native-base';
+import React, { useContext } from 'react';
+import { Context } from '../App';
+import { theme } from './core/theme';
 import {
+    AboutScreen,
+    ContactScreen,
     HomeScreen,
     LoadingScreen,
     LoginScreen,
     LogoutScreen,
+    PrivacyPolicyScreen,
     ProfileScreen,
     SignupScreen,
     SponsorScreen,
-    TermsScreen,
-    PrivacyPolicyScreen,
-    AboutScreen
+    TermsScreen
 } from './screens';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,10 +37,6 @@ type ScreenMap = {
  * Screens that do not require a JWT
  */
 export const unprotectedScreens: ScreenMap = {
-    About: {
-        url: '/bucketlist/about',
-        component: AboutScreen
-    },
     Login: {
         url: '/bucketlist/login',
         component: LoginScreen
@@ -47,6 +44,10 @@ export const unprotectedScreens: ScreenMap = {
     Signup: {
         url: '/bucketlist/signup',
         component: SignupScreen
+    },
+    About: {
+        url: '/bucketlist/about',
+        component: AboutScreen
     },
     Sponsor: {
         url: '/bucketlist/sponsor',
@@ -59,6 +60,10 @@ export const unprotectedScreens: ScreenMap = {
     Privacy: {
         url: 'bucketlist/privacy',
         component: PrivacyPolicyScreen
+    },
+    Contact: {
+        url: 'bucketlist/contactUs',
+        component: ContactScreen
     }
 };
 
