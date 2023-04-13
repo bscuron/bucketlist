@@ -1,15 +1,16 @@
 import { Box, Divider, Heading, Text, VStack } from 'native-base';
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import { FooterView } from '../components';
 
 const PrivacyPolicyScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Box>
-                <VStack alignSelf="center" maxW="80%" mb="100">
+                <VStack alignSelf="center" maxW="80%">
                     <Heading mt="5">Privacy Policy</Heading>
                     <Divider mt="2" mb="2" />
-                    <VStack space="2" mb="100" alignContent="center">
+                    <VStack space="2" mb="5" alignContent="center">
                         <Text style={styles.paragraph}>
                             We at 2023 Temple University SP23 BucketList Project
                             Team respect the privacy of our users and are
@@ -170,6 +171,7 @@ const PrivacyPolicyScreen = () => {
                     </VStack>
                 </VStack>
             </Box>
+            <FooterView />
         </ScrollView>
     );
 };
@@ -186,7 +188,6 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     paragraph: {
-        fontSize: 16,
-        lineHeight: 22
+        fontSize: 16
     }
 });

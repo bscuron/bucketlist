@@ -1,6 +1,7 @@
 import { Box, Divider, Heading, ScrollView, Text, VStack } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { FooterView } from '../components';
 
 const TermsScreen = () => {
     return (
@@ -9,7 +10,7 @@ const TermsScreen = () => {
                 <VStack alignSelf="center" maxW="80%">
                     <Heading mt="5">Terms of Service</Heading>
                     <Divider mt="2" mb="2" />
-                    <VStack space="2" mb="100" alignContent="center">
+                    <VStack space="2" mb="5" alignContent="center">
                         <Text style={styles.subHeading}>
                             1. Acceptance of Terms
                         </Text>
@@ -258,6 +259,7 @@ const TermsScreen = () => {
                         </Text>
                     </VStack>
                 </VStack>
+                <FooterView />
             </Box>
         </ScrollView>
     );
