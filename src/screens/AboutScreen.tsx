@@ -25,7 +25,17 @@ const AboutScreen = () => {
                     <Heading size="3xl">Welcome to BucketList!</Heading>
                     <Text fontSize="16">
                         Check off and complete your wish list with friends, and
-                        keep all your memory without regrat.
+                        keep all your memory without regret.
+
+                        BucketList is an application to help create a more 
+                        interactive bucket list of activities you want to accomplish. 
+                        With this list you can connect with old and new friends to complete 
+                        these activities and live a more fulfilled life. Many times, 
+                        we want to do things but never do them. BucketList is intended 
+                        to get people up and going to accomplish their goals. With the help of 
+                        social connection and common interests' you can connect and 
+                        live the life you want to live instead of daydreaming but never doing.
+
                     </Text>
                 </VStack>
                 <Spacer size="10" />
