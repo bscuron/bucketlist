@@ -1,25 +1,26 @@
-import React, { memo, useState, useRef } from 'react';
-import {
-    StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView
-} from 'react-native';
-import {
-    Center,
-    VStack,
-    Box,
-    Heading,
-    Input,
-    FormControl,
-    Button,
-    AlertDialog,
-    Image,
-    Text,
-    HStack
-} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import {
+    AlertDialog,
+    Box,
+    Button,
+    Center,
+    FormControl,
+    HStack,
+    Heading,
+    Image,
+    Input,
+    Text,
+    VStack
+} from 'native-base';
+import React, { memo, useRef, useState } from 'react';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet
+} from 'react-native';
+import { FooterView } from '../components';
 import { TOS } from '../util';
 
 /**
@@ -217,7 +218,7 @@ const SponsorScreen = () => {
             >
                 <Center>
                     <Box>
-                        <Heading size='md'>Sponsor us today</Heading>
+                        <Heading size="md">Sponsor us today</Heading>
                     </Box>
                     <Box safeArea p="2" w="90%" maxW="290" py="8">
                         <Heading size="xl">Welcome</Heading>
@@ -404,6 +405,9 @@ const SponsorScreen = () => {
                     </AlertDialog>
                 </Center>
             </KeyboardAvoidingView>
+            <Center position="fixed" bottom="0" alignSelf="center">
+                <FooterView />
+            </Center>
         </ScrollView>
     );
 };

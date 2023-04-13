@@ -5,7 +5,6 @@ import {
     Box,
     Button,
     Center,
-    Flex,
     FormControl,
     HStack,
     Heading,
@@ -163,8 +162,10 @@ const LoginScreen = () => {
                             </Alert>
                         </Slide>
                     </Center>
-                    <FooterView />
                 </VStack>
+                <Center position="fixed" bottom="0" alignSelf="center">
+                    <FooterView />
+                </Center>
             </KeyboardAvoidingView>
         </ScrollView>
     );
