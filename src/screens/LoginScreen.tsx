@@ -147,6 +147,13 @@ const LoginScreen = () => {
                             </Text>
                         </Alert>
                     </Slide>
+                    <Text
+                        onPress={() =>
+                            navigation.navigate('About')
+                        }
+                                    underline>
+                        About
+                    </Text>
                 </Center>
             </KeyboardAvoidingView>
         </ScrollView>

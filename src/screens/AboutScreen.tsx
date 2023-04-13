@@ -22,13 +22,34 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-
+/**
+ * 
+ * 
+ */
 
 const AboutScreen = () => {
+    const navigation = useNavigation();
     // placeholder
-    return (<ScrollView>
-        
-    </ScrollView>);
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <HStack>
+                <span style={{ fontWeight: 'bold' }}>About Bucketlist</span>
+                    
+                </HStack>
+                
+            </KeyboardAvoidingView>
+        </ScrollView>
+    );
 }
 
 export default memo(AboutScreen);
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        justifyContent: 'center'
+    }
+});
