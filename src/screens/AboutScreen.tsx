@@ -2,16 +2,15 @@ import { useNavigation } from '@react-navigation/native';
 import {
     Box,
     Button,
-    Flex,
+    Container,
     HStack,
     Heading,
     ScrollView,
-    Spacer,
     Text,
     VStack
 } from 'native-base';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FooterView } from '../components';
 
 const AboutScreen = () => {
@@ -25,22 +24,14 @@ const AboutScreen = () => {
                     <Heading size="3xl">Welcome to BucketList!</Heading>
                     <Text fontSize="16">
                         Check off and complete your wish list with friends, and
-                        keep all your memory without regret.
-
-                        BucketList is an application to help create a more 
-                        interactive bucket list of activities you want to accomplish. 
-                        With this list you can connect with old and new friends to complete 
-                        these activities and live a more fulfilled life. Many times, 
-                        we want to do things but never do them. BucketList is intended 
-                        to get people up and going to accomplish their goals. With the help of 
-                        social connection and common interests' you can connect and 
-                        live the life you want to live instead of daydreaming but never doing.
-
+                        keep all your memory without regrat.
                     </Text>
                 </VStack>
                 <Spacer size="10" />
             </VStack>
-            <FooterView />
+            <Container position="fixed" bottom="0" alignSelf="center">
+                <FooterView />
+            </Container>
         </ScrollView>
     );
 };
@@ -52,17 +43,13 @@ const styles = StyleSheet.create({
         maxWidth: '100%',
         backgroundColor: 'white'
     },
-    banner: {
-        flexDirection: 'column',
-        marginVertical: 10,
-        alignSelf: 'flex-start'
+    bannerBox: {
+        maxWidth: '100%'
     },
-    body: {
-        marginTop: 20,
-        maxWidth: '80%',
-        width: 1200,
+    banner: {
         alignSelf: 'center',
-        alignItems: 'center',
-        space: 5
+        maxWidth: '80%',
+        marginTop: 90,
+        paddingBottom: 20
     }
 });
