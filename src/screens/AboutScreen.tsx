@@ -2,16 +2,15 @@ import { useNavigation } from '@react-navigation/native';
 import {
     Box,
     Button,
-    Flex,
+    Container,
     HStack,
     Heading,
     ScrollView,
-    Spacer,
     Text,
     VStack
 } from 'native-base';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FooterView } from '../components';
 
 const AboutScreen = () => {
@@ -19,18 +18,33 @@ const AboutScreen = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Spacer size="10" />
-            <VStack style={styles.body}>
-                <VStack style={styles.banner}>
-                    <Heading size="3xl">Welcome to BucketList!</Heading>
-                    <Text fontSize="16">
-                        Check off and complete your wish list with friends, and
-                        keep all your memory without regrat.
-                    </Text>
-                </VStack>
-                <Spacer size="10" />
+            <VStack>
+                <Box style={styles.bannerBox} bg="gray.200">
+                    <VStack style={styles.banner}>
+                        <Box>
+                            <Heading size="2xl">Welcome to BucketList!</Heading>
+                            <Text fontSize="16">
+                                Check off and complete your wish list with
+                                friends, and keep all your memory without
+                                regrat.
+                            </Text>
+                        </Box>
+                        <Button
+                            mt="5"
+                            alignSelf="flex-start"
+                            colorScheme="primary"
+                        >
+                            <Text>Learn more</Text>
+                        </Button>
+                    </VStack>
+                </Box>
+                <HStack alignSelf="center">
+                    <Box></Box>
+                </HStack>
             </VStack>
-            <FooterView />
+            <Container position="fixed" bottom="0" alignSelf="center">
+                <FooterView />
+            </Container>
         </ScrollView>
     );
 };
@@ -42,17 +56,13 @@ const styles = StyleSheet.create({
         maxWidth: '100%',
         backgroundColor: 'white'
     },
-    banner: {
-        flexDirection: 'column',
-        marginVertical: 10,
-        alignSelf: 'flex-start'
+    bannerBox: {
+        maxWidth: '100%'
     },
-    body: {
-        marginTop: 20,
-        maxWidth: '80%',
-        width: 1200,
+    banner: {
         alignSelf: 'center',
-        alignItems: 'center',
-        space: 5
+        maxWidth: '80%',
+        marginTop: 90,
+        paddingBottom: 20
     }
 });
