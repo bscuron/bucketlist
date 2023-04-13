@@ -62,7 +62,7 @@ export const unprotectedScreens: ScreenMap = {
         component: PrivacyPolicyScreen
     },
     Contact: {
-        url: 'bucketlist/contactUs',
+        url: 'bucketlist/contact',
         component: ContactScreen
     }
 };
