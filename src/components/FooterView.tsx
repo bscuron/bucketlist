@@ -9,20 +9,23 @@ const FooterView = () => {
         <Container style={styles.container}>
             <Stack direction="column" style={styles.stack}>
                 <HStack space="5">
+                    <Text onPress={() => navigation.navigate('Login')}>
+                        Home
+                    </Text>
                     <Text onPress={() => navigation.navigate('About')}>
-                        About Us
+                        About
                     </Text>
                     <Text onPress={() => navigation.navigate('Sponsor')}>
-                        Sponsor Us
+                        Sponsor
                     </Text>
                     <Text onPress={() => navigation.navigate('Terms')}>
                         Terms
                     </Text>
                     <Text onPress={() => navigation.navigate('Privacy')}>
-                        Privacy Policy
+                        Privacy
                     </Text>
                     <Text onPress={() => navigation.navigate('Contact')}>
-                        Contact Us
+                        Contact
                     </Text>
                 </HStack>
                 <HStack alignItems="center" mt="5">
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
         alignSelf: 'center',
         maxWidth: '100%',
-        position: 'fixed',
+        position: 'flex-end',
         bottom: 0,
         marginVertical: 50
     },
