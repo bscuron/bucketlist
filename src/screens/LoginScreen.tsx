@@ -1,30 +1,26 @@
-import React, { memo, useState, useContext } from 'react';
-import { Context } from '../../App';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import {
-    StyleSheet,
+    Alert,
+    Box,
+    Button,
+    Center,
+    FormControl,
+    HStack,
+    Heading,
+    Input,
+    Slide,
+    Text,
+    VStack
+} from 'native-base';
+import React, { memo, useContext, useState } from 'react';
+import {
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    View
+    StyleSheet
 } from 'react-native';
-import {
-    Center,
-    VStack,
-    HStack,
-    Box,
-    Heading,
-    Input,
-    FormControl,
-    Button,
-    Text,
-    Alert,
-    Slide,
-    Container,
-    Spacer,
-    Flex
-} from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
+import { Context } from '../../App';
 import { FooterView } from '../components';
 
 /**
@@ -166,10 +162,10 @@ const LoginScreen = () => {
                             </Alert>
                         </Slide>
                     </Center>
-                    <Flex marginTop="20">
-                        <FooterView />
-                    </Flex>
                 </VStack>
+                <Center position="fixed" bottom="0" alignSelf="center">
+                    <FooterView />
+                </Center>
             </KeyboardAvoidingView>
         </ScrollView>
     );
