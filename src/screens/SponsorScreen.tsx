@@ -1,25 +1,26 @@
-import React, { memo, useState, useRef } from 'react';
-import {
-    StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView
-} from 'react-native';
-import {
-    Center,
-    VStack,
-    Box,
-    Heading,
-    Input,
-    FormControl,
-    Button,
-    AlertDialog,
-    Image,
-    Text,
-    HStack
-} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import {
+    AlertDialog,
+    Box,
+    Button,
+    Center,
+    FormControl,
+    HStack,
+    Heading,
+    Image,
+    Input,
+    Text,
+    VStack
+} from 'native-base';
+import React, { memo, useRef, useState } from 'react';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet
+} from 'react-native';
+import { FooterView } from '../components';
 import { TOS } from '../util';
 
 /**
@@ -216,27 +217,25 @@ const SponsorScreen = () => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
                 <Center>
-                    <Box>
-                        <Heading size='md'>Sponsor us today</Heading>
-                    </Box>
                     <Box safeArea p="2" w="90%" maxW="290" py="8">
-                        <Heading size="xl">Welcome</Heading>
-                        <Heading mt="1" size="sm">
-                            Sign up to continue!
+                        <Heading size="xl">Sponsor us today!</Heading>
+                        <Heading mt="1" size="sm" fontWeight="normal">
+                            Fill in the form and we will reach back to you !
+                            Thank you for your support!
                         </Heading>
                         <VStack space={3} mt="5">
                             <FormControl
                                 isRequired
-                                isInvalid={'username' in errors}
+                                //isInvalid={'username' in errors}
                             >
-                                <FormControl.Label>Username</FormControl.Label>
+                                <FormControl.Label>Name</FormControl.Label>
                                 <Input
                                     size="lg"
                                     type="text"
-                                    onChangeText={(value) => {
-                                        setData({ ...data, username: value });
-                                        validateUsername(value);
-                                    }}
+                                    // onChangeText={(value) => {
+                                    //     setData({ ...data, username: value });
+                                    //     validateUsername(value);
+                                    // }}
                                 />
                                 <FormControl.ErrorMessage>
                                     {errors.username}
@@ -245,64 +244,20 @@ const SponsorScreen = () => {
 
                             <FormControl
                                 isRequired
-                                isInvalid={'email' in errors}
+                                // isInvalid={'email' in errors}
                             >
                                 <FormControl.Label>Email</FormControl.Label>
                                 <Input
                                     size="lg"
                                     type="text"
-                                    onChangeText={(value) => {
-                                        setData({ ...data, email: value });
-                                        validateEmail(value);
-                                    }}
+                                    // onChangeText={(value) => {
+                                    //     setData({ ...data, email: value });
+                                    //     validateEmail(value);
+                                    // }}
                                 />
-                                <FormControl.ErrorMessage>
+                                {/* <FormControl.ErrorMessage>
                                     {errors.email}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-
-                            <FormControl
-                                isRequired
-                                isInvalid={'password' in errors}
-                            >
-                                <FormControl.Label>Password</FormControl.Label>
-                                <Input
-                                    size="lg"
-                                    type="password"
-                                    onChangeText={(value) => {
-                                        setData({ ...data, password: value });
-                                        validatePasswords(
-                                            value,
-                                            data.confirmPassword
-                                        );
-                                    }}
-                                />
-                                <FormControl.ErrorMessage>
-                                    {errors.password}
-                                </FormControl.ErrorMessage>
-                            </FormControl>
-
-                            <FormControl
-                                isRequired
-                                isInvalid={'confirmPassword' in errors}
-                            >
-                                <FormControl.Label>
-                                    Confirm Password
-                                </FormControl.Label>
-                                <Input
-                                    size="lg"
-                                    type="password"
-                                    onChangeText={(value) => {
-                                        setData({
-                                            ...data,
-                                            confirmPassword: value
-                                        });
-                                        validatePasswords(data.password, value);
-                                    }}
-                                />
-                                <FormControl.ErrorMessage>
-                                    {errors.confirmPassword}
-                                </FormControl.ErrorMessage>
+                                </FormControl.ErrorMessage> */}
                             </FormControl>
 
                             <Button
@@ -310,17 +265,8 @@ const SponsorScreen = () => {
                                 mt="2"
                                 colorScheme="indigo"
                             >
-                                Sign up
+                                Submit
                             </Button>
-                            <HStack>
-                                <Text>Already have an account? </Text>
-                                <Text
-                                    onPress={() => navigation.navigate('Login')}
-                                    underline
-                                >
-                                    Log in
-                                </Text>
-                            </HStack>
                         </VStack>
                     </Box>
 
@@ -404,6 +350,9 @@ const SponsorScreen = () => {
                     </AlertDialog>
                 </Center>
             </KeyboardAvoidingView>
+            <Center position="fixed" bottom="0" alignSelf="center">
+                <FooterView />
+            </Center>
         </ScrollView>
     );
 };

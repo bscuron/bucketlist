@@ -1,23 +1,25 @@
-import React, { useContext } from 'react';
-import { Context } from '../App';
-import { Icon, NativeBaseProvider } from 'native-base';
-import { theme } from './core/theme';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
-import { NavigationContainer } from '@react-navigation/native';
+import { Icon, NativeBaseProvider } from 'native-base';
+import React, { useContext } from 'react';
+import { Context } from '../App';
+import { theme } from './core/theme';
 import {
+    AboutScreen,
+    ContactScreen,
     HomeScreen,
     LoadingScreen,
     LoginScreen,
     LogoutScreen,
+    PrivacyPolicyScreen,
     ProfileScreen,
     SignupScreen,
     SponsorScreen,
-    TermsScreen,
-    PrivacyPolicyScreen
+    TermsScreen
 } from './screens';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -43,6 +45,10 @@ export const unprotectedScreens: ScreenMap = {
         url: '/bucketlist/signup',
         component: SignupScreen
     },
+    About: {
+        url: '/bucketlist/about',
+        component: AboutScreen
+    },
     Sponsor: {
         url: '/bucketlist/sponsor',
         component: SponsorScreen
@@ -51,9 +57,13 @@ export const unprotectedScreens: ScreenMap = {
         url: 'bucketlist/terms',
         component: TermsScreen
     },
-    Privacy:{
+    Privacy: {
         url: 'bucketlist/privacy',
         component: PrivacyPolicyScreen
+    },
+    Contact: {
+        url: 'bucketlist/contact',
+        component: ContactScreen
     }
 };
 
