@@ -350,9 +350,7 @@ const SponsorScreen = () => {
                     </AlertDialog>
                 </Center>
             </KeyboardAvoidingView>
-            <Center position="fixed" bottom="0" alignSelf="center">
-                <FooterView />
-            </Center>
+            <FooterView />
         </ScrollView>
     );
 };

@@ -163,9 +163,7 @@ const LoginScreen = () => {
                         </Slide>
                     </Center>
                 </VStack>
-                <Center position="fixed" bottom="0" alignSelf="center">
-                    <FooterView />
-                </Center>
+                <FooterView />
             </KeyboardAvoidingView>
         </ScrollView>
     );
