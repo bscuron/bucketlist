@@ -21,6 +21,7 @@ const AboutScreen = () => {
         <ScrollView contentContainerStyle={styles.container}>
             <Spacer size="10" />
             <VStack>
+                
                 <VStack style={styles.banner}>
                     <Heading size="3xl">Welcome to BucketList!</Heading>
                     <Text fontSize="16">
@@ -56,7 +57,7 @@ const AboutScreen = () => {
             <Spacer size="10" />
             <Container alignSelf="center">
             <video width="320" height="240" controls>
-                <source src="/Users/laurenkan/Documents/GitHub/bucketlist/assets/BucketList_intro.MP4" type="video/mp4" />
+                <source src="./BucketList_intro.MP4" type="video/mp4" />
             </video>
             </Container>
             
