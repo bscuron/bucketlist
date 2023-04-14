@@ -6,6 +6,7 @@ import {
     HStack,
     Heading,
     ScrollView,
+    Spacer,
     Text,
     VStack
 } from 'native-base';
@@ -19,7 +20,7 @@ const AboutScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Spacer size="10" />
-            <VStack style={styles.body}>
+            <VStack>
                 <VStack style={styles.banner}>
                     <Heading size="3xl">Welcome to BucketList!</Heading>
                     <Text fontSize="16">
