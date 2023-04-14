@@ -34,14 +34,14 @@ const AboutScreen = () => {
                         new friends to complete these activities and live a more fulfilled life. 
                         Many times, we want to do things but never do them. BucketList is 
                         intended to get people out and to accomplish their goals. 
-                        With the help of social connection and common interests' users can 
+                        With the help of social connection and common interests, users can 
                         connect and live the life they want to live instead of daydreaming but never doing.
                     </Text>
                     <Text fontSize="16">
                         Through social connection and event tracking and planning we can all reach our goals. 
                         Not only will your upcoming events be available on your bucket list, you can also view
                          your friends upcoming events too! 
-                        This gives people incentive to get out and try new things!
+                        We hope you can check off your list and try fun activities you might not have thought about!
                     </Text>
                 </VStack>
                 
