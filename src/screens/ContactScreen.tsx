@@ -1,4 +1,4 @@
-import { Center, Container, Heading, ScrollView, VStack } from 'native-base';
+import { Heading, ScrollView, Spacer, VStack } from 'native-base';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { FooterView } from '../components';
@@ -6,7 +6,7 @@ import { FooterView } from '../components';
 const ContactScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <VStack alignSelf="flex-start" space="5" maxW="80%" mt="10">
+            <VStack alignSelf="center" space="5" maxW="80%" mt="10">
                 <Heading mt="10">Contact us</Heading>
                 <Text>
                     We appreicate for all your support. For any inquiry, please
@@ -18,9 +18,7 @@ const ContactScreen = () => {
                     recived your message.
                 </Text>
             </VStack>
-            <Container position="fixed" style={styles.footer}>
-                <FooterView />
-            </Container>
+            <FooterView />
         </ScrollView>
     );
 };
