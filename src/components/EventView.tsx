@@ -196,6 +196,22 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                                 onPress={() => deleteEvent()}
                             />
                         )}
+                        {!event.attending && (
+                            <IconButton
+                                size="md"
+                                colorScheme="success"
+                                _icon={{
+                                    as: AntDesign,
+                                    name: 'addusergroup',
+                                    color: 'gray.400'
+                                }}
+                                _hover={{
+                                    _icon: {
+                                        color: 'tertiary.500'
+                                    }
+                                }}
+                            />
+                        )}
                     </HStack>
                 );
             }}
