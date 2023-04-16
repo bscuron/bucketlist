@@ -214,6 +214,7 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                                 </Text>
                             </HStack>
                             <Text>{localEvent.description}</Text>
+                            <Text color="gray.500">{localEvent.attendees}</Text>
                         </VStack>
                         {event.user_id == decodedToken.user_id && (
                             <IconButton
