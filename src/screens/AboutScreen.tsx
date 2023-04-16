@@ -1,12 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import {
-    Container,
-    Heading,
-    ScrollView,
-    Spacer,
-    Text,
-    VStack
-} from 'native-base';
+import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { FooterView } from '../components';
@@ -21,14 +14,11 @@ const AboutScreen = () => {
                 <VStack style={styles.banner}>
                     <Heading size="3xl">Welcome to BucketList!</Heading>
                     <Text fontSize="16">
-                        <em>
-                            Check off and complete your wish list with friends,
-                            and keep all your memory without regret.
-                        </em>
+                        Check off and complete your wish list with friends, and
+                        keep all your memory without regret.
                     </Text>
-
-                    <Text fontSize="16">
-                        <em>
+                    <VStack space="5" mt="5">
+                        <Text fontSize="16">
                             BucketList provides the ability to create an
                             interactive list of activities you may want to
                             accomplish. With this list, you can connect with old
@@ -39,42 +29,24 @@ const AboutScreen = () => {
                             With the help of social connection and common
                             interests, users can connect and live the life they
                             want to live instead of daydreaming but never doing.
-                        </em>
-                    </Text>
-                    <Text fontSize="16">
-                        <em>
+                        </Text>
+                        <Text fontSize="16">
                             Through social connection and event tracking and
                             planning we can all reach our goals. Not only will
                             your upcoming events be available on your bucket
                             list, you can also view your friends upcoming events
                             too! We hope you can check off your list and try fun
                             activities you might not have thought about!
-                        </em>
-                    </Text>
+                        </Text>
+                    </VStack>
                 </VStack>
             </VStack>
-            <Spacer size="10" />
-            <Spacer size="10" />
-            <Container alignSelf="center">
-                <video width="320" height="240" controls>
-                    <source src="./BucketList_intro.MP4" type="video/mp4" />
-                </video>
-            </Container>
-
             <FooterView />
         </ScrollView>
     );
 };
 
 export default AboutScreen;
-
-const Video = () => {
-    return (
-        <video width="320" height="240" controls>
-            <source src="BucketList_intro.mp4" type="video/mp4" />
-        </video>
-    );
-};
 
 const styles = StyleSheet.create({
     container: {
