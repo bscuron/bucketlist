@@ -85,6 +85,42 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
         }
     };
 
+    const attendEvent = async () => {
+        try {
+            await axios.post(
+                `https://cis-linux2.temple.edu/bucketlistBackend/attend/event/${event.event_id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        } catch (err) {
+            logout();
+        }
+    };
+
+    const abandonEvent = async () => {
+        try {
+            await axios.post(
+                `https://cis-linux2.temple.edu/bucketlistBackend/abandon/event/${event.event_id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        } catch (err) {
+            logout();
+        }
+    };
+
     return (
         <Pressable w={w}>
             {({ isHovered, isFocused, isPressed }) => {
@@ -210,8 +246,27 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                                         color: 'tertiary.500'
                                     }
                                 }}
+                                onPress={() => attendEvent()}
                             />
                         )}
+                        {event.user_id != decodedToken.user_id &&
+                            !!event.attending && (
+                                <IconButton
+                                    size="md"
+                                    colorScheme="danger"
+                                    _icon={{
+                                        as: AntDesign,
+                                        name: 'deleteusergroup',
+                                        color: 'gray.400'
+                                    }}
+                                    _hover={{
+                                        _icon: {
+                                            color: 'red.300'
+                                        }
+                                    }}
+                                    onPress={() => abandonEvent()}
+                                />
+                            )}
                     </HStack>
                 );
             }}
