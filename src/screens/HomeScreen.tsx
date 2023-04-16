@@ -28,18 +28,15 @@ const HomeScreen = () => {
 
     const fetchData = () => {
         axios
-            .get(
-                'https://cis-linux2.temple.edu/bucketlistBackend/database/events',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    }
+            .get('https://cis-linux2.temple.edu/bucketlistBackend/events', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
                 }
-            )
+            })
             .then((res) => {
-                setAllEvents(res.data.rows);
+                setAllEvents(res.data.events);
             })
             .catch(logout);
     };
