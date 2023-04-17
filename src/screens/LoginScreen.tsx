@@ -95,7 +95,7 @@ const LoginScreen = () => {
 
   
     const toggleModal = () => {
-      setModalVisible(!isModalVisible);     
+      setModalVisible(!isModalVisible);      
     };
 
     const handleSendEmail=async()=>{
@@ -163,8 +163,8 @@ const LoginScreen = () => {
             const result = await axios.post(
                 'http://localhost:5000/reset_password',
                 {
-                    email:email,
-                    newPassword:newPassword                  
+                    email:email
+                    // newPassword:newPassword                  
                 }
             );
 
@@ -179,7 +179,7 @@ const LoginScreen = () => {
                 toggleModal();
 
                  setEmail("");
-                 setNewPassword("");
+                //  setNewPassword("");
                  setEmailValid(false);
             }
 
@@ -323,7 +323,7 @@ const LoginScreen = () => {
                                     </Button>
                                 )} 
                                
-                                {isEmailValid && (
+                                {/* {isEmailValid && (
                                   <FormControl isRequired>
                                     <FormControl.Label>
                                       New Password
@@ -336,7 +336,7 @@ const LoginScreen = () => {
                                         
                                     />
                                 </FormControl>
-                                )}
+                                )} */}
 
                                     <HStack mt={3}>
                                     {isEmailValid && (    
@@ -369,15 +369,17 @@ const LoginScreen = () => {
                         <Alert justifyContent="center" status="success">
                             <Alert.Icon />
                             <Text color="success.600" fontWeight="medium">
-                            Success! Password Changed.
+                            You Have been emailed link to reset Password!
                             </Text>
                         </Alert>
                         </Slide>
+
+                        <FooterView />
+
                     </Center>
 
-                <Center position="fixed" bottom="0" alignSelf="center">
-                    <FooterView />
-                </Center>
+                    {/* <Center position="fixed" bottom="0" alignSelf="center">
+                    </Center> */}
 
                 </VStack>                
             </KeyboardAvoidingView>

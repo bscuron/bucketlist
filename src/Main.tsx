@@ -18,7 +18,9 @@ import {
     ProfileScreen,
     SignupScreen,
     SponsorScreen,
-    TermsScreen
+    TermsScreen,
+    ResetScreen,
+    
 } from './screens';
 
 const Tab = createBottomTabNavigator();
@@ -45,7 +47,12 @@ export const unprotectedScreens: ScreenMap = {
         url: '/bucketlist/signup',
         component: SignupScreen
     },
-    About: {
+    Reset:{
+        url: '/bucketlist/reset',
+        component: ResetScreen
+    },
+    
+    About:{
         url: '/bucketlist/about',
         component: AboutScreen
     },
@@ -64,7 +71,7 @@ export const unprotectedScreens: ScreenMap = {
     Contact: {
         url: 'bucketlist/contact',
         component: ContactScreen
-    }
+    } 
 };
 
 /**
