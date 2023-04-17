@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
+import { Video, ResizeMode } from 'expo-av';
+import { Box, Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { FooterView } from '../components';
 
 const AboutScreen = () => {
@@ -39,6 +40,19 @@ const AboutScreen = () => {
                             activities you might not have thought about!
                         </Text>
                     </VStack>
+                    <Box mt="10">
+                        <Video
+                            style={styles.video}
+                            source={{
+                                uri: 'https://cis-linux2.temple.edu/~tun07683/BucketList_intro.MP4'
+                            }}
+                            useNativeControls={true}
+                            resizeMode={ResizeMode.CONTAIN}
+                            onReadyForDisplay={(videoData) => {
+                                videoData.srcElement.style.position = 'initial';
+                            }}
+                        />
+                    </Box>
                 </VStack>
             </VStack>
             <FooterView />
@@ -61,5 +75,22 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
         marginTop: 90,
         paddingBottom: 20
+    },
+    video: {
+        alignSelf: 'center',
+        ...Platform.select({
+            ios: {
+                height: 200,
+                width: 320
+            },
+            android: {
+                height: 200,
+                width: 320
+            },
+            default: {
+                height: 400,
+                width: 720
+            }
+        })
     }
 });
