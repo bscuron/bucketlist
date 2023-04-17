@@ -40,19 +40,17 @@ const AboutScreen = () => {
                             activities you might not have thought about!
                         </Text>
                     </VStack>
-                    <Box mt="10">
-                        <Video
-                            style={styles.video}
-                            source={{
-                                uri: 'https://cis-linux2.temple.edu/~tun07683/BucketList_intro.MP4'
-                            }}
-                            useNativeControls={true}
-                            resizeMode={ResizeMode.CONTAIN}
-                            onReadyForDisplay={(videoData) => {
-                                videoData.srcElement.style.position = 'initial';
-                            }}
-                        />
-                    </Box>
+                    <Video
+                        style={styles.video}
+                        source={{
+                            uri: 'https://cis-linux2.temple.edu/~tun07683/BucketList_intro.MP4'
+                        }}
+                        useNativeControls={true}
+                        resizeMode={ResizeMode.CONTAIN}
+                        onReadyForDisplay={(videoData) => {
+                            videoData.srcElement.style.position = 'initial';
+                        }}
+                    />
                 </VStack>
             </VStack>
             <FooterView />
@@ -78,6 +76,7 @@ const styles = StyleSheet.create({
     },
     video: {
         alignSelf: 'center',
+        marginTop: 50,
         ...Platform.select({
             ios: {
                 height: 200,
@@ -89,7 +88,8 @@ const styles = StyleSheet.create({
             },
             default: {
                 height: 400,
-                width: 720
+                width: 620,
+                maxWidth: '90%'
             }
         })
     }
