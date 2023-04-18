@@ -31,7 +31,7 @@ const FooterView = () => {
                 <HStack alignItems="center" mt="5">
                     <Text>
                         @{new Date().getFullYear()} Temple University SP23
-                        BucketList Project Team{' '}
+                        Bucketlist Project Team{' '}
                     </Text>
                 </HStack>
             </Stack>
