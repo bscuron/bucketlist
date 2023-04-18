@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../App';
 import {
@@ -27,12 +27,13 @@ interface EventProps {
     w: any | any[];
     event: Event;
     query?: string;
+    update: () => void;
 }
 
 TimeAgo.addLocale(en);
 const timeFormatter = new TimeAgo('en-US');
 
-const EventView: React.FC<EventProps> = ({ w, event, query }) => {
+const EventView: React.FC<EventProps> = ({ w, event, query, update }) => {
     const navigation = useNavigation();
     const { token, logout } = useContext(Context);
     const decodedToken: any = jwtDecode(token);
@@ -80,6 +81,7 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                     }
                 }
             );
+            update();
         } catch (err) {
             logout();
         }
@@ -98,6 +100,7 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                     }
                 }
             );
+            update();
         } catch (err) {
             logout();
         }
@@ -116,6 +119,7 @@ const EventView: React.FC<EventProps> = ({ w, event, query }) => {
                     }
                 }
             );
+            update();
         } catch (err) {
             logout();
         }
