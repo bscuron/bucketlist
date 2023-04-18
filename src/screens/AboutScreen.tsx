@@ -42,9 +42,7 @@ const AboutScreen = () => {
                     </VStack>
                     <Video
                         style={styles.video}
-                        source={{
-                            uri: 'https://cis-linux2.temple.edu/~tun07683/BucketList_intro.MP4'
-                        }}
+                        source={require('../../assets/BucketList_intro.MP4w')}
                         useNativeControls={true}
                         resizeMode={ResizeMode.CONTAIN}
                         onReadyForDisplay={(videoData) => {
