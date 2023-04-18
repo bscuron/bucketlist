@@ -12,19 +12,19 @@ const AboutScreen = () => {
             <Spacer size="10" />
             <VStack>
                 <VStack style={styles.banner}>
-                    <Heading size="3xl">Welcome to BucketList!</Heading>
+                    <Heading size="3xl">Welcome to Bucketlist!</Heading>
                     <Text fontSize="16">
                         Check off and complete your wish list with friends, and
                         keep all your memory without regret.
                     </Text>
                     <VStack space="5" mt="5">
                         <Text fontSize="16">
-                            BucketList provides the ability to create an
+                            Bucketlist provides the ability to create an
                             interactive list of activities you may want to
                             accomplish. With this list, you can connect with old
                             and new friends to complete these activities and
                             live a more fulfilled life. Many times, we want to
-                            do things but never do them. BucketList is intended
+                            do things but never do them. Bucketlist is intended
                             to get people out and to accomplish their goals.
                             With the help of social connection and common
                             interests, users can connect and live the life they
