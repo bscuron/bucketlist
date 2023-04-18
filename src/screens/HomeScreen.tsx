@@ -24,7 +24,7 @@ const HomeScreen = () => {
     const [allEvents, setAllEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
     const [query, setQuery] = useState<string>('');
-    const { token, logout, setCreatingEvent } = useContext(Context);
+    const { token, logout, setCreatingEvent, rerender } = useContext(Context);
 
     const fetchData = () => {
         axios
@@ -149,10 +149,11 @@ const HomeScreen = () => {
                             w={['90%', '80%', '60%', '50%']}
                             key={row.event_id}
                             event={row}
+                            update={fetchData}
                         />
                     ))}
                 </VStack>
-                <NewEventMenu />
+                <NewEventMenu update={fetchData} />
             </KeyboardAvoidingView>
         </ScrollView>
     );
