@@ -18,7 +18,11 @@ type NewEventData = {
     datetime?: Date;
 };
 
-const NewEventMenu = () => {
+interface NewEventProps {
+    update: () => void;
+}
+
+const NewEventMenu: React.FC<NewEventProps> = ({ update }) => {
     const { token, creatingEvent, setCreatingEvent } = useContext(Context);
     const [data, setData] = useState<NewEventData>({});
     const [errors, setErrors] = useState<{
@@ -58,6 +62,7 @@ const NewEventMenu = () => {
             setCreatingEvent(false);
             setData({});
             setErrors({});
+            update();
         } catch (_) {}
     };
 

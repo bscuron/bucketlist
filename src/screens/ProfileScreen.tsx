@@ -33,8 +33,7 @@ const ProfileScreen = ({ route }: any) => {
     const navigation = useNavigation();
     const { username } = route.params || {};
 
-    // GET request to retrieve user's profile data
-    useEffect(() => {
+    const fetchData = () => {
         axios
             .get(
                 `https://cis-linux2.temple.edu/bucketlistBackend/profile/${
@@ -53,6 +52,11 @@ const ProfileScreen = ({ route }: any) => {
                 setEvents(res.data.events);
             })
             .catch(logout);
+    };
+
+    // GET request to retrieve user's profile data
+    useEffect(() => {
+        fetchData();
     }, [username]);
 
     //GET request to retrieve all user profile data
@@ -247,6 +251,7 @@ const ProfileScreen = ({ route }: any) => {
                                 key={event.event_id}
                                 w="auto"
                                 event={event}
+                                update={fetchData}
                             />
                         ))}
                     </VStack>
@@ -264,7 +269,7 @@ const ProfileScreen = ({ route }: any) => {
                     }}
                     onUpdateProfile={setProfile}
                 />
-                <NewEventMenu />
+                <NewEventMenu update={fetchData} />
             </KeyboardAvoidingView>
         </ScrollView>
     );
