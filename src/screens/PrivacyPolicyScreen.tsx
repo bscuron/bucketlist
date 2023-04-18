@@ -12,7 +12,7 @@ const PrivacyPolicyScreen = () => {
                     <Divider mt="2" mb="2" />
                     <VStack space="2" mb="5" alignContent="center">
                         <Text style={styles.paragraph}>
-                            We at 2023 Temple University SP23 BucketList Project
+                            We at 2023 Temple University SP23 Bucketlist Project
                             Team respect the privacy of our users and are
                             committed to protecting their personal information.
                             This Privacy Policy explains how we collect, use,
