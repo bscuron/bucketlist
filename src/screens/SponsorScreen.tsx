@@ -27,10 +27,8 @@ import { TOS } from '../util';
  * Type for signup form data
  */
 type FormData = {
-    username?: string;
+    name?: string;
     email?: string;
-    password?: string;
-    confirmPassword?: string;
 };
 
 /**
@@ -46,25 +44,26 @@ const SponsorScreen = () => {
     const navigation = useNavigation();
 
     /**
-     * Handle user signup form submission
+     * Handle user sponsor form submission
      */
     const submit = async () => {
-        if (!validate()) return;
+        
+        await insertSponsor();
         setShowTOS(true);
     };
 
     /**
-     * Create an account
+     * Sponsor request
      */
-    const createAccount = async () => {
+    const insertSponsor = async () => {
+      
         setShowTOS(false);
         try {
             const result = await axios.post(
-                'https://cis-linux2.temple.edu/bucketlistBackend/signup',
+                'https://cis-linux2.temple.edu/bucketlistBackend/sponsor/create',
                 {
-                    username: data.username,
-                    email: data.email,
-                    password: data.password
+                    name: data.name,
+                    email: data.email
                 }
             );
             setCodeData(result.data.qrcode);
@@ -82,48 +81,8 @@ const SponsorScreen = () => {
      */
     const validate = (): boolean => {
         return (
-            validateUsername(data.username) &&
-            validateEmail(data.email) &&
-            validatePasswords(data.password, data.confirmPassword)
+            validateEmail(data.email)
         );
-    };
-
-    /**
-     * Validates username that user inputted is valid
-     *
-     * @param {string} username - username to check
-     * @returns {boolean} Whether or not the username is valid
-     */
-    const validateUsername = (username: string | undefined): boolean => {
-        // Confirm that username is at least six characters long
-        if (username === undefined || username.length < 6) {
-            setErrors({
-                ...errors,
-                username: 'Your username must be at least 6 characters long'
-            });
-            return false;
-        }
-
-        // Check if username exists in database already
-        axios
-            .get(
-                `https://cis-linux2.temple.edu/bucketlistBackend/database/users/username/${username}`
-            )
-            .then((res) => {
-                if (res.data.rows.length > 0) {
-                    setErrors({
-                        ...errors,
-                        username: 'Username is already taken'
-                    });
-                    return false;
-                }
-            })
-            .catch((error) => {
-                throw error;
-            });
-
-        delete errors.username;
-        return true;
     };
 
     /**
@@ -166,51 +125,6 @@ const SponsorScreen = () => {
         return true;
     };
 
-    /**
-     * Validates password that user inputted is valid and that password equals confirmPassword
-     * Password should contain at least:
-     *  1. one digit
-     *  2. one lower case
-     *  3. one upper case
-     *  4. eight from the mentioned characters
-     *
-     * @param {string} password - password to check
-     * @param {string} confirmPassword - confirm password to check
-     * @returns {boolean} Whether or not the password is email
-     */
-    const validatePasswords = (
-        password: string | undefined,
-        confirmPassword: string | undefined
-    ): boolean => {
-        let tmp: FormData = {};
-        let valid: boolean = true;
-
-        const passwordRegex: RegExp =
-            /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}/;
-
-        if (password === undefined || password.match(passwordRegex) == null) {
-            tmp.password =
-                'Your password must be at least 8 characters long, contain at least one number and have a mixture of uppercase and lowercase letters';
-            valid = false;
-        } else {
-            delete errors.password;
-        }
-
-        if (password != confirmPassword) {
-            tmp.confirmPassword = 'Passwords do not match';
-            valid = false;
-        } else {
-            delete errors.confirmPassword;
-        }
-
-        setErrors({
-            ...errors,
-            ...tmp
-        });
-
-        return valid;
-    };
-
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <KeyboardAvoidingView
@@ -232,13 +146,12 @@ const SponsorScreen = () => {
                                 <Input
                                     size="lg"
                                     type="text"
-                                    // onChangeText={(value) => {
-                                    //     setData({ ...data, username: value });
-                                    //     validateUsername(value);
-                                    // }}
+                                    onChangeText={(value) => {
+                                        setData({ ...data, name: value });
+                                 }}
                                 />
                                 <FormControl.ErrorMessage>
-                                    {errors.username}
+                                    {errors.name}
                                 </FormControl.ErrorMessage>
                             </FormControl>
 
@@ -250,10 +163,9 @@ const SponsorScreen = () => {
                                 <Input
                                     size="lg"
                                     type="text"
-                                    // onChangeText={(value) => {
-                                    //     setData({ ...data, email: value });
-                                    //     validateEmail(value);
-                                    // }}
+                                    onChangeText={(value) => {
+                                         setData({ ...data, email: value });
+                                     }}
                                 />
                                 {/* <FormControl.ErrorMessage>
                                     {errors.email}
@@ -269,85 +181,6 @@ const SponsorScreen = () => {
                             </Button>
                         </VStack>
                     </Box>
-
-                    <AlertDialog
-                        leastDestructiveRef={useRef(null)}
-                        isOpen={showTOS}
-                        onClose={() => setShowTOS(false)}
-                    >
-                        <AlertDialog.Content>
-                            <AlertDialog.CloseButton />
-                            <AlertDialog.Header>
-                                Terms of Service Agreement
-                            </AlertDialog.Header>
-                            <AlertDialog.Body>{TOS}</AlertDialog.Body>
-                            <AlertDialog.Footer>
-                                <Button.Group space={2}>
-                                    <Button
-                                        variant="unstyled"
-                                        colorScheme="coolGray"
-                                        onPress={() => setShowTOS(false)}
-                                    >
-                                        Close
-                                    </Button>
-                                    <Button
-                                        colorScheme="success"
-                                        onPress={() => createAccount()}
-                                    >
-                                        Agree
-                                    </Button>
-                                </Button.Group>
-                            </AlertDialog.Footer>
-                        </AlertDialog.Content>
-                    </AlertDialog>
-
-                    <AlertDialog
-                        leastDestructiveRef={useRef(null)}
-                        isOpen={showCode}
-                        onClose={() => setShowCode(false)}
-                    >
-                        <AlertDialog.Content>
-                            <AlertDialog.CloseButton />
-                            <AlertDialog.Header>
-                                Account Created!
-                            </AlertDialog.Header>
-                            <AlertDialog.Body>
-                                Please scan the QR code with the Google
-                                Authenticator app. Can't scan the QR Code? Use
-                                the backup code as a setup key.
-                                {'\n'}
-                                Backup code: <Text bold>{backupCode}</Text>
-                                <Center>
-                                    <Image
-                                        source={{
-                                            uri: codeData
-                                        }}
-                                        size="xl"
-                                    />
-                                </Center>
-                            </AlertDialog.Body>
-                            <AlertDialog.Footer>
-                                <Button.Group space={2}>
-                                    <Button
-                                        variant="unstyled"
-                                        colorScheme="coolGray"
-                                        onPress={() => setShowCode(false)}
-                                    >
-                                        Close
-                                    </Button>
-                                    <Button
-                                        colorScheme="success"
-                                        onPress={() => {
-                                            setShowCode(false);
-                                            navigation.navigate('Login');
-                                        }}
-                                    >
-                                        Login
-                                    </Button>
-                                </Button.Group>
-                            </AlertDialog.Footer>
-                        </AlertDialog.Content>
-                    </AlertDialog>
                 </Center>
             </KeyboardAvoidingView>
             <FooterView />
