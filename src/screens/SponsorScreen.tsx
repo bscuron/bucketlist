@@ -21,7 +21,6 @@ import {
     StyleSheet
 } from 'react-native';
 import { FooterView } from '../components';
-import { TOS } from '../util';
 
 /**
  * Type for signup form data
@@ -37,7 +36,6 @@ type FormData = {
 const SponsorScreen = () => {
     const [data, setData] = useState<FormData>({});
     const [errors, setErrors] = useState<FormData>({});
-    const [showTOS, setShowTOS] = useState<boolean>(false);
     const [showCode, setShowCode] = useState<boolean>(false);
     const [codeData, setCodeData] = useState<string>('');
     const [backupCode, setBackupCode] = useState<string>('');
@@ -47,16 +45,15 @@ const SponsorScreen = () => {
      * Handle user sponsor form submission
      */
     const submit = async () => {
-        
-        await insertSponsor();
-        setShowTOS(true);
+        if (!validate()) return;
+        //await insertSponsor();
     };
 
     /**
      * Sponsor request
      */
     const insertSponsor = async () => {
-        setShowTOS(false);
+        
         try {
             const result = await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/sponsor/create',
@@ -105,7 +102,7 @@ const SponsorScreen = () => {
         // Check if username exists in database already
         axios
             .get(
-                `https://cis-linux2.temple.edu/bucketlistBackend/database/users/email/${email}`
+                `https://cis-linux2.temple.edu/bucketlistBackend/database/sponsors/email/${email}`
             )
             .then((res) => {
                 if (res.data.rows.length > 0) {
