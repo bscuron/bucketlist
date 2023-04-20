@@ -15,6 +15,7 @@ docs/
 .idea
 package.json
 yarn.lock
-.vscode/.react
+settings.json
+.vscode
 # macOS
 .DS_Store
