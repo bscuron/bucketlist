@@ -1,13 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
-import { Video, ResizeMode } from 'expo-av';
-import { Box, Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
-import React from 'react';
+import React, { useState } from 'react';
+import { Video, ResizeMode, VideoReadyForDisplayEvent } from 'expo-av';
+import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
 import { Platform, StyleSheet } from 'react-native';
 import { FooterView } from '../components';
 
 const AboutScreen = () => {
-    const navigation = useNavigation();
-
+    const [showVideo, setShowVideo] = useState<boolean>(false);
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Spacer size="10" />
@@ -41,12 +39,18 @@ const AboutScreen = () => {
                         </Text>
                     </VStack>
                     <Video
-                        style={styles.video}
+                        style={[
+                            styles.video,
+                            { opacity: showVideo ? '100%' : '0%' }
+                        ]}
                         source={require('../../assets/BucketList_intro.MP4')}
                         useNativeControls={true}
                         resizeMode={ResizeMode.CONTAIN}
-                        onReadyForDisplay={(videoData) => {
+                        onReadyForDisplay={(
+                            videoData: VideoReadyForDisplayEvent
+                        ) => {
                             videoData.srcElement.style.position = 'initial';
+                            setShowVideo(true);
                         }}
                     />
                 </VStack>
