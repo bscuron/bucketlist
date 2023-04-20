@@ -56,7 +56,6 @@ const SponsorScreen = () => {
      * Sponsor request
      */
     const insertSponsor = async () => {
-      
         setShowTOS(false);
         try {
             const result = await axios.post(
@@ -66,8 +65,8 @@ const SponsorScreen = () => {
                     email: data.email
                 }
             );
-            setCodeData(result.data.qrcode);
-            setBackupCode(result.data.backupcode);
+            //setCodeData(result.data.qrcode);
+            //setBackupCode(result.data.backupcode);
         } catch (error) {
             return;
         }
