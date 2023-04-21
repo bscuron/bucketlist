@@ -43,7 +43,9 @@ const AboutScreen = () => {
                             styles.video,
                             { opacity: showVideo ? '100%' : '0%' }
                         ]}
-                        source={require('../../assets/BucketList_intro.MP4')}
+                        source={{
+                            uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_intro_v2.mp4'
+                        }}
                         useNativeControls={true}
                         resizeMode={ResizeMode.CONTAIN}
                         onReadyForDisplay={(
