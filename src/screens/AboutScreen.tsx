@@ -43,7 +43,7 @@ const AboutScreen = () => {
                             styles.video,
                             { opacity: showVideo ? '100%' : '0%' }
                         ]}
-                        source={require('../../assets/BucketList_intro.MP4')}
+                        source={require('../../assets/BucketList_intro.mp4')}
                         useNativeControls={true}
                         resizeMode={ResizeMode.CONTAIN}
                         onReadyForDisplay={(
