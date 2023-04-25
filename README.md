@@ -15,53 +15,39 @@ Bucketlist provides the ability to create an interactive list of activities you 
 Through social connection and event tracking and planning we can all reach our goals. Not only will your upcoming events be available on your bucket list, you can also view your friends upcoming events too! We hope you can check off your list and try fun activities you might not have thought about!
 
 ## Install
+
 ### Step 1: Install dependencies
 
-```
-# Update package lists
-sudo apt-get update
-
-# Install Node.js and npm
-sudo apt-get install nodejs npm
-
-# Install serve globally (if not already installed)
-
-```sh
-npm install -g serve
-```
+- [Node.js](https://nodejs.org/en/download)
+- [npm](https://nodejs.org/en/download) Installed with Node.js
 
 ### Step 2: Clone the repository
 
-```
-# Clone the repository
+```sh
 git clone https://github.com/bscuron/bucketlist.git
 ```
 
-### Step 3: Install dependencies
-
-```
-# Change directory to the project folder
-cd bucketlist
-
-# Install project dependencies
+### Step 3: Install node modules
 
 ```sh
-npm install
+cd bucketlist && npm install
 ```
 
-### Step 4: Run the project
-
-```
-# Start the development server
+### Step 4: Run the project locally
 
 ```sh
 npm run start
 ```
 
+This will start the locally hosted development server, and you can access the project in your web browser at `http://localhost:19006`.
 
-This will start the ReactJS development server, and you can access the project in your web browser at `http://localhost:3000` or any other port mentioned in the `serve` command.
+### Step 5: Run the project on server
 
+```sh
+npm run serve
+```
 
+This will start the production server, and the project will be served on port 19006.
 
 ## Uninstall
 
