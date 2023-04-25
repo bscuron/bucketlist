@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { ResizeMode, Video } from 'expo-av';
 import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
 import React from 'react';
@@ -6,8 +5,6 @@ import { Platform, StyleSheet } from 'react-native';
 import { FooterView } from '../components';
 
 const AboutScreen = () => {
-    const navigation = useNavigation();
-
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Spacer size="10" />
