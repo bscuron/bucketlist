@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { Video, ResizeMode } from 'expo-av';
-import { Box, Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
+import { ResizeMode, Video } from 'expo-av';
+import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
 import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { FooterView } from '../components';
@@ -42,7 +42,9 @@ const AboutScreen = () => {
                     </VStack>
                     <Video
                         style={styles.video}
-                        source={require('../../assets/BucketList_intro.MP4')}
+                        source={{
+                            uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_intro_v2.mp4'
+                        }}
                         useNativeControls={true}
                         resizeMode={ResizeMode.CONTAIN}
                         onReadyForDisplay={(videoData) => {
