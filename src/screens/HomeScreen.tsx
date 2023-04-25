@@ -43,6 +43,10 @@ const HomeScreen = () => {
 
     useEffect(() => {
         fetchData();
+        const interval = setInterval(() => {
+            fetchData();
+        }, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
@@ -143,12 +147,12 @@ const HomeScreen = () => {
                     </HStack>
                 </View>
                 <VStack space={2} alignItems="center">
-                    {filteredEvents.map((row: Event) => (
+                    {filteredEvents.map((event: Event) => (
                         <EventView
                             query={query}
                             w={['90%', '80%', '60%', '50%']}
-                            key={row.event_id}
-                            event={row}
+                            key={event.event_id}
+                            event={event}
                             update={fetchData}
                         />
                     ))}
