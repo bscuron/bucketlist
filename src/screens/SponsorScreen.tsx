@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-
 import axios from 'axios';
 import {
     AlertDialog,
@@ -56,15 +55,12 @@ const SponsorScreen = () => {
         setShowBox(true);
         setShowConfirm(false);
         navigation.navigate('Login');
-
     };
 
     /**
      * Sponsor request
      */
     const insertSponsor = async () => {
-
-
         try {
             const result = await axios.post(
                 'https://cis-linux2.temple.edu/bucketlistBackend/sponsor/create',
@@ -87,9 +83,7 @@ const SponsorScreen = () => {
      * @returns {boolean} Determines whether or not user data is valid
      */
     const validate = (): boolean => {
-        return (
-            validateEmail(data.email)
-        );
+        return validateEmail(data.email);
     };
 
     /**
@@ -131,9 +125,7 @@ const SponsorScreen = () => {
                                 Thank you for your support!
                             </Heading>
                             <VStack space={3} mt="5">
-                                <FormControl
-                                    isRequired
-                                >
+                                <FormControl isRequired>
                                     <FormControl.Label>Name</FormControl.Label>
                                     <Input
                                         size="lg"
@@ -144,7 +136,10 @@ const SponsorScreen = () => {
                                     />
                                 </FormControl>
 
-                                <FormControl isRequired isInvalid={!!errors.email}>
+                                <FormControl
+                                    isRequired
+                                    isInvalid={!!errors.email}
+                                >
                                     <FormControl.Label>Email</FormControl.Label>
                                     <Input
                                         size="lg"
@@ -171,17 +166,21 @@ const SponsorScreen = () => {
                 )}
                 {showConfirm && (
                     <Center>
-                        <Box safeArea p="2" w="90%" maxW="290" py="8" style={styles.box}>
+                        <Box
+                            safeArea
+                            p="2"
+                            w="90%"
+                            maxW="290"
+                            py="8"
+                            style={styles.box}
+                        >
                             <Heading size="xl">Thank you!</Heading>
                             <Heading mt="1" size="sm" fontWeight="normal">
-                                Your submission has been sent. We will reach out to you as soon as possible!
+                                Your submission has been sent. We will reach out
+                                to you as soon as possible!
                             </Heading>
                             <br></br>
-                            <Button
-                                onPress={back}
-                                mt="2"
-                                colorScheme="indigo"
-                            >
+                            <Button onPress={back} mt="2" colorScheme="indigo">
                                 Return
                             </Button>
                         </Box>
@@ -207,12 +206,12 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
         padding: 50,
-        margin: 20,
+        margin: 20
     }
 });
