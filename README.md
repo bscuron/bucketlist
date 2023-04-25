@@ -26,4 +26,25 @@ npm run start
 
 ## Uninstall
 
-Remove the project directory and uninstall Node.js (OS specific)
+### Step 1: Stop the server
+
+If the server is currently running, you should stop it before proceeding with the uninstallation process.
+
+
+### Step 2: Delete the project folder
+
+You can simply delete the project folder where you cloned the repository. If you are using a Unix-like operating system, you can use the following command to delete the project folder:
+
+```
+rm -rf bucketlist
+```
+
+This will delete the entire "bucketlist-backend" folder and its contents, including the `package.json` file and all installed dependencies.
+
+### Step 3: Uninstall global dependencies (optional)
+
+If you have installed any dependencies globally using npm, you can uninstall them if they are no longer needed. For example, if you have installed `typescript` or `typedoc` globally, you can uninstall them using the following commands:
+```
+npm uninstall -g typescript
+npm uninstall -g typedoc
+```
