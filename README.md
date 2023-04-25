@@ -19,7 +19,7 @@ Through social connection and event tracking and planning we can all reach our g
 ### Step 1: Install dependencies
 
 - [Node.js](https://nodejs.org/en/download)
-- [npm](https://nodejs.org/en/download) Installed with Node.js
+- [npm](https://nodejs.org/en/download) (Installed with Node.js)
 
 ### Step 2: Clone the repository
 
