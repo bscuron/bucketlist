@@ -24,7 +24,7 @@ const HomeScreen = () => {
     const [allEvents, setAllEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
     const [query, setQuery] = useState<string>('');
-    const { token, logout, setCreatingEvent, rerender } = useContext(Context);
+    const { token, logout, setCreatingEvent } = useContext(Context);
 
     const fetchData = () => {
         axios
@@ -43,6 +43,12 @@ const HomeScreen = () => {
 
     useEffect(() => {
         fetchData();
+        const interval = setInterval(() => {
+            fetchData();
+        }, 5000);
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     useEffect(() => {
