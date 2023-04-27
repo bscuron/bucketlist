@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../App';
 import {
@@ -22,6 +23,8 @@ import { Event, Profile } from '../types';
 import { EditProfileMenu, EventView, NewEventMenu } from '../components';
 import axios from 'axios';
 import moment from 'moment-timezone';
+
+const { height } = Dimensions.get('window');
 
 const ProfileScreen = ({ route }: any) => {
     const [profile, setProfile] = useState<Profile>();
@@ -245,7 +248,12 @@ const ProfileScreen = ({ route }: any) => {
                         />
                     </HStack>
 
-                    <VStack overflow="scroll" minH="50vh" maxH="60vh" w="100%">
+                    <VStack
+                        overflow="scroll"
+                        minH={height * 0.5}
+                        maxH={height * 0.6}
+                        w="100%"
+                    >
                         {events.map((event) => (
                             <EventView
                                 key={event.event_id}
