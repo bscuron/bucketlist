@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Video, ResizeMode, VideoReadyForDisplayEvent } from 'expo-av';
+import { ResizeMode, Video, VideoReadyForDisplayEvent } from 'expo-av';
 import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
+import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import { FooterView, VideoView } from '../components';
+import { FooterView } from '../components';
 
 const AboutScreen = () => {
-    const [showVideo, setShowVideo] = useState<boolean>(false);
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Spacer size="10" />
@@ -38,21 +38,25 @@ const AboutScreen = () => {
                             activities you might not have thought about!
                         </Text>
                     </VStack>
-                    {/* <Video
+                    <Video
                         style={styles.video}
                         source={{
-                            uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_intro_v2.mp4'
+                            uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_promotion_video_v3.mp4'
                         }}
                         useNativeControls={true}
                         resizeMode={ResizeMode.CONTAIN}
                         onReadyForDisplay={(
                             videoData: VideoReadyForDisplayEvent
                         ) => {
+                            if (
+                                Platform.OS == 'ios' ||
+                                Platform.OS == 'android'
+                            ) {
+                                return;
+                            }
                             videoData.srcElement.style.position = 'initial';
-                            setShowVideo(true);
                         }}
-                    /> */}
-                    <VideoView />
+                    />
                 </VStack>
             </VStack>
             <FooterView />
