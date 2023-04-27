@@ -7,7 +7,7 @@ const VideoView = () => {
         <Video
             style={styles.video}
             source={{
-                uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_intro_v2.mp4'
+                uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_promotion_video_v3.mp4'
             }}
             useNativeControls={true}
             resizeMode={ResizeMode.CONTAIN}
