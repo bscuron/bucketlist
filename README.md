@@ -16,6 +16,8 @@ Through social connection and event tracking and planning we can all reach our g
 
 ## Install
 
+Follow these steps to run the project as your own.
+
 ### Step 1: Install dependencies
 
 - [Node.js](https://nodejs.org/en/download)
@@ -27,13 +29,19 @@ Through social connection and event tracking and planning we can all reach our g
 git clone https://github.com/bscuron/bucketlist.git
 ```
 
-### Step 3: Install node modules
+### Step 3: Make necessary changes
+
+Our application is currently hosted at [https://cis-linux2.temple.edu](https://cis-linux2.temple.edu). In order to transfer the application to your domain, you will need to replace all instances of `cis-linux2.temple.edu` with your own domain. To accomplish this task, you can utilize the powerful tool [sed](https://man7.org/linux/man-pages/man1/sed.1.html) that can replace the old domain with your new one throughout your project.
+
+This replacement process must also be performed on all axios requests within the application. To locate these requests, you can make use of a tool like [grep](https://man7.org/linux/man-pages/man1/grep.1.html). Simply replace the old URL with the URL of your new backend application. To set up your backend application, please follow the instructions at [https://github.com/bscuron/bucketlist-backend#install].
+
+### Step 4: Install node modules
 
 ```sh
 cd bucketlist && npm install
 ```
 
-### Step 4: Run the project locally
+### Step 5: Run the project locally
 
 ```sh
 npm run start
@@ -41,7 +49,7 @@ npm run start
 
 This will start the locally hosted development server, and you can access the project in your web browser at `http://localhost:19006`.
 
-### Step 5: Run the project on server
+### Step 6: Run the project on server
 
 ```sh
 npm run serve
