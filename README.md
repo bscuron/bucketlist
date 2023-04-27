@@ -72,12 +72,3 @@ rm -rf bucketlist
 ```
 
 This will delete the entire `bucketlist` folder and its contents, including the `package.json` file and all installed dependencies.
-
-### Step 3: Uninstall global dependencies (optional)
-
-If you have installed any dependencies globally using npm, you can uninstall them if they are no longer needed. For example, if you have installed `typescript` or `typedoc` globally, you can uninstall them using the following commands:
-
-```sh
-npm uninstall -g typescript
-npm uninstall -g typedoc
-```
