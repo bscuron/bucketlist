@@ -67,7 +67,7 @@ If the application is currently running on a server, make sure to stop it before
 
 You can simply delete the project folder where you cloned the repository. If you are using a Unix-like operating system, you can use the following command to delete the project folder:
 
-```
+```sh
 rm -rf bucketlist
 ```
 
