@@ -182,7 +182,7 @@ const ProfileScreen = ({ route }: any) => {
                                 />
                             </Avatar.Badge>
                         </Avatar>
-                        <VStack alignItems="start">
+                        <VStack alignItems="start" px={5}>
                             <HStack space={1}>
                                 <Text bold>First name:</Text>
                                 <Text>{profile.first_name}</Text>
