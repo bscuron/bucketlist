@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Video, ResizeMode, VideoReadyForDisplayEvent } from 'expo-av';
 import { Heading, ScrollView, Spacer, Text, VStack } from 'native-base';
 import { Platform, StyleSheet } from 'react-native';
-import { FooterView } from '../components';
+import { FooterView, VideoView } from '../components';
 
 const AboutScreen = () => {
     const [showVideo, setShowVideo] = useState<boolean>(false);
@@ -38,11 +38,8 @@ const AboutScreen = () => {
                             activities you might not have thought about!
                         </Text>
                     </VStack>
-                    <Video
-                        style={[
-                            styles.video,
-                            { opacity: showVideo ? '100%' : '0%' }
-                        ]}
+                    {/* <Video
+                        style={styles.video}
                         source={{
                             uri: 'https://cis-linux2.temple.edu/~tun07683/Bucketlist_intro_v2.mp4'
                         }}
@@ -54,7 +51,8 @@ const AboutScreen = () => {
                             videoData.srcElement.style.position = 'initial';
                             setShowVideo(true);
                         }}
-                    />
+                    /> */}
+                    <VideoView />
                 </VStack>
             </VStack>
             <FooterView />
