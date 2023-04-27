@@ -24,6 +24,7 @@ const HomeScreen = () => {
     const [allEvents, setAllEvents] = useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
     const [query, setQuery] = useState<string>('');
+    const [filtering, setFiltering] = useState<boolean>(false);
     const { token, logout, setCreatingEvent } = useContext(Context);
 
     const fetchData = () => {
@@ -42,6 +43,7 @@ const HomeScreen = () => {
     };
 
     useEffect(() => {
+        if (filtering) return;
         fetchData();
         const interval = setInterval(() => {
             fetchData();
@@ -49,7 +51,7 @@ const HomeScreen = () => {
         return () => {
             clearInterval(interval);
         };
-    }, []);
+    }, [filtering]);
 
     useEffect(() => {
         if (allEvents.length <= 0) return;
@@ -115,6 +117,7 @@ const HomeScreen = () => {
                                         color="gray.400"
                                         onPress={() => {
                                             setQuery('');
+                                            setFiltering(true);
                                             setAllEvents(filteredEvents);
                                         }}
                                         as={<AntDesign name="filter" />}
@@ -125,6 +128,7 @@ const HomeScreen = () => {
                                         color="gray.400"
                                         onPress={() => {
                                             setQuery('');
+                                            setFiltering(false);
                                             fetchData();
                                         }}
                                         as={<Ionicons name="refresh" />}
